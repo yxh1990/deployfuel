@@ -1,0 +1,142 @@
+  <div style="margin-left:4px;margin-bottom:4px">
+     <button class="btn btn-danger delete-environment-btn" id='btn_del'>
+       <i class="icon-trash"></i>
+       批量删除</button>
+       <button class="btn btn-success" id='btn_upnodestatus'>
+       <i class="icon-settings"></i>
+        刷新状态</button>
+       <button class="btn btn-success" id='btn_upstatus'>
+       <i class="icon-settings"></i>
+       更新电源状态</button>
+       <button class="btn btn-info" id='btn_poweron'>
+       <i class="icon-up-dir"></i>
+       批量上电</button>
+       <button class="btn btn-info" id='btn_poweroff'>
+       <i class="icon-down-dir"></i>
+       批量下电</button>
+     <button class="btn btn-success btn-add-nodes" id='btn_add'>
+       <i class="icon-plus"></i>添加
+     </button>
+     <a href='/api/phymachine/export' target='_blank' class="btn btn-info">
+      <i class="icon-install"></i>
+      <span>导出数据</span>
+    </a>
+  </div>
+  <table class="table  table-bordered table-striped releases-table" style="width:99%;margin-left:5px" id="tb_x86">
+    <tr>
+      <th class="name"><input type="checkbox" id="ckall" value="all"/></th>
+       <th class="name">
+         <!--在fonticon.css文件中有所有箭头样式 icon-up-dir -->
+          <i class='icon-down-dir'></i>
+          <a href="javascript:void(0)" class="a_tb_title" sortname="name">主机名称</a>
+      </th>
+      <th class="name">
+         <i></i>
+         <a href="javascript:void(0)" class="a_tb_title" sortname="ip">IP</a>
+      </th>
+      <th class="name">
+         <i></i>
+         <a href="javascript:void(0)" class="a_tb_title" sortname="mp_ip">
+           管理口IP
+         </a>
+      </th>
+      <th class="name">
+         <i></i>
+         <a href="javascript:void(0)" class="a_tb_title" sortname="mac">MAC</a>
+      </th>
+      <th class="name">
+         <i></i>
+         <a href="javascript:void(0)" class="a_tb_title" sortname="use_type">
+          用处类型
+        </a>
+      </th>
+      <th class="name">
+         <i></i>
+         <a href="javascript:void(0)" class="a_tb_title" sortname="use_type">
+          状态
+        </a>
+      </th>
+     <!--  <th class="name">
+          <i></i>
+          <a href="javascript:void(0)" class="a_tb_title" sortname="gene_room"> 
+           所属机房
+         </a>
+      </th>
+      <th class="name">
+          <i></i>
+          <a href="javascript:void(0)" class="a_tb_title" sortname="cabinet">
+           所属机柜
+         </a>
+      </th> -->
+      <th class="name">
+         <i></i>
+         <a href="javascript:void(0)" class="a_tb_title" sortname="power_status"> 
+          电源状态
+         </a>
+      </th>
+      <th class="name">操作</th>
+    </tr>
+  <% for(var t=0;t<data.length;t++) { %>
+      <% var item = data[t]; var poweron=item.power_status; 
+         var use_type=item.use_type; %>
+      <tr>
+        <td class="enable-selection">
+            <input type="checkbox" value="<%= item.id%>"/>
+        </td>
+        <td class="enable-selection"><%= item.name%></td>
+        <td class="enable-selection"><%= item.ip%></td>
+        <td class="enable-selection"><%= item.mp_ip%></td>
+        <td class="enable-selection"><%= item.mac%></td>
+        <td class="enable-selection">
+             <% if (use_type=="0") {%>
+                未分配
+             <% } else if(use_type=="1") {%>
+               原生openstack
+             <% } else if(use_type=="2") {%>
+               BC-CLOUDMASTER
+             <% } else if(use_type=="3") {%>
+               BC-EBS
+             <% } else if(use_type=="4") {%>
+              定制化openstack
+             <% } else if(use_type=="5") {%>
+              BC-ONEST
+             <% } else if(use_type=="6") {%>
+             BC-OP
+             <% } %>
+        </td>
+        <td class="enable-selection"><%= item.status%></td>
+        <!-- <td class="enable-selection"><%= item.gene_room%></td>
+        <td class="enable-selection"><%= item.cabinet%></td> -->
+        <td class="enable-selection">
+            <% if (poweron) {%>
+              已上电
+            <% } else {%>
+              已下电
+            <% } %>
+        </td>
+        <td class="enable-selection">
+          <a href='javascript:void(0)' class="a_edit" dataid="<%= item.id%>">
+             修改
+          </a>
+            &nbsp;
+          <a href='javascript:void(0)' class="a_delete" dataid="<%= item.id%>">  
+             删除
+          </a>
+            &nbsp;
+          <% if (poweron) {%>
+          <span>上电</span>
+            &nbsp;
+          <a href='javascript:void(0)' class="a_poweroff" dataid="<%= item.id%>" datampip="<%= item.mp_ip%>" datampuser="<%= item.mp_username%>" datamppass="<%= item.mp_passwd%>">  
+             下电
+          </a>
+          <% } else {%>
+             <a href='javascript:void(0)' class="a_poweron" dataid="<%= item.id%>" datampip="<%= item.mp_ip%>" datampuser="<%= item.mp_username%>" datamppass="<%= item.mp_passwd%>">  
+             上电
+          </a>
+            &nbsp;
+            <span>下电</span>
+          <% } %>
+       </td>
+    </tr>
+<%} %>
+</table>

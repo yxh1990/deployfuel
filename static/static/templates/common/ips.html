@@ -1,0 +1,59 @@
+<div class="modal-header" style="height:20px;background-color:#ececec">
+   <button type="button" class="close" >×</button>
+   <h5>选择<%=checktype %>节点</h5>
+</div>
+<div class="modal-body">
+  <table class="table  table-bordered table-striped releases-table" style="width:99%;margin-left:5px" id="tb_x86">
+    <tr>
+      <th class="name" id="thcheckall">
+      <%
+        var checkallflag=null;
+        if(data.length == checkedips.length)
+          {
+            checkallflag = "checked";
+          }
+      %>
+        <input type="checkbox" id="ckall" value="all" <%= checkallflag%> />
+      </th>
+       <th class="name">
+         IP
+      </th>
+       <th class="name">
+         主机名称
+      </th>
+       <th class="name">
+         MAC
+      </th>
+    </tr>
+      <% for(var t=0;t<data.length;t++) { %>
+      <% 
+        var item = data[t];
+        var checkflag=null;
+        for (var j=0;j<checkedips.length;j++)  
+        { 
+           if(checkedips[j]== item.ip)
+            {
+              checkflag = "checked";
+              break;
+            }
+        }  
+     %>
+      <tr id="trdata">
+        <td class="enable-selection">
+          <input type="checkbox" value="<%= item.ip%>"  <%= checkflag%> />
+        </td>
+        <td class="enable-selection"><%= item.ip%></td>
+        <td class="enable-selection"><%= item.name%></td>
+        <td class="enable-selection"><%= item.mac%></td>
+    </tr>
+   <%} %>
+ </table>
+</div>
+<div class="modal-footer">
+  <div>
+    <span>
+    <button class="btn" id="btn_ok">确定</button>
+    </span>
+    <button class="btn" id="btn_cancel">取消</button>
+  </div>
+</div>

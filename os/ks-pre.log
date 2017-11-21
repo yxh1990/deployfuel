@@ -1,0 +1,476 @@
+
+# Once root's homedir is there, copy over the log.
+while : ; do
+    sleep 10
+    if [ -d /mnt/sysimage/root ]; then
+        cp /tmp/ks-pre.log /mnt/sysimage/root/
+        logger "Copied %pre section log to system"
+        break
+    fi
+done &
+
+
+# DOWNLOADS send2syslog.py AND LAUNCHES IT
+# IN ORDER TO MONITOR LOG FILES AND SEND
+# LINES FROM THOSE FILES TO SYSLOG
+wget -O /tmp/send2syslog.py "http://10.20.0.2/cobbler/aux/send2syslog.py"
++ wget -O /tmp/send2syslog.py http://10.20.0.2/cobbler/aux/send2syslog.py
++ :
++ sleep 10
+--2017-11-15 10:44:43--  http://10.20.0.2/cobbler/aux/send2syslog.py
+Connecting to 10.20.0.2:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 18605 (18K) [text/plain]
+Saving to: `/tmp/send2syslog.py'
+
+     0K .......... ........                                   100%  238M=0s
+
+2017-11-15 10:44:44 (238 MB/s) - `/tmp/send2syslog.py' saved [18605/18605]
+
+echo '{"hostname": "node3.domain.tld",
+    "watchlist": [
+        {"servers": [ {"host": "10.20.0.2"} ],
+            "watchfiles": [
+                {"tag": "install/anaconda", "log_type": "anaconda",
+                    "files": ["/tmp/anaconda.log",
+                        "/mnt/sysimage/root/install.log"]},
+                {"tag": "install/ks-pre", "files": ["/tmp/ks-pre.log"]},
+                {"tag": "install/ks-post", "files": ["/mnt/sysimage/root/ks-post.log"]},
+                {"tag": "install/syslog", "log_type": "anaconda",
+                    "files": ["/tmp/syslog"]},
+                {"tag": "install/storage", "log_type": "anaconda",
+                    "files": ["/tmp/storage.log"]}
+            ]
+        }
+    ]
+}' > /tmp/send2syslog.conf
++ echo '{"hostname": "node3.domain.tld",
+    "watchlist": [
+        {"servers": [ {"host": "10.20.0.2"} ],
+            "watchfiles": [
+                {"tag": "install/anaconda", "log_type": "anaconda",
+                    "files": ["/tmp/anaconda.log",
+                        "/mnt/sysimage/root/install.log"]},
+                {"tag": "install/ks-pre", "files": ["/tmp/ks-pre.log"]},
+                {"tag": "install/ks-post", "files": ["/mnt/sysimage/root/ks-post.log"]},
+                {"tag": "install/syslog", "log_type": "anaconda",
+                    "files": ["/tmp/syslog"]},
+                {"tag": "install/storage", "log_type": "anaconda",
+                    "files": ["/tmp/storage.log"]}
+            ]
+        }
+    ]
+}'
+python /tmp/send2syslog.py -c /tmp/send2syslog.conf
++ python /tmp/send2syslog.py -c /tmp/send2syslog.conf
+
+
+# SNIPPET: 'kickstart_ntp'
+# SYNC LOCAL TIME VIA NTP
+ntpdate -t 4 -b 10.20.0.2
++ ntpdate -t 4 -b 10.20.0.2
+15 Nov 10:44:44 ntpdate[934]: no server suitable for synchronization found
+hwclock --systohc
++ hwclock --systohc
+
+
+# COBBLER EMBEDDED SNIPPET: 'kickstart_start'
+# LAUNCHES %pre TRIGGERS IF THOSE INSTALLED
+
+wget "http://10.20.0.2/cblr/svc/op/trig/mode/pre/system/node3" -O /dev/null
++ wget http://10.20.0.2/cblr/svc/op/trig/mode/pre/system/node3 -O /dev/null
+--2017-11-15 10:44:45--  http://10.20.0.2/cblr/svc/op/trig/mode/pre/system/node3
+Connecting to 10.20.0.2:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4 [text/plain]
+Saving to: `/dev/null'
+
+     0K                                                       100%  666K=0s
+
+2017-11-15 10:44:45 (666 KB/s) - `/dev/null' saved [4/4]
+
+
+# COBBLER EMBEDDED SNIPPET: 'pre_install_network_config'
+# PRECONFIGURES NETWORK INTERFACES DEPENDING ON
+# COBBLER SYSTEM PARAMETERS
+# IN PARTICULAR IT WRITES KICKSTART NETWORK CONFIGURATION
+# INTO /tmp/pre_install_network_config WHICH IS INCLUDED
+# INTO KICKSTART BY 'network_config' SNIPPET
+# Start pre_install_network_config generated code
+
+# Start of code to match cobbler system interfaces to physical interfaces by their mac addresses
+#  Start eth2
+# Configuring eth2 (00:0c:29:27:68:55)
+if ifconfig -a | grep -i 00:0c:29:27:68:55
+then
+  IFNAME=$(ifconfig -a | grep -i '00:0c:29:27:68:55' | cut -d " " -f 1)
+  echo "network --noipv6 --device=$IFNAME --bootproto=dhcp --hostname=node3.domain.tld" >> /tmp/pre_install_network_config
+fi
++ grep -i 00:0c:29:27:68:55
++ ifconfig -a
+eth2      Link encap:Ethernet  HWaddr 00:0C:29:27:68:55  
+++ cut -d ' ' -f 1
+++ grep -i 00:0c:29:27:68:55
+++ ifconfig -a
++ IFNAME=eth2
++ echo 'network --noipv6 --device=eth2 --bootproto=dhcp --hostname=node3.domain.tld'
+#  Start eth1
+# Configuring eth1 (00:0c:29:27:68:4b)
+if ifconfig -a | grep -i 00:0c:29:27:68:4b
+then
+  IFNAME=$(ifconfig -a | grep -i '00:0c:29:27:68:4b' | cut -d " " -f 1)
+  echo "network --noipv6 --device=$IFNAME --bootproto=dhcp --hostname=node3.domain.tld" >> /tmp/pre_install_network_config
+fi
++ grep -i 00:0c:29:27:68:4b
++ ifconfig -a
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:27:68:4B  
+++ cut -d ' ' -f 1
+++ grep -i 00:0c:29:27:68:4b
+++ ifconfig -a
++ IFNAME=eth1
++ echo 'network --noipv6 --device=eth1 --bootproto=dhcp --hostname=node3.domain.tld'
+#  Start eth0
+# Configuring eth0 (00:0c:29:27:68:41)
+if ifconfig -a | grep -i 00:0c:29:27:68:41
+then
+  IFNAME=$(ifconfig -a | grep -i '00:0c:29:27:68:41' | cut -d " " -f 1)
+  echo "network --noipv6 --device=$IFNAME --bootproto=dhcp --hostname=node3.domain.tld" >> /tmp/pre_install_network_config
+fi
++ grep -i 00:0c:29:27:68:41
++ ifconfig -a
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:27:68:41  
+++ cut -d ' ' -f 1
+++ grep -i 00:0c:29:27:68:41
+++ ifconfig -a
++ IFNAME=eth0
++ echo 'network --noipv6 --device=eth0 --bootproto=dhcp --hostname=node3.domain.tld'
+# End pre_install_network_config generated code
+
+
+# CONFIGURES SSH KEY ACCESS FOR SSHD CONSOLE
+# DURING OPERATING SYSTEM INSTALLATION
+mkdir -p --mode=700 /root/.ssh
++ mkdir -p --mode=700 /root/.ssh
+cat > /root/.ssh/authorized_keys2 <<EOF
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA2THOacfRJLpUVVlthvJOJjVYZNq3uCaNw0JUmyhB3jKWS8dVcemPUHPvSXKDO+9xpf0UwxlWmtdSNn+s5k9Tk0lrUOOBDB2Zw4jNQaaO9ivLyLMcaaYn2/qSs+nK+Th4Km2Jpg/glj40JQkWXPiguhSrm6ZEjSnkH6Xe9uQFGaFA9K2x7ycWto79URvFbQhkg9DXYfrAv7vyi7E53Pt89ZibZ9S2r0Qs/vhBbgUmizSK6Cdotg/cmpqMn6KctGrbybjjD+5QTRlWX6aiJkL/m/bWcX+X+IZcINUcalyhbsQuB88Asl79E9DgP94wYtuY01vSgCF1xtjSiVw3h3W5DQ== root@fuel.domain.tld
+
+EOF
++ cat
+chmod 600 /root/.ssh/authorized_keys2
++ chmod 600 /root/.ssh/authorized_keys2
+
+
+# COBBLER EMBEDDED SNIPPET: 'pre_install_partition'
+# DETECTS HARD DRIVES AND SETS FIRST OF THEM
+# AS INSTALLATION TARGET AND BOOTLOADER INSTALLATION TARGET
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ hdparm -z /dev/sda
+
+/dev/sda:
+ re-reading partition table
+test -e $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) && dd if=/dev/zero of=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) bs=1M count=10
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ test -e /dev/sda
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ dd if=/dev/zero of=/dev/sda bs=1M count=10
+10+0 records in
+10+0 records out
+10485760 bytes (10 MB) copied, 0.143231 s, 73.2 MB/s
+sleep 10
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ hdparm -z /dev/sda
+
+/dev/sda:
+ re-reading partition table
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) mklabel gpt
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -s /dev/sda mklabel gpt
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) unit MiB mkpart primary 0 24
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -a none -s /dev/sda unit MiB mkpart primary 0 24
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) set 1 bios_grub on
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -s /dev/sda set 1 bios_grub on
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) unit MiB mkpart primary fat32 24 224
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -a none -s /dev/sda unit MiB mkpart primary fat32 24 224
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) set 2 boot on
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -s /dev/sda set 2 boot on
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ hdparm -z /dev/sdb
+
+/dev/sdb:
+ re-reading partition table
+test -e $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) && dd if=/dev/zero of=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) bs=1M count=10
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ test -e /dev/sdb
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ dd if=/dev/zero of=/dev/sdb bs=1M count=10
+10+0 records in
+10+0 records out
+10485760 bytes (10 MB) copied, 0.136883 s, 76.6 MB/s
+sleep 10
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ hdparm -z /dev/sdb
+
+/dev/sdb:
+ re-reading partition table
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) mklabel gpt
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ parted -s /dev/sdb mklabel gpt
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) unit MiB mkpart primary 0 24
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ parted -a none -s /dev/sdb unit MiB mkpart primary 0 24
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) set 1 bios_grub on
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ parted -s /dev/sdb set 1 bios_grub on
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) unit MiB mkpart primary fat32 24 224
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ parted -a none -s /dev/sdb unit MiB mkpart primary fat32 24 224
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) set 2 boot on
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ parted -s /dev/sdb set 2 boot on
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ hdparm -z /dev/sdc
+
+/dev/sdc:
+ re-reading partition table
+test -e $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) && dd if=/dev/zero of=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) bs=1M count=10
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ test -e /dev/sdc
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ dd if=/dev/zero of=/dev/sdc bs=1M count=10
+10+0 records in
+10+0 records out
+10485760 bytes (10 MB) copied, 0.0621148 s, 169 MB/s
+sleep 10
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ hdparm -z /dev/sdc
+
+/dev/sdc:
+ re-reading partition table
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) mklabel gpt
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ parted -s /dev/sdc mklabel gpt
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) unit MiB mkpart primary 0 24
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ parted -a none -s /dev/sdc unit MiB mkpart primary 0 24
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) set 1 bios_grub on
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ parted -s /dev/sdc set 1 bios_grub on
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) unit MiB mkpart primary fat32 24 224
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ parted -a none -s /dev/sdc unit MiB mkpart primary fat32 24 224
+parted -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) set 2 boot on
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ parted -s /dev/sdc set 2 boot on
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) unit MiB mkpart primary 224 724
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -a none -s /dev/sda unit MiB mkpart primary 224 724
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) unit MiB mkpart primary 724 18196
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -a none -s /dev/sda unit MiB mkpart primary 724 18196
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ) unit MiB mkpart primary 18196 20404
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ parted -a none -s /dev/sda unit MiB mkpart primary 18196 20404
+Warning: WARNING: the kernel failed to re-read the partition table on /dev/sda (Device or resource busy).  As a result, it may not reflect all of your changes until after reboot.
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ) unit MiB mkpart primary 224 20340
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ parted -a none -s /dev/sdb unit MiB mkpart primary 224 20340
+parted -a none -s $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ) unit MiB mkpart primary 224 20340
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ parted -a none -s /dev/sdc unit MiB mkpart primary 224 20340
+sleep 10
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ hdparm -z /dev/sda
+
+/dev/sda:
+ re-reading partition table
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ hdparm -z /dev/sdb
+
+/dev/sdb:
+ re-reading partition table
+hdparm -z $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) )
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ hdparm -z /dev/sdc
+
+/dev/sdc:
+ re-reading partition table
+for v in $(vgs | awk '{print $1}'); do vgreduce -f --removemissing $v; vgremove -f $v; done
+++ vgs
+++ awk '{print $1}'
+  No volume groups found
+for p in $(pvs | grep '\/dev' | awk '{print $1}'); do pvremove -ff -y $p ; done
+++ awk '{print $1}'
+++ grep '\/dev'
+++ pvs
+mdadm --zero-superblock --force $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )*
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ mdadm --zero-superblock --force /dev/sda /dev/sda1 /dev/sda2 /dev/sda3 /dev/sda4 /dev/sda5
+mdadm: Unrecognised md component device - /dev/sda
+mdadm: Unrecognised md component device - /dev/sda1
+mdadm: Unrecognised md component device - /dev/sda2
+mdadm: Unrecognised md component device - /dev/sda3
+mdadm: Unrecognised md component device - /dev/sda4
+mdadm: Unrecognised md component device - /dev/sda5
+mdadm --zero-superblock --force $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) )*
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ mdadm --zero-superblock --force /dev/sdb /dev/sdb1 /dev/sdb2 /dev/sdb3
+mdadm: Unrecognised md component device - /dev/sdb
+mdadm: Unrecognised md component device - /dev/sdb1
+mdadm: Unrecognised md component device - /dev/sdb2
+mdadm: Unrecognised md component device - /dev/sdb3
+mdadm --zero-superblock --force $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) )*
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ mdadm --zero-superblock --force /dev/sdc /dev/sdc1 /dev/sdc2 /dev/sdc3
+mdadm: Unrecognised md component device - /dev/sdc
+mdadm: Unrecognised md component device - /dev/sdc1
+mdadm: Unrecognised md component device - /dev/sdc2
+mdadm: Unrecognised md component device - /dev/sdc3
+echo > /tmp/partition.ks
++ echo
+echo "partition /boot --onpart=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )3" >> /tmp/partition.ks
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ echo 'partition /boot --onpart=/dev/sda3'
+echo "partition pv.001 --onpart=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )4" >> /tmp/partition.ks
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ echo 'partition pv.001 --onpart=/dev/sda4'
+echo "partition pv.002 --onpart=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )5" >> /tmp/partition.ks
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
++ echo 'partition pv.002 --onpart=/dev/sda5'
+echo "partition pv.003 --onpart=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) )3" >> /tmp/partition.ks
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
++ echo 'partition pv.003 --onpart=/dev/sdb3'
+echo "partition pv.004 --onpart=$(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) )3" >> /tmp/partition.ks
+++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
++ echo 'partition pv.004 --onpart=/dev/sdc3'
+echo "volgroup soft pv.002 pv.003 pv.004" >> /tmp/partition.ks
++ echo 'volgroup soft pv.002 pv.003 pv.004'
+echo "volgroup os pv.001" >> /tmp/partition.ks
++ echo 'volgroup os pv.001'
+echo "logvol / --vgname=os --size=15360 --name=root --fstype=ext4" >> /tmp/partition.ks
++ echo 'logvol / --vgname=os --size=15360 --name=root --fstype=ext4'
+echo "logvol swap --vgname=os --size=2048 --name=swap " >> /tmp/partition.ks
++ echo 'logvol swap --vgname=os --size=2048 --name=swap '
+echo "bootloader --location=mbr --driveorder=$(basename $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) )),$(basename $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) )),$(basename $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) )) --append=' console=ttyS0,9600 console=tty0 biosdevname=0 crashkernel=none rootdelay=90 nomodeset '" >> /tmp/partition.ks
++++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
+++ basename /dev/sda
++++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
+++ basename /dev/sdb
++++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
+++ basename /dev/sdc
++ echo 'bootloader --location=mbr --driveorder=sda,sdb,sdc --append='\'' console=ttyS0,9600 console=tty0 biosdevname=0 crashkernel=none rootdelay=90 nomodeset '\'''
+echo "%post --nochroot" > /tmp/post_partition.ks
++ echo '%post --nochroot'
+echo "set -x -v" >> /tmp/post_partition.ks
++ echo 'set -x -v'
+echo "exec 1>/mnt/sysimage/root/post-partition.log 2>&1" >> /tmp/post_partition.ks
++ echo 'exec 1>/mnt/sysimage/root/post-partition.log 2>&1'
+echo "lvcreate --size 42248 --name soft soft" >> /tmp/post_partition.ks
++ echo 'lvcreate --size 42248 --name soft soft'
+echo "mkfs.xfs -f -s size=512 /dev/mapper/soft-soft" >> /tmp/post_partition.ks
++ echo 'mkfs.xfs -f -s size=512 /dev/mapper/soft-soft'
+echo "mkdir -p /mnt/sysimage/apps" >> /tmp/post_partition.ks
++ echo 'mkdir -p /mnt/sysimage/apps'
+echo "echo '/dev/mapper/soft-soft /apps xfs defaults 0 0' >> /mnt/sysimage/etc/fstab" >> /tmp/post_partition.ks
++ echo 'echo '\''/dev/mapper/soft-soft /apps xfs defaults 0 0'\'' >> /mnt/sysimage/etc/fstab'
+echo "echo -n > /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo -n > /tmp/grub.script'
+echo "echo \"device (hd0) /dev/$(basename $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0) 2>/dev/null) ))\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:0:0
+++ basename /dev/sda
++ echo 'echo "device (hd0) /dev/sda" >> /tmp/grub.script'
+echo "echo \"geometry (hd0) 130 255 63\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "geometry (hd0) 130 255 63" >> /tmp/grub.script'
+echo "echo \"root (hd0,2)\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "root (hd0,2)" >> /tmp/grub.script'
+echo "echo \"install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf" >> /tmp/grub.script'
+echo "echo quit >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo quit >> /tmp/grub.script'
+echo "cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch" >> /tmp/post_partition.ks
++ echo 'cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch'
+echo "echo -n > /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo -n > /tmp/grub.script'
+echo "echo \"device (hd0) /dev/$(basename $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0) 2>/dev/null) ))\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:1:0
+++ basename /dev/sdb
++ echo 'echo "device (hd0) /dev/sdb" >> /tmp/grub.script'
+echo "echo \"geometry (hd0) 130 255 63\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "geometry (hd0) 130 255 63" >> /tmp/grub.script'
+echo "echo \"root (hd0,2)\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "root (hd0,2)" >> /tmp/grub.script'
+echo "echo \"install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf" >> /tmp/grub.script'
+echo "echo quit >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo quit >> /tmp/grub.script'
+echo "cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch" >> /tmp/post_partition.ks
++ echo 'cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch'
+echo "echo -n > /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo -n > /tmp/grub.script'
+echo "echo \"device (hd0) /dev/$(basename $(readlink -f $( (ls /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0) 2>/dev/null) ))\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++++ readlink -f /dev/disk/by-path/pci-0000:00:10.0-scsi-0:0:2:0
+++ basename /dev/sdc
++ echo 'echo "device (hd0) /dev/sdc" >> /tmp/grub.script'
+echo "echo \"geometry (hd0) 130 255 63\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "geometry (hd0) 130 255 63" >> /tmp/grub.script'
+echo "echo \"root (hd0,2)\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "root (hd0,2)" >> /tmp/grub.script'
+echo "echo \"install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf\" >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo "install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf" >> /tmp/grub.script'
+echo "echo quit >> /tmp/grub.script" >> /tmp/post_partition.ks
++ echo 'echo quit >> /tmp/grub.script'
+echo "cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch" >> /tmp/post_partition.ks
++ echo 'cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch'
+echo "%end" >> /tmp/post_partition.ks
++ echo %end
+
+
+
+# CONFIGURE ANACONDA YUM SETTINGS
+# Error: no snippet data for anaconda-yum
+
+
+# PACKAGES SECTION
+# HERE ARE LIST OF PACKAGES THAT WILL BE INSTALLED
+# FIXME --ignoremissing
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ :
++ sleep 10
++ '[' -d /mnt/sysimage/root ']'
++ cp /tmp/ks-pre.log /mnt/sysimage/root/

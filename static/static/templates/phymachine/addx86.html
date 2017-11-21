@@ -1,0 +1,144 @@
+<style type="text/css">
+  .validatewidth{
+    width:530px;
+  }
+</style>
+<div style="text-align:center">
+<form class="form-horizontal create-cluster-form" style="margin-left:25%" id="form1">
+   <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">主机名称</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_name"  maxlength="20" data-type="str" value="<%= model.name%>"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+    <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">IP地址</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_ip" value="<%= model.ip%>" data-type="ip"
+          maxlength="15"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+     <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">管理口IP地址</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_mp_ip" value="<%= model.mp_ip%>" data-type="ip" maxlength="15"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+    <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">管理口用户名</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_mp_username" value="<%= model.mp_username%>" maxlength="10" data-type="str"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+    <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">管理口密码</div>
+        <div class="parameter-control">
+          <input type="password" id="txt_mp_passwd" value="<%= model.mp_passwd%>" maxlength="10" data-type="str"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+     <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">机柜名称</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_cabinet" value="<%= model.cabinet%>" 
+          maxlength="20" data-type="str"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+    <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">机房名称</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_gene_room" value="<%= model.gene_room%>" maxlength="20" data-type="str"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+    <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">MAC地址</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_mac" value="<%= model.mac%>" data-type="mac" maxlength="30"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+     <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">用处类型</div>
+        <div class="parameter-control">
+          <select style="width:220px" id="txt_use_type">
+          <%if (selectopt == "edit") { %>
+              <option value="<%= objItemValue%>"><%= valuedesc%></option>
+          <% } else if(selectopt != "add" && selectopt != "edit"){  %> 
+              <%if (model.use_type == "0") { %>
+                <option value="0" selected>未分配</option>
+              <% }else {%>
+                <option value="0">未分配</option>
+              <%}%>
+              <%if (model.use_type == "1") { %>
+                <option value="1" selected>原生openstack</option>
+              <% }else {%>
+                <option value="1">原生openstack</option>
+              <%}%>
+              <%if (model.use_type == "4") { %>
+                <option value="4" selected>定制化openstack</option>
+              <% }else {%>
+                <option value="4">定制化openstack</option>
+              <%}%>
+              <%if (model.use_type == "2") { %>
+                 <option value="2" selected>BC-CLOUDMASTER</option>
+              <% }else {%>
+                <option value="2">BC-CLOUDMASTER</option>
+              <%}%>
+              <%if (model.use_type == "3") { %>
+                 <option value="3" selected>BC-EBS</option>
+              <% }else {%>
+                <option value="3">BC-EBS</option>
+              <%}%>
+              <%if (model.use_type == "5") { %>
+                 <option value="5" selected>BC-ONEST</option>
+              <% }else {%>
+                <option value="5">BC-ONEST</option>
+              <%}%>
+               <%if (model.use_type == "6") { %>
+                <option value="6" selected>BC-OP</option>
+              <% }else {%>
+                <option value="6">BC-OP</option>
+              <%}%>
+          <% } else { %>
+              <option value="0">未分配</option>
+              <option value="1">原生openstack</option>
+              <option value="4">定制化openstack</option>
+              <option value="2">BC-CLOUDMASTER</option>
+              <option value="3">BC-EBS</option>
+              <option value="5">BC-ONEST</option>
+              <option value="6">BC-OP</option>
+          <% } %>
+          </select> 
+        </div>
+        <div class="error validation-error"><span class="help-inline"></span></div>
+      </label>
+    </div>
+   </form>
+    <div class="page-control-box" style="margin-bottom:0px;text-align:center">
+        <button class="btn btn-revert-changes" id="btn-cancel">取消</button>
+        <button class="btn btn-success apply-btn" id="btn-save">保存</button>
+    </div>
+  </div>

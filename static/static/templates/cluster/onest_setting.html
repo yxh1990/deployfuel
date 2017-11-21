@@ -1,0 +1,894 @@
+<style type="text/css">
+  .longwidthtext{
+  	width:370px;
+  }
+   .longwidthtext2{
+    width:445px;
+  }
+  .label-wrapper{
+    width:220px;
+  }
+  .showmore{
+    cursor: pointer;
+  }
+</style>
+  <h3>ONEST设置</h3>
+  <div>
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">prepare</legend>
+      <div class="settings-group table-wrapper">
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>onestuid</span>
+        </div>
+        <input type="text" id="txt_onestuid" value="<%= data.prepare?data.prepare.onestuid:'501'%>"  class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description">onest用户Id</div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>onestpwd</span>
+          </div>
+           <textarea id="txt_onestpwd" class="parameter-input longwidthtext" rows="3" cols="20"><%= data.prepare?data.prepare.onestpwd:"$6$RlwS/kRZzs88YMcA$cL8kWGnFoj1RSEngYNEY9KFaaTBdgntPWVeivJS3eEszNVsln.PI/JnqS6bFtxLduF6NaTDNUSz7UzOTmJcnb/" %>
+           </textarea>
+         </label>
+        <div class="parameter-description">Onest用户密码</div>
+      </div>
+
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>onestprepareuser</span>
+         </div>
+        <input type="text" id="txt_onestprepareuser" value="<%= data.prepare?data.prepare.onestprepareuser:'onest'%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description">onest用户</div>
+      </div>
+
+       <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>lightip_vlan</span>
+         </div>
+        <input type="text" id="txt_lightip_vlan" value="<%= data.prepare?data.prepare['lightip_vlan']:''%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description showmore" title="第一个元素为电口的vlan值，第二个元素为光口的vlan值，如果不设置，则为空">
+        查看详细说明...</div>
+      </div>
+
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>light_pre_ip</span>
+         </div>
+        <input type="text" id="txt_light_pre_ip" value="<%= data.prepare?data.prepare['light_pre_ip']:''%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description showmore" title="这个参数是光口IP的前面24位，eg: “10.128.15”，可以不设置">
+        查看详细说明...</div>
+      </div>
+
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>lightIP_gateway</span>
+         </div>
+        <input type="text" id="txt_lightIP_gateway" value="<%= data.prepare?data.prepare['lightIP_gateway']:''%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description">光口IP的网关，如果不设置，则为空</div>
+      </div>
+     
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>bond_name</span>
+         </div>
+        <input type="text" id="txt_bond_name" value="<%= data.prepare?data.prepare['bond_name']:''%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description showmore" title="为绑定网卡之后的网卡名，如果有电口和光口绑定，则数组中前一个为电口绑定网卡名，后一个为光口绑定名。不需要绑定则不写。">
+        查看详细说明...</div>
+      </div>
+
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>network_card_name</span>
+         </div>
+        <input type="text" id="txt_network_card_name" value="<%= data.prepare?data.prepare['network_card_name']:''%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description showmore" title="在配置时，请注意数组中前面两个为电口的网卡，后面两个为光口的网卡。如果不需要进行网卡绑定，这个参数请不要填写参数，为空，比如在虚拟机上进行部署，不需要进行网卡绑定，则这个变量的值为空。如果不要进行光口绑定，只有电口绑定，则后面的两个参数不需要填写；同理，如果只要光口绑定，不需要电口绑定，则后面的两个参数不需要填写。">
+        查看详细说明...</div>
+      </div>
+
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>route_ip</span>
+         </div>
+        <input type="text" id="txt_route_ip" value="<%= data.prepare?data.prepare['route_ip']:''%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description showmore" title="这个参数是用来部署系统的路由，请注意，如果不要进行光口绑定，请在这里面填写相关的电口ip(16位)，如果进行了光口绑定，请填写相关的光口ip，虚拟机环境不需要填写。">
+        查看详细说明...</div>
+      </div>
+      
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>filePreDirectory</span>
+         </div>
+        <input type="text" id="txt_filePreDirectory" value="<%= data.prepare?data.prepare['filePreDirectory']:'/app'%>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description">整个onest系统的主目录 建议定死目录</div>
+      </div>
+      
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>installDir</span>
+         </div>
+        <input type="text" id="txt_installDir" value="<%= data.prepare?data.prepare.installDir:'/app/onest3' %>" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description">整个onest系统的主目录 建议定死目录</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">java</legend>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>java_home</span>
+           </div>
+          <input type="text" id="txt_java_home" value="<%= data.java?data.java['java_home']:"/usr/java/jdk1.6.0_37"%>"  class="parameter-input longwidthtext" >
+         </label>
+        <div class="parameter-description">JAVA HOME地址</div>
+        </div>
+      </div>
+    </div>
+  
+     <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">zookeeper</legend>
+      <div class="settings-group table-wrapper">
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name" style="text-align:left;padding-left:20px">
+           <div class="label-wrapper">
+              <span>zkdataDir</span>
+           </div>
+          <input type="text" id="txt_zkdataDir" value="<%= data.zookeeper?data.zookeeper.zkdataDir:'/app/onest3/zookeeper2'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">Zk的data目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>zkserversip</span>
+           </div>
+           <textarea id="txt_zkserversip" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.zookeeper?data.zookeeper["zkserversip"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_zkserversip_ip">
+             选择IP
+          </button>
+         </label>
+        <div class="parameter-description">zkServer的IP列表，以逗号隔开</div>
+        </div>
+   </div>
+  </div>
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">hadoop</legend>
+      <div class="settings-group table-wrapper">
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>hadoop_namenodes_ips</span>
+           </div>
+           <textarea id="txt_namenodes_ipaddress" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_namenodes_ipaddress"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_namenodes_ip">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Namenode的IP集合</div>
+        </div>
+
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>hadoop_datanodes_ips</span>
+           </div>
+           <textarea id="txt_datanodes_ipaddress" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_datanodes_ipaddress"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_datanodes_ips">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Datanode的IP集合</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>hadoop_journalnode_ips</span>
+           </div>
+
+          <textarea id="txt_journalnode_ipaddress" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_journalnode_ipaddress"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_journalnode_ips">
+            选择IP
+          </button>
+
+         </label>
+        <div class="parameter-description">Journalnode的IP集合</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>hadoop_heap_size</span>
+           </div>
+          <input type="text" id="txt_hadoop_heap_size" value="<%= data.hadoop?data.hadoop['hadoop_heap_size']:'4096'%>" class="parameter-input longwidthtext2" >
+         </label>
+        <div class="parameter-description">hadoop的heap内存大小</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>hadoop_temp_dir</span>
+           </div>
+          <input type="text" id="txt_hadoop_temp_dir" value="<%= data.hadoop?data.hadoop['hadoop_temp_dir']:'/app/onest3/tmp2'%>" class="parameter-input longwidthtext2" >
+         </label>
+        <div class="parameter-description showmore" title="Hadoop，hbase的相关日志目录和onest的相关数据存储的目录">
+        查看详细说明...
+        </div>
+        </div>
+        
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_dfs_dir</span>
+          </div>
+           <textarea id="txt_hadoop_dfs_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_dfs_dir"]:" /app/onest3/tmp2/hadoop-tmp2,/data1/onest3,/data1/onest3/dfs,/data2/onest3,/data2/onest3/dfs,/app/onest3/tmp2/data-run,/app/onest3/tmp2/data-run/onest-nms,/app/onest3/tmp2/data-run/onest-runtime,/app/onest3/tmp2/azstat,/app/onest3/tmp2/azstat/archive,/app/onest3/tmp2/alarmdata,/app/onest3/sts4ftp" %>
+           </textarea>
+        </label>
+          <div class="parameter-description">Hadoop dfs的目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_dfs_name_dir</span>
+          </div>
+           <textarea id="txt_hadoop_dfs_name_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_dfs_name_dir"]:"/data1/onest3/dfs/name,/data2/onest3/dfs/name" %>
+           </textarea>
+        </label>
+          <div class="parameter-description">Hadoop dfs name目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_dfs_data_dir</span>
+          </div>
+           <textarea id="txt_hadoop_dfs_data_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_dfs_data_dir"]:"/data1/onest3/dfs/data" %>
+           </textarea>
+        </label>
+          <div class="parameter-description">Hadoop dfs data目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_copynamenode_dir</span>
+          </div>
+           <textarea id="txt_hadoop_copynamenode_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_copynamenode_dir"]:"'/data1/onest3/dfs/name','/data2/onest3/dfs/name'" %>
+           </textarea>
+        </label>
+          <div class="parameter-description">hadoop copynamenode的目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_dfs_pre_dir</span>
+          </div>
+           <textarea id="txt_hadoop_dfs_pre_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_dfs_pre_dir"]:"'/data1/onest3/dfs','/data2/onest3/dfs'" %>
+           </textarea>
+        </label>
+          <div class="parameter-description">Hadoop dfs pre目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_journalnode_edit_dir</span>
+          </div>
+           <textarea id="txt_hadoop_journalnode_edits_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_journalnode_edits_dir"]:"/data1/onest3/dfs/jn" %>
+           </textarea>
+        </label>
+          <div class="parameter-description">Hadoop journalnode的目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_mapred_dir</span>
+          </div>
+           <textarea id="txt_hadoop_mapred_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_mapred_dir"]:"/data1/onest3/mapred1" %>
+           </textarea>
+         </label>
+          <div class="parameter-description">Hadoop mapreduce的目录</div>
+        </div>
+
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name input-append">
+          <div class="label-wrapper" style="margin-top:30px">
+           <span>hadoop_mapred_local_dir</span>
+          </div>
+           <textarea id="txt_hadoop_mapred_local_dir" class="parameter-input longwidthtext2" rows="5" cols="20"><%= data.hadoop?data.hadoop["hadoop_mapred_local_dir"]:"/data1/onest3/mapred1/local" %>
+           </textarea>
+         </label>
+          <div class="parameter-description">Hadoop mapreduce的local地址</div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">hbase</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:30px">
+              <span>hbase_master_host_name</span>
+           </div>
+          <textarea id="txt_hbase_master_host_name" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.hbase?data.hbase["hbase_master_host_name"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_hbase_masterhostname">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">hbase的主master的IP</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:30px">
+              <span>hbase_backup_master_host_name</span>
+           </div>
+           <textarea id="txt_hbase_backup_master_host_name" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.hbase?data.hbase["hbase_backup_master_host_name"]:" " %></textarea>
+        <button class="btn btn-load-defaults" id="btn_hbase_backup_masterhostname">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">hbase的备master的IP</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:30px">
+              <span>hbase_regionservers_host_name</span>
+           </div>
+           <textarea id="txt_hbase_regionservers_host_name" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.hbase?data.hbase["hbase_regionservers_host_name"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_hbase_regionservername">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">hbase的regionservers的ip</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:30px">
+              <span>hbase_heap_size</span>
+           </div>
+          <input type="text" id="txt_hbase_heap_size" value="<%= data.hbase?data.hbase['hbase_heap_size']:'1024'%>" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title="hbase的heap的内存大小，机器是8G内存则填写1024，如果是128G内存，填写4096">查看详细说明...</div>
+        </div>
+      </div>
+    </div>
+
+     <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">onest</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onestFileName</span>
+           </div>
+          <input type="text" id="txt_onestFileName" value="<%= data.onest?data.onest.onestFileName:'onest-branch_v5.3-L'%>"  class="parameter-input longwidthtext" >
+         </label>
+        <div class="parameter-description">onest部署的版本</div>
+      </div>
+    </div>
+
+     <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_license_servers</span>
+           </div>
+           <textarea id="txt_onest_license_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_license_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_license_server">
+           选择IP
+          </button>
+         </label>
+        <div class="parameter-description">onest license 服务器</div>
+      </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_healer_memory</span>
+           </div>
+           <textarea id="txt_onest_healer_memory" class="parameter-input longwidthtext" rows="2" cols="20"><%= data.onest?data.onest["onest_healer_memory"]:"-Xms1024m -Xmx1024m -Xmn512m" %>
+           </textarea>
+         </label>
+        <div class="parameter-description showmore" title="8G内存配置为1024 1024 512，内存为128G，可以配置成4096 4096 2048,请根据实际情况定值">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_region_stat_memory</span>
+           </div>
+           <textarea id="txt_onest_region_stat_memory" class="parameter-input longwidthtext" rows="2" cols="20"><%= data.onest?data.onest["onest_region_stat_memory"]:"-Xms1024m -Xmx1024m -Xmn512m" %>
+           </textarea>
+         </label>
+        <div class="parameter-description showmore" title="regionstat内存配;8G内存配置为1024 1024 512，内存为128G，可以配置成4096 4096 2048，请根据实际情况定值">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_oas_memory</span>
+           </div>
+           <textarea id="txt_onest_oas_memory" class="parameter-input longwidthtext" rows="2" cols="20"><%= data.onest?data.onest["onest_oas_memory"]:"-Xms1024m -Xmx1024m -Xmn512m" %>
+           </textarea>
+         </label>
+        <div class="parameter-description showmore" title="oas内存配;8G内存配置为1024 1024 512，内存为128G，可以配置成4096 4096 2048，请根据实际情况定值">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_az_stat_memory</span>
+           </div>
+           <textarea id="txt_onest_az_stat_memory" class="parameter-input longwidthtext" rows="2" cols="20"><%= data.onest?data.onest["onest_az_stat_memory"]:"-Xms1024m -Xmx1024m -Xmn512m" %>
+           </textarea>
+         </label>
+        <div class="parameter-description">hbase的主master的IP</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_aaa_master_server</span>
+           </div>
+           <textarea id="txt_onest_aaa_master_server" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_aaa_master_server"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_aaa_server">
+           选择IP
+          </button>
+         </label>
+        <div class="parameter-description">AAA master的IP</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_aaa_master_gateway</span>
+           </div>
+
+           <textarea id="txt_onest_aaa_master_gateway" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_aaa_master_gateway"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_aaa_gateway">
+           选择IP
+          </button>
+         </label>
+        <div class="parameter-description">AAA master的电口IP</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_memcached_master_servers</span>
+           </div>
+           <textarea id="txt_onest_memcached_master_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_memcached_master_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_memcached_server">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Onest memcached server的IP</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_aaa_vip</span>
+           </div>
+          <textarea id="txt_onest_aaa_vip" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_aaa_vip"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_aaa_vip">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">AAA的VIP地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_console_servers</span>
+           </div>
+           <textarea id="txt_onest_console_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_console_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_console_servers">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Onest console的IP地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_oas_servers</span>
+           </div>
+          <textarea id="txt_onest_oas_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_oas_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_oas_servers">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">ONEST OAS的IP地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_oas_lightip</span>
+           </div>
+           <textarea id="txt_onest_oas_lightip" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_oas_lightip"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_oas_lightip">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">ONEST OAS的光口IP地址</div>
+        </div>
+    </div>
+    
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_oas_keepalived</span>
+           </div>
+           <textarea id="txt_onest_oas_keepalived" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_oas_keepalived"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_oas_keepalived">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">ONEST　Keeperalived的IP地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_oas_vip</span>
+           </div>
+           <textarea id="txt_onest_oas_vip" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_oas_vip"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_oas_vip">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description showmore" title="oas的VIP，一个元素为电口OAS的VIP，第二元素为光口OAS的VIP。如果OAS不做HA，请不要填写这个参数，保持为空">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_localAzName</span>
+           </div>
+          <input type="text" id="txt_onest_localAzName" value="<%= data.onest?data.onest['onest_localAzName']:"AZ1"%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">数据中心的名字</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_alarm_url</span>
+           </div>
+           <input type="text" id="txt_onest_alarm_url" value="<%= data.onest?data.onest['onest_alarm_url']:''%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title='这个参数为告警，格式为：snmp:告警服务器的IP：端口，请注意，如果不需要进行告警的话，请一定为空，即""'>查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_except_NN_DN_datastorage</span>
+           </div>
+            <textarea id="txt_onest_except_NN_DN_datastorage" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_except_NN_DN_datastorage"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_except_datastorage">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description showmore" title='这个参数是指没有部署namenode或者datanode的datastorage的ip地址，请填写电口IP'>查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_APP_OAS_Workers</span>
+           </div>
+           <input type="text" id="txt_oNest_DataNode_Application_OAS_Workers" value="<%= data.onest?data.onest['oNest_DataNode_Application_OAS_Workers']:'2'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title='为datastorage处理OAS请求的工作线程数，其配置需要根据实际情况调整。如：4G内存的，请填写1；8G内存的，请填写2；如果内存比较大，一般填写4'>查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_App_ZK_Workers</span>
+           </div>
+            <input type="text" id="txt_oNest_DataNode_Application_ZK_Workers" value="<%= data.onest?data.onest['oNest_DataNode_Application_ZK_Workers']:'2'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title='为datastorage处理ZK请求的工作线程数，其配置需要根据实际情况调整。如：4G内存的，请填写1；8G内存的，请填写2；如果内存比较大，一般填写4'>查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_App_Healer_Workers</span>
+           </div>
+           <input type="text" id="txt_oNest_DataNode_Application_Healer_Workers" value="<%= data.onest?data.onest['oNest_DataNode_Application_Healer_Workers']:'2'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title='为datastorage处理Healer请求的工作线程数，其配置需要根据实际情况调整。如：4G内存的，请填写1；8G内存的，请填写2；如果内存比较大，一般填写4'>查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_App_IO_Workers</span>
+           </div>
+            <input type="text" id="txt_oNest_DataNode_Application_FileIODispacher_Workers" value="<%= data.onest?data.onest['oNest_DataNode_Application_FileIODispacher_Workers']:'2'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title='为datastorage处理FileIODispacher请求的工作线程数，其配置需要根据实际情况调整。如：4G内存的，请填写1；8G内存的，请填写2；如果内存比较大，一般填写4'>查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_SnmpDst_Addr</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_SnmpDst_Addr" value="<%= data.onest?data.onest['oNest_DataNode_SnmpDst_Addr']:''%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">这个为告警的目的地址的IP</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_MemSize</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_MemSize" value="<%= data.onest?data.onest['oNest_DataNode_MemSize']:'512M'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title="其配置需要根据实际情况调整。如：4G内存的，请填写128M; 8G内存的，请填写512M;如果内存比较大，一般填写2G。">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_MaxQuoto</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_Storage_MaxQuoto" value="<%= data.onest?data.onest['oNest_DataNode_Storage_MaxQuoto']:'400G'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title="为datastorage存储点最大容量，请根据所在环境的机器上磁盘的大小进行配置。如：用df -h查看时，一个磁盘的Avail的大小为2.6T，那么这里可以填写2600G，这个数值不能大于2.6T。">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_Num</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_Storage_Num" value="<%= data.onest?data.onest['oNest_DataNode_Storage_Num']:'1'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title="这个参数是指部署namenode或者datanode的机器上可以部署的storage的磁盘数。因为部署了这两个服务的机器要少部署一块DAS磁盘。因为这个服务的需要，要占用一块磁盘。">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_Quoto</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_Storage_Quoto" value="<%= data.onest?data.onest['oNest_DataNode_Storage_Quoto']:'409600M'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title="必须大于$oNest_DataNode_ Storage _Data+$oNest_DataNode_Storage_BucketSize*2 ，其值等于$oNest_Da taNode _Storage_MaxQuoto。">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_Data</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_Storage_Data" value="<%= data.onest?data.onest['oNest_DataNode_Storage_Data']:''%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description"></div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_BucketSize</span>
+           </div>
+          <input type="text" id="txt_oNest_DataNode_Storage_BucketSize" value="<%= data.onest?data.onest['oNest_DataNode_Storage_BucketSize']:'892M'%>"  class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description showmore" title="892M 为datastorage存储点的bucket大小，其值需要根据实际的环境进行配置。如：4G和8G的环境都配置为819M，如果内存比较大的话，一般配置为8192M。">查看详细说明...</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_azstat_servers</span>
+           </div>
+           <textarea id="txt_onest_azstat_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_azstat_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_azstat_servers">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Azstat的server ip地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_regionstat_servers</span>
+           </div>
+          <textarea id="txt_onest_regionstat_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_regionstat_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_regionstat_servers">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Regionstat的server ip地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_datastorage_servers</span>
+           </div>
+          <textarea id="txt_onest_datastorage_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_datastorage_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_datastorage_servers">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Datastorage的IP地址</div>
+        </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_healer_servers</span>
+           </div>
+          <textarea id="txt_onest_healer_servers" class="parameter-input longwidthtext" rows="5" cols="20"><%= data.onest?data.onest["onest_healer_servers"]:" " %></textarea>
+          <button class="btn btn-load-defaults" id="btn_onest_healer_servers">
+            选择IP
+          </button>
+         </label>
+        <div class="parameter-description">Healer的ip地址</div>
+        </div>
+    </div>
+    
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>onest_prefix_dir</span>
+           </div>
+           <textarea id="txt_onest_prefix_dir" class="parameter-input longwidthtext" rows="3" cols="20"><%= data.onest?data.onest["onest_prefix_dir"]:"" %></textarea>
+         </label>
+        <div class="parameter-description showmore" title='这个是数据盘的前置目录，如果你的机器总共有10块盘，目录从/data1~/data10,那么这里填写["/data3/onest3","/data4/onest3","/data5/onest3", "/data6/onest3","/data7/onest3","/data8/onest3","/data9/onest3","/data10/onest3"]'>查看详细说明...</div>
+      </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_extra_Dir</span>
+           </div>
+           <textarea id="txt_oNest_DataNode_Storage_extra_Dir" class="parameter-input longwidthtext" rows="2" cols="20"><%= data.onest?data.onest["oNest_DataNode_Storage_extra_Dir"]:"/data1/onest3/storage" %>
+           </textarea>
+         </label>
+        <div class="parameter-description showmore" title='这个是额外的目录，因为没有配置namenode或者datanode服务的机器要多配置一块磁盘。 建议目录定死。'>查看详细说明...</div>
+      </div>
+    </div>
+
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="padding-right:65px">
+              <span>oNest_DataNode_Storage_Dir</span>
+           </div>
+           <textarea id="txt_oNest_DataNode_Storage_Dir" class="parameter-input longwidthtext" rows="2" cols="20"><%= data.onest?data.onest["oNest_DataNode_Storage_Dir"]:"/data2/onest3/storage" %>
+           </textarea>
+         </label>
+        <div class="parameter-description showmore" title='这个是datastorage的数据存储目录，如果你的机器总共有10块盘，目录从/data1~/data10,那么这里填写["/data2/onest3/storage","/data3/onest3/storage","/data4/onest3/storage","/data5/onest3/storage","/data6/onest3/storage","/data7/onest3/storage","/data8/onest3/storage","/data9/onest3/storage","/data10/onest3/storage"]'>查看详细说明...</div>
+      </div>
+    </div>
+
+   </div>
+
+ <div class="row">
+     <div class="page-control-box">
+       <div class="page-control-button-placeholder">
+          <button class="btn btn-load-defaults" id="btnloadDefault">恢复默认</button>
+          <button id="btn_save" class="btn btn-success btn-apply-changes">保存设置</button>
+       </div>
+    </div>
+   </div>
+</div>

@@ -1,0 +1,1163 @@
+<style type="text/css">
+  .longwidthtext{
+    width:370px;
+  }
+  .radiocss{
+      display: block;
+      box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    min-width: 100px;
+    font-weight: bold;
+    cursor: default;
+    text-align: left;
+  }
+</style>
+  <h3>Openstack定制环境设置</h3>
+  <div>
+    
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">global</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bclinux_repo_ip</span>
+             </div>
+             <input type="text" id="txt_global_repo_ip"  value="<%= data.global['bclinux_repo_ip']?data.global['bclinux_repo_ip']:'10.142.18.8'%>" label="txt_global_repo_ip" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bclinux_repo_url</span>
+             </div>
+             <input type="text" id="txt_global_yum_url"  value="<%= data.global['bclinux_repo_url']?data.global['bclinux_repo_url']:'mirrors.bclinux.org'%>" label="txt_global_yum_url" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>fuel_master_ip</span>
+             </div>
+             <input type="text" id="txt_fuel_master_ip"  data-type="ip" value="<%= data.global?data.global['fuel_master_ip']:''%>" label="txt_fuel_master_ip" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">MySQL Cluster</legend>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" data-type="empty" id="txt_mysql_bond_1"  value="<%= data.mysql?data.mysql['bond_1']:''%>" label="txt_mysql_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" data-type="empty" id="txt_mysql_bond_2"  value="<%= data.mysql?data.mysql['bond_2']:''%>" label="txt_mysql_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_mysql_vip" data-type="ip" value="<%= data.mysql?data.mysql.mysql_vip:''%>" label="txt_mysql_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_mysql_vipinterface" value="<%= data.mysql?data.mysql.mysql_vip_interface:'eth0'%>" label="txt_mysql_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>root password</span>
+        </div>
+        <input type="text" id="txt_root_password" value="<%= data.mysql?data.mysql.root_password:'123456'%>" label="txt_root_password" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+     </div>
+   </div>
+
+  <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">RabbitMQ Cluster</legend>
+      
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_rabbitmq_bond_1" data-type="empty"  value="<%= data.rabbitmq?data.rabbitmq['bond_1']:''%>" label="txt_rabbitmq_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_rabbitmq_bond_2"  data-type="empty" value="<%= data.rabbitmq?data.rabbitmq['bond_2']:''%>" label="txt_rabbitmq_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_rabbitmq_vip" data-type="ip" value="<%= data.rabbitmq?data.rabbitmq.rabbit_vip:''%>" label="txt_rabbitmq_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_rabbitmq_vipinterface" value="<%= data.rabbitmq?data.rabbitmq.rabbit_vip_interface:'eth0'%>" label="txt_rabbitmq_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>userid</span>
+        </div>
+        <input type="text" id="txt_rabbitmq_userid" value="<%= data.rabbitmq?data.rabbitmq.rabbit_userid:'guest'%>" label="txt_rabbitmq_userid" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>password</span>
+        </div>
+        <input type="text" id="txt_rabbitmq_password" value="<%= data.rabbitmq?data.rabbitmq.rabbit_password:'123456'%>" label="txt_rabbitmq_password" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">MongoDB Cluster</legend>
+      
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_mongodb_bond_1"  data-type="empty" value="<%= data.mongodb?data.mongodb['bond_1']:''%>" label="txt_mongodb_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper" style="display:none">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_mongodb_bond_2" data-type="empty" value="<%= data.mongodb?data.mongodb['bond_2']:''%>" label="txt_mongodb_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>VIP</span>
+        </div>
+        <input type="text" id="txt_mongodb_vip" value="<%= data.mongodb?data.mongodb.mongodb_vip:''%>" label="txt_mongodb_vip" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>VIP_intferface</span>
+        </div>
+        <input type="text" id="txt_mongodb_vipinterface" value="<%= data.mongodb?data.mongodb.mongodb_vip_interface:'eth0'%>" label="txt_mongodb_vipinterface" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>userid</span>
+        </div>
+        <input type="text" id="txt_mongodb_userid" value="<%= data.mongodb?data.mongodb.mongo_user:'ceilometer'%>" label="txt_mongodb_userid" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>password</span>
+        </div>
+        <input type="text" id="txt_mongodb_password" value="<%= data.mongodb?data.mongodb.mongo_password:'123456'%>" label="txt_mongodb_password" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description"></div>
+      </div>
+    </div>
+  </div>
+
+   <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">Keystone</legend>
+      
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_keystone_bond_1"  data-type="empty" value="<%= data.keystone?data.keystone['bond_1']:''%>" label="txt_keystone_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+       </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper" style="display:none">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_keystone_bond_2" data-type="empty"  value="<%= data.keystone?data.keystone['bond_2']:''%>" label="txt_keystone_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+       </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_keystone_vip" data-type="ip" value="<%= data.keystone?data.keystone.keystone_vip:''%>" label="txt_keystone_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_keystone_vipinterface" value="<%= data.keystone?data.keystone.keystone_vip_interface:'eth0'%>" label="txt_keystone_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL user</span>
+             </div>
+             <input type="text" id="txt_keystone_mysqluser" value="<%= data.keystone?data.keystone.keystone_mysql_user:'keystone'%>" label="txt_keystone_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL password</span>
+             </div>
+             <input type="text" id="txt_keystone_mysqlpassword" value="<%= data.keystone?data.keystone.keystone_mysql_password:'123456'%>" label="txt_keystone_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+   </div>
+
+   <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">Glance</legend>
+      
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_glance_bond_1"  data-type="empty" value="<%= data.glance?data.glance['bond_1']:''%>" label="txt_glance_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+     <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_glance_bond_2" data-type="empty" value="<%= data.glance?data.glance['bond_2']:''%>" label="txt_glance_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_glance_vip" data-type="ip" value="<%= data.glance?data.glance.glance_vip:''%>" label="txt_glance_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_glance_vipinterface" value="<%= data.glance?data.glance.glance_vip_interface:'eth0'%>" label="txt_glance_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL user</span>
+             </div>
+             <input type="text" id="txt_glance_mysqluser" value="<%= data.glance?data.glance.glance_mysql_user:'glance'%>" label="txt_glance_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL password</span>
+             </div>
+             <input type="text" id="txt_glance_mysqlpassword" value="<%= data.glance?data.glance.glance_mysql_password:'123456'%>" label="txt_glance_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+   </div>
+
+   <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">Nova-API</legend>
+      
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_nova_bond_1" data-type="empty" value="<%= data['nova-api']?data['nova-api']['bond_1']:''%>" label="txt_nova_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+     <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_nova_bond_2" data-type="empty" value="<%= data['nova-api']?data['nova-api']['bond_2']:''%>" label="txt_nova_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_nova_vip" data-type="ip" value="<%= data['nova-api']?data['nova-api'].nova_vip:''%>" label="txt_nova_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_nova_vipinterface" value="<%= data['nova-api']?data['nova-api']['nova_vip_interface']:'eth0'%>" label="txt_nova_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL user</span>
+             </div>
+             <input type="text" id="txt_nova_mysqluser" value="<%= data['nova-api']?data['nova-api']['nova_mysql_user']:'nova'%>" label="txt_nova_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL password</span>
+             </div>
+             <input type="text" id="txt_nova_mysqlpassword" value="<%= data['nova-api']?data['nova-api']['nova_mysql_password']:'123456'%>" label="txt_nova_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+   </div>
+    <div class="fieldset-group wrapper" >
+      <legend class="openstack-settings">Nova-Compute</legend>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_nova_compute_bond_1" data-type="empty"  value="<%= data['nova-compute']?data['nova-compute']['bond_1']:''%>" label="txt_nova_compute_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+      
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_nova_compute_bond_2" data-type="empty" value="<%= data['nova-compute']?data['nova-compute']['bond_2']:''%>" label="txt_nova_compute_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>virt_type</span>
+        </div>
+        <div class="control-group" style="float:right">
+          <label class="parameter-box clearfix ">
+            <div class="parameter-control">
+              <div class="custom-tumbler">
+               <% if(!data['nova-compute']) {%>
+                 <input type="radio" name="hypervisor" value="qemu" checked>
+               <% } else if(data['nova-compute'].virt_type=='qemu'){%> 
+                <input type="radio" name="hypervisor" value="qemu" checked>
+               <% } else {%>
+                  <input type="radio" name="hypervisor" value="qemu">
+                <% } %>
+                <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+              </div>
+            </div>
+            <div class="radiocss">QEMU</div>
+          </label>
+          <label class="parameter-box clearfix">
+              <div class="parameter-control">
+                 <div class="custom-tumbler">
+                 <% if(!data['nova-compute']) {%>
+                   <input type="radio" name="hypervisor" value="kvm">
+                  <% } else if(data['nova-compute'].virt_type=='kvm'){%> 
+                  <input type="radio" name="hypervisor" value="kvm" checked>
+                  <% } else {%>
+                    <input type="radio" name="hypervisor" value="kvm">
+                  <% } %>
+                    <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+                 </div>
+             </div>
+             <div class="radiocss">&nbsp;KVM</div>
+          </label>
+          </div>
+         </label>
+        <div class="parameter-description"></div>
+       </div>
+     </div>
+   </div>
+
+   <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">Neutron-Server</legend>
+      
+       <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_neutron_bond_1"  data-type="empty" value="<%= data['neutron-server']?data['neutron-server']['bond_1']:''%>" label="txt_neutron_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_neutron_bond_2" data-type="empty" value="<%= data['neutron-server']?data['neutron-server']['bond_2']:''%>" label="txt_neutron_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VLAN ID range</span>
+             </div>
+             <input type="text" id="txt_neutron_vlan_id_range" data-type="empty" value="<%= data['neutron-server']?data['neutron-server']['vlan_id_range']:'1000:1010'%>" label="txt_neutron_vlan_id_range" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_neutron_vip" data-type="ip" value="<%= data['neutron-server']?data['neutron-server']['neutron_vip']:''%>" 
+              label="txt_neutron_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_neutron_vipinterface" value="<%= data['neutron-server']?data['neutron-server']['neutron_vip_interface']:'eth0'%>" label="txt_neutron_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL user</span>
+             </div>
+             <input type="text" id="txt_neutron_mysqluser" value="<%= data['neutron-server']?data['neutron-server']['neutron_mysql_user']:'neutron'%>" label="txt_neutron_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>MySQL password</span>
+             </div>
+             <input type="text" id="txt_neutron_mysqlpassword" value="<%= data['neutron-server']?data['neutron-server']['neutron_mysql_password']:'123456'%>" label="txt_neutron_mysqluser" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+        <div class="parameter-box clearfix tablerow-wrapper">
+         <label class="parameter-name">
+           <div class="label-wrapper">
+            <span>模式</span>
+         </div>
+        <div class="control-group" style="float:left">
+        <label class="parameter-box clearfix">
+            <div class="parameter-control">
+               <div class="custom-tumbler" style="padding-left:20px">
+               <% if(!data['neutron-server']) {%>
+                   <input type="radio" name="neutronmode" value="gre" checked>
+                  <% } else if(data['neutron-server']['neutron_network_mode']=='gre'){%>
+                  <input type="radio" name="neutronmode" value="gre" checked>
+                  <% } else {%>
+                    <input type="radio" name="hypervisor" value="gre">
+                  <% } %>
+                  <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+               </div>
+           </div>
+           <div class="radiocss">gre</div>
+        </label>
+         <label class="parameter-box clearfix ">
+          <div class="parameter-control">
+            <div class="custom-tumbler" style="padding-left:20px">
+             <% if(!data['neutron-server']) {%>
+                    <input type="radio" name="neutronmode" value="vlan">
+                  <% } else if(data['neutron-server']['neutron_network_mode']=='vlan'){%> 
+                  <input type="radio" name="neutronmode" value="gre" checked>
+                  <% } else {%>
+                    <input type="radio" name="neutronmode" value="vlan">
+              <% } %>
+              <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+            </div>
+          </div>
+          <div class="radiocss">vlan</div>
+        </label>
+        <label class="parameter-box clearfix ">
+          <div class="parameter-control">
+            <div class="custom-tumbler" style="padding-left:20px">
+              <% if(!data['neutron-server']) {%>
+                    <input type="radio" name="neutronmode" value="vxlan">
+                  <% } else if(data['neutron-server']['neutron_network_mode']=='vxlan'){%> 
+                  <input type="radio" name="neutronmode" value="gre" checked>
+                  <% } else {%>
+                    <input type="radio" name="neutronmode" value="vxlan">
+              <% } %>
+              <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+            </div>
+          </div>
+          <div class="radiocss">vxlan</div>
+        </label>
+        </div>
+       </label>
+        <div class="parameter-description"></div>
+       </div>
+     </div>
+   </div>
+
+   <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">Neutron</legend>
+      
+       <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_neutron_agent_bond_1"  data-type="empty" value="<%= data['neutron-agent']?data['neutron-agent']['bond_1']:''%>" label="txt_neutron_agent_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_neutron_agent_bond_2"  data-type="empty" value="<%= data['neutron-agent']?data['neutron-agent']['bond_2']:''%>" label="txt_neutron_agent_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+       <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>interface_name</span>
+             </div>
+             <input type="text" id="txt_neutron_agent_interface"  value="<%= data['neutron-agent']?data['neutron-agent']['interface_name']:'bond1'%>" label="txt_neutron_agent_interface" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+          <div class="parameter-box clearfix tablerow-wrapper">
+         <label class="parameter-name">
+           <div class="label-wrapper">
+            <span>模式</span>
+         </div>
+        <div class="control-group" style="float:left">
+        <label class="parameter-box clearfix">
+            <div class="parameter-control">
+               <div class="custom-tumbler" style="padding-left:20px">
+               <% if(!data['neutron-agent']) {%>
+                   <input type="radio" name="neutronmode2" value="gre" checked>
+                  <% } else if(data['neutron-agent']['neutron_network_mode']=='gre'){%> 
+                  <input type="radio" name="neutronmode2" value="gre" checked>
+                  <% } else {%>
+                   <input type="radio" name="neutronmode2" value="gre">
+                  <% } %>
+                  <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+               </div>
+           </div>
+           <div class="radiocss">gre</div>
+        </label>
+         <label class="parameter-box clearfix ">
+          <div class="parameter-control">
+            <div class="custom-tumbler" style="padding-left:20px">
+               <% if(!data['neutron-agent']) {%>
+                   <input type="radio" name="neutronmode2" value="vlan">
+                  <% } else if(data['neutron-agent']['neutron_network_mode']=='vlan'){%> 
+                  <input type="radio" name="neutronmode2" value="vlan" checked>
+                  <% } else {%>
+                   <input type="radio" name="neutronmode2" value="vlan">
+                  <% } %>
+              <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+            </div>
+          </div>
+          <div class="radiocss">vlan</div>
+        </label>
+        <label class="parameter-box clearfix ">
+          <div class="parameter-control">
+            <div class="custom-tumbler" style="padding-left:20px">
+              <% if(!data['neutron-agent']) {%>
+                   <input type="radio" name="neutronmode2" value="vxlan">
+                  <% } else if(data['neutron-agent']['neutron_network_mode']=='vxlan'){%> 
+                  <input type="radio" name="neutronmode2" value="vxlan" checked>
+                  <% } else {%>
+                   <input type="radio" name="neutronmode2" value="vxlan">
+                  <% } %>
+              <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+            </div>
+          </div>
+          <div class="radiocss">vxlan</div>
+        </label>
+        </div>
+       </label>
+        <div class="parameter-description"></div>
+       </div>
+      </div>
+   </div>
+
+   <div class="fieldset-group wrapper" style="display:none">
+      <legend class="openstack-settings">Horizon</legend>
+
+       <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_horizon_bond_1" data-type="empty"  value="<%= data['horizon']?data['horizon']['bond_1']:''%>" label="txt_horizon_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_horizon_bond_2" data-type="empty" value="<%= data['horizon']?data['horizon']['bond_2']:''%>" label="txt_horizon_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP</span>
+             </div>
+             <input type="text" id="txt_horizon_vip" value="<%= data.horizon?data.horizon.dashboard_vip:''%>" label="txt_horizon_vip" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>VIP_intferface</span>
+             </div>
+             <input type="text" id="txt_horizon_vipinterface" value="<%= data.horizon?data.horizon.dashboard_vip_interface:'eth0'%>" label="txt_horizon_vipinterface" class="parameter-input longwidthtext">
+          </label>
+         <div class="parameter-description"></div>
+      </div>
+    </div>
+   </div>
+
+ <div class="fieldset-group wrapper" style="display:none">
+    <legend class="openstack-settings">Cinder-API</legend>
+    
+    <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_cinder_bond_1" data-type="empty" value="<%= data['cinder-api']?data['cinder-api']['bond_1']:''%>" label="txt_cinder_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_cinder_bond_2" data-type="empty" value="<%= data['cinder-api']?data['cinder-api']['bond_2']:''%>" label="txt_cinder_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+    <div class="settings-group table-wrapper" style="display:none">
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP</span>
+           </div>
+           <input type="text" id="txt_cinder_vip" data-type="ip" value="<%= data['cinder-api']?data['cinder-api']['cinder_vip']:''%>" label="txt_cinder_vip" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP_intferface</span>
+           </div>
+           <input type="text" id="txt_cinder_vipinterface" value="<%= data['cinder-api']?data['cinder-api']['cinder_vip_interface']:'eth0'%>" label="txt_cinder_vipinterface" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>MySQL user</span>
+           </div>
+           <input type="text" id="txt_cinder_mysqluser" value="<%= data['cinder-api']?data['cinder-api']['cinder_mysql_user']:'cinder'%>" label="txt_cinder_mysqluser" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>MySQL password</span>
+           </div>
+           <input type="text" id="txt_cinder_mysqlpassword" value="<%= data['cinder-api']?data['cinder-api']['cinder_mysql_password']:'123456'%>" label="txt_cinder_mysqluser" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+  </div>
+ </div>
+
+ <div class="fieldset-group wrapper" style="display:none">
+    <legend class="openstack-settings">Cinder-storage</legend>
+    
+    <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_cinder_storage_bond_1" data-type="empty" value="<%= data['cinder-storage']?data['cinder-storage']['bond_1']:''%>" label="txt_cinder_storage_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_cinder_storage_bond_2" data-type="empty" value="<%= data['cinder-storage']?data['cinder-storage']['bond_2']:''%>" label="txt_cinder_storage_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+    <div class="settings-group table-wrapper" style="display:none">
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>MySQL user</span>
+           </div>
+           <input type="text" id="txt_cinderstorage_mysqluser" value="<%= data['cinder-storage']?data['cinder-storage']['cinder_mysql_user']:'cinder'%>" label="txt_cinderstorage_mysqluser" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>MySQL password</span>
+           </div>
+           <input type="text" id="txt_cinderstorage_mysqlpassword" value="<%= data['cinder-storage']?data['cinder-storage']['cinder_mysql_password']:'123456'%>" label="txt_cinderstorage_mysqluser" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+  </div>
+ </div>
+
+ 
+ <div class="fieldset-group wrapper" style="display:none">
+    <legend class="openstack-settings">Ceilometer</legend>
+    
+     <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_ceilometer_bond_1" data-type="empty" value="<%= data['ceilometer']?data['ceilometer']['bond_1']:''%>" label="txt_ceilometer_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_ceilometer_bond_2" data-type="empty" value="<%= data['ceilometer']?data['ceilometer']['bond_2']:''%>" label="txt_ceilometer_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+    <div class="settings-group table-wrapper" style="display:none">
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP</span>
+           </div>
+           <input type="text" id="txt_ceilometer_vip"  data-type="ip" value="<%= data.ceilometer?data.ceilometer.ceilometer_vip:''%>" label="txt_ceilometer_vip" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP_intferface</span>
+           </div>
+           <input type="text" id="txt_ceilometer_vipinterface" value="<%= data.ceilometer?data.ceilometer.ceilometer_vip_interface:'eth0'%>" label="txt_ceilometer_vipinterface" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>Mongo user</span>
+           </div>
+           <input type="text" id="txt_ceilometer_mongouser" value="<%= data.ceilometer?data.ceilometer.ceilometer_mongo_user:'ceilometer'%>" label="txt_ceilometer_mysqluser" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>Mongo password</span>
+           </div>
+           <input type="text" id="txt_ceilometer_mongopassword" value="<%= data.ceilometer?data.ceilometer.ceilometer_mongo_password:'123456'%>" label="txt_ceilometer_mongopassword" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+  </div>
+ </div>
+
+ <div class="fieldset-group wrapper" style="display:none">
+    <legend class="openstack-settings">Heat</legend>
+    
+     <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 1</span>
+             </div>
+             <input type="text" id="txt_heat_bond_1" data-type="empty" value="<%= data['heat']?data['heat']['bond_1']:''%>" label="txt_heat_bond_1" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+     <div class="settings-group table-wrapper" style="display:none">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+                <span>bond 2</span>
+             </div>
+             <input type="text" id="txt_heat_bond_2" data-type="empty" value="<%= data['heat']?data['heat']['bond_2']:''%>" label="txt_heat_bond_2" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+      </div>
+
+    <div class="settings-group table-wrapper" style="display:none">
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP</span>
+           </div>
+           <input type="text" id="txt_heat_vip" data-type="ip" value="<%= data.heat?data.heat.heat_vip:''%>" label="txt_heat_vip" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP_intferface</span>
+           </div>
+           <input type="text" id="txt_heat_vipinterface" value="<%= data.heat?data.heat.heat_vip_interface:'eth0'%>" label="txt_heat_vipinterface" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>MySQL user</span>
+           </div>
+           <input type="text" id="txt_heat_mysqluser" value="<%= data.heat?data.heat.heat_mysql_user:'heat'%>" label="txt_heat_mysqluser" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>MySQL password</span>
+           </div>
+           <input type="text" id="txt_heat_mysqlpassword" value="<%= data.heat?data.heat.heat_mysql_password:'123456'%>" label="txt_heat_mysqlpassword" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+  </div>
+ </div>
+
+ <div class="fieldset-group wrapper">
+    <legend class="openstack-settings">haproxy-keepalived</legend>
+    <div class="settings-group table-wrapper">
+     
+    <div class="parameter-box clearfix tablerow-wrapper" style="display:none">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>bond 1</span>
+           </div>
+           <input type="text" id="txt_haproxy_bond_1" data-type="empty" value="<%= data['haproxy-keepalived']?data['haproxy-keepalived']['bond_1']:''%>" label="txt_haproxy_bond_1" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+   </div>
+   
+    <div class="parameter-box clearfix tablerow-wrapper" style="display:none">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>bond 2</span>
+           </div>
+           <input type="text" id="txt_haproxy_bond_2" data-type="empty" value="<%= data['haproxy-keepalived']?data['haproxy-keepalived']['bond_2']:''%>" label="txt_haproxy_bond_2" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+
+     <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP1</span>
+           </div>
+           <input type="text" id="txt_haproxy_vip1" data-type="ip" value="<%= data['haproxy-keepalived']?data['haproxy-keepalived']['haproxy_vip1']:''%>" label="txt_haproxy_vip1" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP_intferface1</span>
+           </div>
+           <input type="text" id="txt_haproxy_vipinterface1" value="<%= data['haproxy-keepalived']?data['haproxy-keepalived']['haproxy_vipinterface1']:'br-mgmt'%>" label="txt_haproxy_vipinterface1" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP2</span>
+           </div>
+           <input type="text" id="txt_haproxy_vip2" data-type="ip" value="<%= data['haproxy-keepalived']?data['haproxy-keepalived']['haproxy_vip2']:''%>" label="txt_haproxy_vip2" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+    <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>VIP_intferface2</span>
+           </div>
+           <input type="text" id="txt_haproxy_vipinterface2" value="<%= data['haproxy-keepalived']?data['haproxy-keepalived']['haproxy_vipinterface2']:'br-mgmt'%>" label="txt_haproxy_vipinterface2" class="parameter-input longwidthtext">
+        </label>
+       <div class="parameter-description"></div>
+    </div>
+  </div>
+ </div>
+
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">NTP</legend>
+
+     
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>ntp_server_ip</span>
+           </div>
+           <div class="control-group" style="float:left;padding-top:10px">
+              <label class="parameter-box clearfix">
+                 <div class="parameter-control">
+                   <div class="custom-tumbler" style="padding-left:5px">
+                    <% if(!data['ntp']) {%>
+                     <input type="checkbox" id="ck_enable_ntp">
+                    <% } else if(data.ntp['enable']) {%>
+                     <input type="checkbox" id="ck_enable_ntp" checked="checked"/>
+                    <% } else {%>
+                    <input type="checkbox" id="ck_enable_ntp" />
+                    <% } %>
+                     <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+                    </div>
+                 </div>
+                 <div class="radiocss">
+                  <input type="text" id="txt_ntp_server_ip"  value="<%= data['ntp']?data['ntp']['ntp_server_ip']:'192.168.1.1'%>" label="txt_ntp_server_ip" class="parameter-input longwidthtext">
+                 </div>
+              </label>
+            </div>
+         </label>
+        <div class="parameter-description"></div>
+        </div>
+      </div>
+
+    </div>
+
+ <div class="row">
+     <div class="page-control-box">
+       <div class="page-control-button-placeholder">
+          <button class="btn btn-load-defaults" id="btnloadDefault">恢复默认</button>
+          <button id="btn_save" class="btn btn-success btn-apply-changes">保存设置</button>
+       </div>
+    </div>
+   </div>
+</div>

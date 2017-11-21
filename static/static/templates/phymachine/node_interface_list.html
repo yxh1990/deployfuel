@@ -1,0 +1,114 @@
+   <div class="edit-node-interfaces ">
+     <h3>
+       在<%- nodes.at(0).get('name') %>-<%- nodes.at(0).get('ip') %>上配置接口
+     </h3>
+  </div>
+
+  <div class="row">
+  <div class="node-networks">
+   <% 
+      var nodemeta=nodes.at(0).get('meta');
+      var nodemac=nodes.at(0).get('mac');
+      var interfaces=nodemeta.interfaces;
+      for(var t=0;t<interfaces.length;t++)
+        {
+          var item=interfaces[t];
+          var itemmac=item.mac.toLowerCase();
+   %>
+
+    <div>
+       <div class="clearfix"></div>
+       <div class="physical-network-box" data-name="<%= item.name %>">
+         <div class="network-box-item">
+           <div class="physical-network-checkbox">
+           </div>
+         <div class="network-connections-block">
+           <div class="network-interfaces-status">
+             <div class="interface-online"></div>
+             <div class="network-interfaces-name"><%= item.name %></div>
+           </div>
+        </div>
+        <div class="network-connections-info-block">
+           <div class="network-connections-info-block-item">
+             <div class="network-connections-info-position"></div>
+             <div class="network-connections-info-description">
+                <div>MAC: <%= item.mac %></div>
+                <div>速度: <%= item.max_speed %></div>
+            </div>
+          </div>
+       </div>
+        <div class="logical-network-box ui-sortable" id="tablebox">
+          <div style="padding-top:5px;">
+           <table style="margin-left:150px">
+             <tr>
+               <td>
+                 ip_address:
+               </td>
+               <td> 
+                <%if (nodemac==itemmac) { %>
+                    <input type="text" id="<%= t %>_txt_ip" value="<%= item.ip %>" data-type="nip" maxlength="15" node_ip_type="node" disabled="disabled" data-mac="<%= item.mac %>"/>
+                <% } else { %>
+                  <input type="text" id="<%= t %>_txt_ip" value="<%= item.ip %>" data-type="nip" maxlength="15" node_ip_type="unknow" 
+                  data-mac="<%= item.mac %>"/>
+                <% } %>
+             </td>
+             <td style="padding-left:10px">
+                <span>
+                </span>
+              </td>
+             </tr>
+            </table>
+          </div>
+          <div style="display:none">
+             <table style="margin-left:150px">
+             <tr>
+               <td>
+                 dns_name:
+               </td>
+               <td>
+                <input type="text" id="<%= t %>_txt_dns_name" value="<%= item.dns %>" data-type="ip" maxlength="15"/>
+              </td>
+              <td style="padding-left:10px">
+                <span>
+                </span>
+              </td>
+             </tr>
+            </table>
+          </div>
+          <div>
+            <table style="margin-left:150px">
+             <tr>
+               <td>
+                netmask: &nbsp;&nbsp;
+               </td>
+               <td>
+                <%if (nodemac==itemmac) { %>
+                    <input type="text" id="<%= t %>_txt_netmask" value="<%= item.netmask==null?"255.255.255.0":item.netmask %>" data-type="ip" maxlength="15" disabled="disabled"/>
+                <% } else { %>
+                 <input type="text" id="<%= t %>_txt_netmask" value="<%= item.netmask==null?"255.255.255.0":item.netmask %>" data-type="ip" maxlength="15"/>
+                <% } %>
+               </td>
+               <td style="padding-left:10px">
+                <span>
+               </span>
+              </td>
+             </tr>
+            </table>
+         </div>
+       </div>
+      </div>
+     </div>
+  </div>
+  <%} %>
+<div>
+  <!-- page-control box -->
+  <div class="page-control-box">
+    <div class="back-button pull-left">
+      <button class="btn btn-return">返回节点列表</button>
+    </div>
+    <div class="page-control-button-placeholder">
+      <button class="btn btn-revert-changes">取消变更</button>
+      <button class="btn btn-success btn-apply">应用</button>
+    </div>
+  </div>
+</div>

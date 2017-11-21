@@ -1,0 +1,124 @@
+lvcreate --size 42248 --name soft soft
++ lvcreate --size 42248 --name soft soft
+  Rounding up size to full physical extent 41.28 GiB
+  Logical volume "soft" created
+mkfs.xfs -f -s size=512 /dev/mapper/soft-soft
++ mkfs.xfs -f -s size=512 /dev/mapper/soft-soft
+meta-data=/dev/mapper/soft-soft  isize=256    agcount=4, agsize=2705408 blks
+         =                       sectsz=512   attr=2, projid32bit=0
+data     =                       bsize=4096   blocks=10821632, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0
+log      =internal log           bsize=4096   blocks=5284, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+mkdir -p /mnt/sysimage/apps
++ mkdir -p /mnt/sysimage/apps
+echo '/dev/mapper/soft-soft /apps xfs defaults 0 0' >> /mnt/sysimage/etc/fstab
++ echo '/dev/mapper/soft-soft /apps xfs defaults 0 0'
+echo -n > /tmp/grub.script
++ echo -n
+echo "device (hd0) /dev/sda" >> /tmp/grub.script
++ echo 'device (hd0) /dev/sda'
+echo "geometry (hd0) 130 255 63" >> /tmp/grub.script
++ echo 'geometry (hd0) 130 255 63'
+echo "root (hd0,2)" >> /tmp/grub.script
++ echo 'root (hd0,2)'
+echo "install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf" >> /tmp/grub.script
++ echo 'install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf'
+echo quit >> /tmp/grub.script
++ echo quit
+cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch
++ cat /tmp/grub.script
++ chroot /mnt/sysimage /sbin/grub --no-floppy --batch
+Probing devices to guess BIOS drives. This may take a long time.
+
+
+    GNU GRUB  version 0.97  (640K lower / 3072K upper memory)
+
+ [ Minimal BASH-like line editing is supported.  For the first word, TAB
+   lists possible command completions.  Anywhere else TAB lists the possible
+   completions of a device/filename.]
+grub> device (hd0) /dev/sda
+grub> geometry (hd0) 130 255 63
+drive 0x80: C/H/S = 130/255/63, The number of sectors = 2088450, /dev/sda
+   Partition num: 0,  Filesystem type unknown, partition type 0x83
+   Partition num: 1,  Filesystem type unknown, partition type 0x83
+   Partition num: 2,  Filesystem type is ext2fs, partition type 0x83
+   Partition num: 3,  Filesystem type unknown, partition type 0x83
+   Partition num: 4, 
+Error 18: Selected cylinder exceeds maximum supported by BIOS
+grub> root (hd0,2)
+ Filesystem type is ext2fs, partition type 0x83
+grub> install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf
+grub> quit
+echo -n > /tmp/grub.script
++ echo -n
+echo "device (hd0) /dev/sdb" >> /tmp/grub.script
++ echo 'device (hd0) /dev/sdb'
+echo "geometry (hd0) 130 255 63" >> /tmp/grub.script
++ echo 'geometry (hd0) 130 255 63'
+echo "root (hd0,2)" >> /tmp/grub.script
++ echo 'root (hd0,2)'
+echo "install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf" >> /tmp/grub.script
++ echo 'install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf'
+echo quit >> /tmp/grub.script
++ echo quit
+cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch
++ cat /tmp/grub.script
++ chroot /mnt/sysimage /sbin/grub --no-floppy --batch
+Probing devices to guess BIOS drives. This may take a long time.
+
+
+    GNU GRUB  version 0.97  (640K lower / 3072K upper memory)
+
+ [ Minimal BASH-like line editing is supported.  For the first word, TAB
+   lists possible command completions.  Anywhere else TAB lists the possible
+   completions of a device/filename.]
+grub> device (hd0) /dev/sdb
+grub> geometry (hd0) 130 255 63
+drive 0x80: C/H/S = 130/255/63, The number of sectors = 2088450, /dev/sdb
+   Partition num: 0,  Filesystem type unknown, partition type 0x83
+   Partition num: 1,  Filesystem type unknown, partition type 0x83
+   Partition num: 2,  Filesystem type unknown, partition type 0x83
+grub> root (hd0,2)
+ Filesystem type unknown, partition type 0x83
+grub> install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf
+
+Error 17: Cannot mount selected partition
+grub> quit
+echo -n > /tmp/grub.script
++ echo -n
+echo "device (hd0) /dev/sdc" >> /tmp/grub.script
++ echo 'device (hd0) /dev/sdc'
+echo "geometry (hd0) 130 255 63" >> /tmp/grub.script
++ echo 'geometry (hd0) 130 255 63'
+echo "root (hd0,2)" >> /tmp/grub.script
++ echo 'root (hd0,2)'
+echo "install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf" >> /tmp/grub.script
++ echo 'install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf'
+echo quit >> /tmp/grub.script
++ echo quit
+cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch
++ cat /tmp/grub.script
++ chroot /mnt/sysimage /sbin/grub --no-floppy --batch
+Probing devices to guess BIOS drives. This may take a long time.
+
+
+    GNU GRUB  version 0.97  (640K lower / 3072K upper memory)
+
+ [ Minimal BASH-like line editing is supported.  For the first word, TAB
+   lists possible command completions.  Anywhere else TAB lists the possible
+   completions of a device/filename.]
+grub> device (hd0) /dev/sdc
+grub> geometry (hd0) 130 255 63
+drive 0x80: C/H/S = 130/255/63, The number of sectors = 2088450, /dev/sdc
+   Partition num: 0,  Filesystem type unknown, partition type 0x83
+   Partition num: 1,  Filesystem type unknown, partition type 0x83
+   Partition num: 2,  Filesystem type unknown, partition type 0x83
+grub> root (hd0,2)
+ Filesystem type unknown, partition type 0x83
+grub> install /grub/stage1 (hd0) /grub/stage2 p /grub/grub.conf
+
+Error 17: Cannot mount selected partition
+grub> quit

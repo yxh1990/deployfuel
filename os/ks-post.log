@@ -1,0 +1,769 @@
+
+
+# COBBLER EMBEDDED SNIPPET: 'post_install_kernel_options'
+# CONFIGURES KERNEL PARAMETERS ON INSTALLED SYSTEM
+
+
+
+
+# COBBLER EMBEDDED SNIPPET: 'post_install_network_config'
+# CONFIGURES NETWORK INTERFACES DEPENDING ON
+# COBBLER SYSTEM PARAMETERS
+# Start post_install_network_config generated code
+
+# create a working directory for interface scripts
+mkdir /etc/sysconfig/network-scripts/cobbler
++ mkdir /etc/sysconfig/network-scripts/cobbler
+cp /etc/sysconfig/network-scripts/ifcfg-lo /etc/sysconfig/network-scripts/cobbler/
++ cp /etc/sysconfig/network-scripts/ifcfg-lo /etc/sysconfig/network-scripts/cobbler/
+
+# set the hostname in the network configuration file
+grep -v HOSTNAME /etc/sysconfig/network > /etc/sysconfig/network.cobbler
++ grep -v HOSTNAME /etc/sysconfig/network
+echo "HOSTNAME=node3.domain.tld" >> /etc/sysconfig/network.cobbler
++ echo HOSTNAME=node3.domain.tld
+rm -f /etc/sysconfig/network
++ rm -f /etc/sysconfig/network
+mv /etc/sysconfig/network.cobbler /etc/sysconfig/network
++ mv /etc/sysconfig/network.cobbler /etc/sysconfig/network
+
+# Also set the hostname now, some applications require it
+# (e.g.: if we're connecting to Puppet before a reboot).
+/bin/hostname node3.domain.tld
++ /bin/hostname node3.domain.tld
+
+# Start configuration for eth2
+
+
+echo "DEVICE=eth2" > /etc/sysconfig/network-scripts/cobbler/ifcfg-eth2
++ echo DEVICE=eth2
+echo "HWADDR=00:0C:29:27:68:55" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth2
++ echo HWADDR=00:0C:29:27:68:55
+IFNAME=$(ifconfig -a | grep -i '00:0C:29:27:68:55' | cut -d ' ' -f 1)
+ifconfig -a | grep -i '00:0C:29:27:68:55' | cut -d ' ' -f 1)
+ifconfig -a | grep -i '00:0C:29:27:68:55' | cut -d ' ' -f 1
+++ cut -d ' ' -f 1
+++ grep -i 00:0C:29:27:68:55
+++ ifconfig -a
++ IFNAME=eth2
+if [ -f "/etc/modprobe.conf" ] && [ $IFNAME ]; then
+    grep $IFNAME /etc/modprobe.conf | sed "s/$IFNAME/eth2/" >> /etc/modprobe.conf.cobbler
+    grep -v $IFNAME /etc/modprobe.conf >> /etc/modprobe.conf.new
+    rm -f /etc/modprobe.conf
+    mv /etc/modprobe.conf.new /etc/modprobe.conf
+fi
++ '[' -f /etc/modprobe.conf ']'
+echo "TYPE=Ethernet" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth2
++ echo TYPE=Ethernet
+echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth2
++ echo BOOTPROTO=none
+echo "DNS1=10.20.0.2" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth2
++ echo DNS1=10.20.0.2
+# End configuration for eth2
+
+# Start configuration for eth1
+
+
+echo "DEVICE=eth1" > /etc/sysconfig/network-scripts/cobbler/ifcfg-eth1
++ echo DEVICE=eth1
+echo "HWADDR=00:0C:29:27:68:4B" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth1
++ echo HWADDR=00:0C:29:27:68:4B
+IFNAME=$(ifconfig -a | grep -i '00:0C:29:27:68:4B' | cut -d ' ' -f 1)
+ifconfig -a | grep -i '00:0C:29:27:68:4B' | cut -d ' ' -f 1)
+ifconfig -a | grep -i '00:0C:29:27:68:4B' | cut -d ' ' -f 1
+++ cut -d ' ' -f 1
+++ grep -i 00:0C:29:27:68:4B
+++ ifconfig -a
++ IFNAME=eth1
+if [ -f "/etc/modprobe.conf" ] && [ $IFNAME ]; then
+    grep $IFNAME /etc/modprobe.conf | sed "s/$IFNAME/eth1/" >> /etc/modprobe.conf.cobbler
+    grep -v $IFNAME /etc/modprobe.conf >> /etc/modprobe.conf.new
+    rm -f /etc/modprobe.conf
+    mv /etc/modprobe.conf.new /etc/modprobe.conf
+fi
++ '[' -f /etc/modprobe.conf ']'
+echo "TYPE=Ethernet" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth1
++ echo TYPE=Ethernet
+echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth1
++ echo BOOTPROTO=none
+echo "DNS1=10.20.0.2" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth1
++ echo DNS1=10.20.0.2
+# End configuration for eth1
+
+# Start configuration for eth0
+
+
+echo "DEVICE=eth0" > /etc/sysconfig/network-scripts/cobbler/ifcfg-eth0
++ echo DEVICE=eth0
+echo "HWADDR=00:0C:29:27:68:41" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth0
++ echo HWADDR=00:0C:29:27:68:41
+IFNAME=$(ifconfig -a | grep -i '00:0C:29:27:68:41' | cut -d ' ' -f 1)
+ifconfig -a | grep -i '00:0C:29:27:68:41' | cut -d ' ' -f 1)
+ifconfig -a | grep -i '00:0C:29:27:68:41' | cut -d ' ' -f 1
+++ grep -i 00:0C:29:27:68:41
+++ cut -d ' ' -f 1
+++ ifconfig -a
++ IFNAME=eth0
+if [ -f "/etc/modprobe.conf" ] && [ $IFNAME ]; then
+    grep $IFNAME /etc/modprobe.conf | sed "s/$IFNAME/eth0/" >> /etc/modprobe.conf.cobbler
+    grep -v $IFNAME /etc/modprobe.conf >> /etc/modprobe.conf.new
+    rm -f /etc/modprobe.conf
+    mv /etc/modprobe.conf.new /etc/modprobe.conf
+fi
++ '[' -f /etc/modprobe.conf ']'
+echo "TYPE=Ethernet" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth0
++ echo TYPE=Ethernet
+echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth0
++ echo BOOTPROTO=none
+echo "DNS1=10.20.0.2" >> /etc/sysconfig/network-scripts/cobbler/ifcfg-eth0
++ echo DNS1=10.20.0.2
+# End configuration for eth0
+
+sed -i -e "/^search /d" /etc/resolv.conf
++ sed -i -e '/^search /d' /etc/resolv.conf
+echo -n "search " >>/etc/resolv.conf
++ echo -n 'search '
+echo -n "domain.tld " >>/etc/resolv.conf
++ echo -n 'domain.tld '
+echo "" >>/etc/resolv.conf
++ echo ''
+
+sed -i -e "/^nameserver /d" /etc/resolv.conf
++ sed -i -e '/^nameserver /d' /etc/resolv.conf
+echo "nameserver 10.20.0.2" >>/etc/resolv.conf
++ echo 'nameserver 10.20.0.2'
+
+sed -i 's/ONBOOT=yes/ONBOOT=no/g' /etc/sysconfig/network-scripts/ifcfg-eth*
++ sed -i s/ONBOOT=yes/ONBOOT=no/g /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth1 /etc/sysconfig/network-scripts/ifcfg-eth2
+
+rm -f /etc/sysconfig/network-scripts/ifcfg-*
++ rm -f /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth1 /etc/sysconfig/network-scripts/ifcfg-eth2 /etc/sysconfig/network-scripts/ifcfg-lo
+mv /etc/sysconfig/network-scripts/cobbler/* /etc/sysconfig/network-scripts/
++ mv /etc/sysconfig/network-scripts/cobbler/ifcfg-eth0 /etc/sysconfig/network-scripts/cobbler/ifcfg-eth1 /etc/sysconfig/network-scripts/cobbler/ifcfg-eth2 /etc/sysconfig/network-scripts/cobbler/ifcfg-lo /etc/sysconfig/network-scripts/
+rm -r /etc/sysconfig/network-scripts/cobbler
++ rm -r /etc/sysconfig/network-scripts/cobbler
+if [ -f "/etc/modprobe.conf" ]; then
+cat /etc/modprobe.conf.cobbler >> /etc/modprobe.conf
+rm -f /etc/modprobe.conf.cobbler
+fi
++ '[' -f /etc/modprobe.conf ']'
+# End post_install_network_config generated code
+
+
+# COBBLER EMBEDDED SNIPPET: 'puppet_conf'
+# CONFIGURES PUPPET AGENT
+mkdir -p /etc/puppet /var/lib/hiera
++ mkdir -p /etc/puppet /var/lib/hiera
+touch /var/lib/hiera/common.yaml /etc/puppet/hiera.yaml
++ touch /var/lib/hiera/common.yaml /etc/puppet/hiera.yaml
+cat <<EOCONF > /etc/puppet/puppet.conf
+[main]
+    # The Puppet log directory.
+    # The default value is '\$vardir/log'.
+    logdir = /var/log/puppet
+
+    # Where Puppet PID files are kept.
+    # The default value is '\$vardir/run'.
+    rundir = /var/run/puppet
+
+    # Where SSL certificates are kept.
+    # The default value is '\$confdir/ssl'.
+    ssldir = \$vardir/ssl
+    pluginsync = true
+[agent]
+    # The file in which puppetd stores a list of the classes
+    # associated with the retrieved configuratiion.  Can be loaded in
+    # the separate ``puppet`` executable using the ``--loadclasses``
+    # option.
+    # The default value is '\$confdir/classes.txt'.
+    classfile = \$vardir/classes.txt
+
+    # Where puppetd caches the local configuration.  An
+    # extension indicating the cache format is added automatically.
+    # The default value is '\$confdir/localconfig'.
+    localconfig = \$vardir/localconfig
+    server = fuel.domain.tld
+    # How long the client should wait for the configuration to be retrieved before considering it a failure.
+    # It may help with 'execution expired' issue we've experienced.
+    configtimeout = 600
+    # Don't send reports after every run.
+    report = false
+
+EOCONF
++ cat
+
+
+# COBBLER EMBEDDED SNIPPET: 'puppet_register_if_enabled'
+# CREATES CERTIFICATE REQUEST AND SENDS IT TO PUPPET MASTER
+
+
+# COBBLER EMBEDDED SNIPPET: 'mcollective_conf'
+# CONFIGURES MCOLLECTIVE AGENT
+mkdir -p /etc/mcollective
++ mkdir -p /etc/mcollective
+cat <<EOCONF > /etc/mcollective/server.cfg
+main_collective = mcollective
+collectives = mcollective
+libdir = /usr/libexec/mcollective
+logfile = /var/log/mcollective.log
+loglevel = debug
+daemonize = 1
+direct_addressing = 1
+
+# Set huge value of ttl to avoid cases with unsyncronized time between nodes
+# It means that ttl approximately equal to 50 days
+ttl = 4294957
+
+# Plugins
+securityprovider = psk
+plugin.psk = unset
+
+connector = rabbitmq
+plugin.rabbitmq.vhost = mcollective
+plugin.rabbitmq.pool.size = 1
+plugin.rabbitmq.pool.1.host = 10.20.0.2
+plugin.rabbitmq.pool.1.port = $mco_port
+plugin.rabbitmq.pool.1.user = mcollective
+plugin.rabbitmq.pool.1.password = 6CjcVMEV
+plugin.rabbitmq.heartbeat_interval = 30
+
+
+# Facts
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+EOCONF
++ cat
+
+# turn on mcollective service after reboot and set priority to 81
+sed -i /etc/rc.d/init.d/mcollective -e 's/\(# chkconfig:\s\+[-0-6]\+\) [0-9]\+ \([0-9]\+\)/\1 81 \2/'
++ sed -i /etc/rc.d/init.d/mcollective -e 's/\(# chkconfig:\s\+[-0-6]\+\) [0-9]\+ \([0-9]\+\)/\1 81 \2/'
+/sbin/chkconfig mcollective on
++ /sbin/chkconfig mcollective on
+
+
+# SNIPPET: 'kickstart_ntp'
+# SYNC LOCAL TIME VIA NTP
+ntpdate -t 4 -b 10.20.0.2
++ ntpdate -t 4 -b 10.20.0.2
+15 Nov 10:55:20 ntpdate[12443]: no server suitable for synchronization found
+hwclock --systohc
++ hwclock --systohc
+
+
+# SNIPPET: 'ntp_to_masternode'
+# CONFIGURES NTPD POOL TO MASTER NODE
+# Disable panic about huge clock offset
+sed -i '/^\s*tinker panic/ d' /etc/ntp.conf
++ sed -i '/^\s*tinker panic/ d' /etc/ntp.conf
+sed -i '1 i tinker panic 0' /etc/ntp.conf
++ sed -i '1 i tinker panic 0' /etc/ntp.conf
+
+echo 0 > /var/lib/ntp/drift
++ echo 0
+chown ntp: /var/lib/ntp/drift
++ chown ntp: /var/lib/ntp/drift
+
+# Point installed ntpd to Master node
+sed -i '/^\s*server/ d' /etc/ntp.conf
++ sed -i '/^\s*server/ d' /etc/ntp.conf
+echo "server 10.20.0.2 burst iburst" >> /etc/ntp.conf
++ echo 'server 10.20.0.2 burst iburst'
+sed -i 's/SYNC_HWCLOCK\s*=\s*no/SYNC_HWCLOCK=yes/' /etc/sysconfig/ntpdate
++ sed -i 's/SYNC_HWCLOCK\s*=\s*no/SYNC_HWCLOCK=yes/' /etc/sysconfig/ntpdate
+chkconfig ntpd on
++ chkconfig ntpd on
+chkconfig ntpdate on
++ chkconfig ntpdate on
+
+
+# Let's not to use separate snippet for just one line of code. Complexity eats my time.
+echo 'flock -w 0 -o /var/lock/agent.lock -c "/opt/nailgun/bin/agent >> /var/log/nailgun-agent.log 2>&1"' >> /etc/rc.local
++ echo 'flock -w 0 -o /var/lock/agent.lock -c "/opt/nailgun/bin/agent >> /var/log/nailgun-agent.log 2>&1"'
+
+# It is for the internal nailgun using
+echo target > /etc/nailgun_systemtype
++ echo target
+
+# COBBLER EMBEDDED SNIPPET: 'authorized_keys'
+# PUTS authorized_keys file into /root/.ssh/authorized_keys
+mkdir -p /root/.ssh
++ mkdir -p /root/.ssh
+chown root:root /root/.ssh
++ chown root:root /root/.ssh
+chmod 700 /root/.ssh
++ chmod 700 /root/.ssh
+cat > /root/.ssh/authorized_keys <<EOF
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA2THOacfRJLpUVVlthvJOJjVYZNq3uCaNw0JUmyhB3jKWS8dVcemPUHPvSXKDO+9xpf0UwxlWmtdSNn+s5k9Tk0lrUOOBDB2Zw4jNQaaO9ivLyLMcaaYn2/qSs+nK+Th4Km2Jpg/glj40JQkWXPiguhSrm6ZEjSnkH6Xe9uQFGaFA9K2x7ycWto79URvFbQhkg9DXYfrAv7vyi7E53Pt89ZibZ9S2r0Qs/vhBbgUmizSK6Cdotg/cmpqMn6KctGrbybjjD+5QTRlWX6aiJkL/m/bWcX+X+IZcINUcalyhbsQuB88Asl79E9DgP94wYtuY01vSgCF1xtjSiVw3h3W5DQ== root@fuel.domain.tld
+
+
+EOF
++ cat
+chown root:root /root/.ssh/authorized_keys
++ chown root:root /root/.ssh/authorized_keys
+
+
+# COBBLER EMBEDDED SNIPPET: 'nailgun_repo'
+# REMOVES ALL *.repo FILES FROM /etc/yum.repos.d AND
+# CREATES /etc/yum.repos.d/nailgun.repo FILE AND
+# PUTS IN IT ALL THE REPOSITORIES DEFINED IN ks_repo VARIABLE
+rm /etc/yum.repos.d/*.repo
++ rm /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Debuginfo.repo /etc/yum.repos.d/CentOS-Media.repo /etc/yum.repos.d/CentOS-Vault.repo
+cat > /etc/yum.repos.d/nailgun.repo << EOF
+
+# REPOSITORIES FROM Nailgun
+[2014.2-6.0]
+name=2014.2-6.0
+baseurl=http://10.20.0.2:8080/2014.2-6.0/centos/x86_64
+gpgcheck=0
+EOF
++ cat
+
+rpm -e --nodeps ruby
++ rpm -e --nodeps ruby
+yum install --exclude=ruby-2.1.1* -y ruby rubygems
++ yum install '--exclude=ruby-2.1.1*' -y ruby rubygems
+Loaded plugins: fastestmirror
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package ruby.x86_64 0:1.8.7.352-13.el6 will be installed
+--> Processing Dependency: ruby-libs = 1.8.7.352-13.el6 for package: ruby-1.8.7.352-13.el6.x86_64
+--> Processing Dependency: libruby.so.1.8()(64bit) for package: ruby-1.8.7.352-13.el6.x86_64
+---> Package rubygems.noarch 0:1.3.7-5.el6 will be installed
+--> Processing Dependency: ruby-rdoc for package: rubygems-1.3.7-5.el6.noarch
+--> Running transaction check
+---> Package ruby-libs.x86_64 0:1.8.7.352-13.el6 will be installed
+--> Processing Dependency: libreadline.so.5()(64bit) for package: ruby-libs-1.8.7.352-13.el6.x86_64
+---> Package ruby-rdoc.x86_64 0:1.8.7.352-13.el6 will be installed
+--> Processing Dependency: ruby-irb = 1.8.7.352-13.el6 for package: ruby-rdoc-1.8.7.352-13.el6.x86_64
+--> Running transaction check
+---> Package compat-readline5.x86_64 0:5.2-17.1.el6 will be installed
+---> Package ruby-irb.x86_64 0:1.8.7.352-13.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package               Arch        Version                Repository       Size
+================================================================================
+Installing:
+ ruby                  x86_64      1.8.7.352-13.el6       2014.2-6.0      534 k
+ rubygems              noarch      1.3.7-5.el6            2014.2-6.0      207 k
+Installing for dependencies:
+ compat-readline5      x86_64      5.2-17.1.el6           2014.2-6.0      130 k
+ ruby-irb              x86_64      1.8.7.352-13.el6       2014.2-6.0      314 k
+ ruby-libs             x86_64      1.8.7.352-13.el6       2014.2-6.0      1.6 M
+ ruby-rdoc             x86_64      1.8.7.352-13.el6       2014.2-6.0      377 k
+
+Transaction Summary
+================================================================================
+Install       6 Package(s)
+
+Total download size: 3.2 M
+Installed size: 11 M
+Downloading Packages:
+--------------------------------------------------------------------------------
+Total                                           3.1 MB/s | 3.2 MB     00:01     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Warning: RPMDB altered outside of yum.
+** Found 48 pre-existing rpmdb problem(s), 'yum check' output follows:
+1:facter-1.7.0-1.el6.x86_64 has missing requires of /usr/bin/ruby
+1:facter-1.7.0-1.el6.x86_64 has missing requires of ruby >= ('0', '1.8.5', None)
+1:facter-1.7.0-1.el6.x86_64 has missing requires of ruby(abi) >= ('0', '1.8', None)
+hiera-1.3.1-1.mira2.noarch has missing requires of /usr/bin/ruby
+hiera-1.3.1-1.mira2.noarch has missing requires of ruby >= ('0', '1.8.5', None)
+mcollective-2.3.3-3.el6.noarch has missing requires of /usr/bin/ruby
+mcollective-common-2.3.3-3.el6.noarch has missing requires of ruby >= ('0', '1.8', None)
+mcollective-common-2.3.3-3.el6.noarch has missing requires of rubygems
+nailgun-agent-6.0.0-1.x86_64 has missing requires of rubygems
+puppet-3.4.2-2.mira3.noarch has missing requires of /usr/bin/ruby
+puppet-3.4.2-2.mira3.noarch has missing requires of ruby >= ('0', '1.8', None)
+puppet-3.4.2-2.mira3.noarch has missing requires of ruby >= ('0', '1.8.7', None)
+ruby-augeas-0.5.0-17.3.x86_64 has missing requires of libruby.so.1.8()(64bit)
+ruby-augeas-0.5.0-17.3.x86_64 has missing requires of ruby
+ruby-rgen-0.6.5-1.el6.noarch has missing requires of ruby >= ('0', '1.8', None)
+ruby-shadow-1.4.1-13.el6.x86_64 has missing requires of libruby.so.1.8()(64bit)
+ruby-shadow-1.4.1-13.el6.x86_64 has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-cstruct-1.0.1-1.el6.noarch has missing requires of ruby
+rubygem-cstruct-1.0.1-1.el6.noarch has missing requires of rubygems >= ('0', '1.3.7', None)
+rubygem-extlib-0.9.13-5.el6.noarch has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-extlib-0.9.13-5.el6.noarch has missing requires of ruby(rubygems)
+rubygem-httpclient-2.3.2-5.el6.noarch has missing requires of ruby(abi) >= ('0', '1.8', None)
+rubygem-httpclient-2.3.2-5.el6.noarch has missing requires of rubygems
+rubygem-ipaddress-0.8.0-3.el6.noarch has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-ipaddress-0.8.0-3.el6.noarch has missing requires of ruby(rubygems)
+rubygem-json-1.7.7-101.el6.x86_64 has missing requires of libruby.so.1.8()(64bit)
+rubygem-json-1.7.7-101.el6.x86_64 has missing requires of rubygems
+rubygem-mixlib-cli-1.2.2-3.el6.noarch has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-mixlib-cli-1.2.2-3.el6.noarch has missing requires of ruby(rubygems)
+rubygem-mixlib-config-1.1.2-1.el6.noarch has missing requires of ruby
+rubygem-mixlib-config-1.1.2-1.el6.noarch has missing requires of rubygems >= ('0', '1.3.7', None)
+rubygem-mixlib-log-1.4.1-1.el6.noarch has missing requires of ruby
+rubygem-mixlib-log-1.4.1-1.el6.noarch has missing requires of rubygems >= ('0', '1.3.7', None)
+rubygem-netaddr-1.5.0-2.el6.noarch has missing requires of ruby(rubygems)
+rubygem-ohai-6.14.0-1.el6.noarch has missing requires of /usr/bin/ruby
+rubygem-ohai-6.14.0-1.el6.noarch has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-ohai-6.14.0-1.el6.noarch has missing requires of ruby(rubygems)
+rubygem-openstack-1.1.2-2.el6.noarch has missing requires of ruby(rubygems)
+rubygem-rethtool-0.0.3-2.mira1.noarch has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-rethtool-0.0.3-2.mira1.noarch has missing requires of ruby(rubygems)
+rubygem-stomp-1.2.16-1.el6.noarch has missing requires of /usr/bin/ruby
+rubygem-stomp-1.2.16-1.el6.noarch has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-stomp-1.2.16-1.el6.noarch has missing requires of rubygems
+rubygem-systemu-2.5.2-1.el6.noarch has missing requires of ruby
+rubygem-systemu-2.5.2-1.el6.noarch has missing requires of rubygems >= ('0', '1.3.7', None)
+rubygem-yajl-ruby-1.1.0-1.el6.x86_64 has missing requires of libruby.so.1.8()(64bit)
+rubygem-yajl-ruby-1.1.0-1.el6.x86_64 has missing requires of ruby(abi) = ('0', '1.8', None)
+rubygem-yajl-ruby-1.1.0-1.el6.x86_64 has missing requires of ruby(rubygems)
+  Installing : compat-readline5-5.2-17.1.el6.x86_64                         1/6 
+  Installing : ruby-libs-1.8.7.352-13.el6.x86_64                            2/6 
+  Installing : ruby-1.8.7.352-13.el6.x86_64                                 3/6 
+  Installing : ruby-irb-1.8.7.352-13.el6.x86_64                             4/6 
+  Installing : ruby-rdoc-1.8.7.352-13.el6.x86_64                            5/6 
+  Installing : rubygems-1.3.7-5.el6.noarch                                  6/6 
+  Verifying  : ruby-irb-1.8.7.352-13.el6.x86_64                             1/6 
+  Verifying  : ruby-1.8.7.352-13.el6.x86_64                                 2/6 
+  Verifying  : compat-readline5-5.2-17.1.el6.x86_64                         3/6 
+  Verifying  : ruby-rdoc-1.8.7.352-13.el6.x86_64                            4/6 
+  Verifying  : rubygems-1.3.7-5.el6.noarch                                  5/6 
+  Verifying  : ruby-libs-1.8.7.352-13.el6.x86_64                            6/6 
+
+Installed:
+  ruby.x86_64 0:1.8.7.352-13.el6          rubygems.noarch 0:1.3.7-5.el6         
+
+Dependency Installed:
+  compat-readline5.x86_64 0:5.2-17.1.el6   ruby-irb.x86_64 0:1.8.7.352-13.el6   
+  ruby-libs.x86_64 0:1.8.7.352-13.el6      ruby-rdoc.x86_64 0:1.8.7.352-13.el6  
+
+Complete!
+yum update -y --exclude --exclude=ruby*
++ yum update -y --exclude '--exclude=ruby*'
+Loaded plugins: fastestmirror
+Determining fastest mirrors
+Setting up Update Process
+Resolving Dependencies
+--> Running transaction check
+---> Package ruby.x86_64 0:1.8.7.352-13.el6 will be obsoleted
+---> Package ruby.x86_64 0:2.1.1-1.1 will be obsoleting
+---> Package ruby-irb.x86_64 0:1.8.7.352-13.el6 will be obsoleted
+---> Package ruby-libs.x86_64 0:1.8.7.352-13.el6 will be obsoleted
+--> Processing Dependency: libruby.so.1.8()(64bit) for package: rubygem-yajl-ruby-1.1.0-1.el6.x86_64
+--> Processing Dependency: libruby.so.1.8()(64bit) for package: ruby-augeas-0.5.0-17.3.x86_64
+--> Processing Dependency: libruby.so.1.8()(64bit) for package: rubygem-json-1.7.7-101.el6.x86_64
+--> Processing Dependency: libruby.so.1.8()(64bit) for package: ruby-shadow-1.4.1-13.el6.x86_64
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-yajl-ruby-1.1.0-1.el6.x86_64
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-rethtool-0.0.3-2.mira1.noarch
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-ipaddress-0.8.0-3.el6.noarch
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-stomp-1.2.16-1.el6.noarch
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-ohai-6.14.0-1.el6.noarch
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-extlib-0.9.13-5.el6.noarch
+--> Processing Dependency: ruby(abi) = 1.8 for package: rubygem-mixlib-cli-1.2.2-3.el6.noarch
+--> Processing Dependency: ruby(abi) = 1.8 for package: ruby-shadow-1.4.1-13.el6.x86_64
+---> Package ruby-rdoc.x86_64 0:1.8.7.352-13.el6 will be obsoleted
+---> Package rubygems.noarch 0:1.3.7-5.el6 will be obsoleted
+--> Processing Dependency: ruby(rubygems) for package: rubygem-yajl-ruby-1.1.0-1.el6.x86_64
+--> Processing Dependency: ruby(rubygems) for package: rubygem-netaddr-1.5.0-2.el6.noarch
+--> Processing Dependency: ruby(rubygems) for package: rubygem-rethtool-0.0.3-2.mira1.noarch
+--> Processing Dependency: ruby(rubygems) for package: rubygem-ipaddress-0.8.0-3.el6.noarch
+--> Processing Dependency: ruby(rubygems) for package: rubygem-ohai-6.14.0-1.el6.noarch
+--> Processing Dependency: ruby(rubygems) for package: rubygem-openstack-1.1.2-2.el6.noarch
+--> Processing Dependency: ruby(rubygems) for package: rubygem-mixlib-cli-1.2.2-3.el6.noarch
+--> Processing Dependency: ruby(rubygems) for package: rubygem-extlib-0.9.13-5.el6.noarch
+--> Finished Dependency Resolution
+Error: Package: ruby-augeas-0.5.0-17.3.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: libruby.so.1.8()(64bit)
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               libruby.so.1.8()(64bit)
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-yajl-ruby-1.1.0-1.el6.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-ipaddress-0.8.0-3.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: ruby-shadow-1.4.1-13.el6.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: ruby-shadow-1.4.1-13.el6.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: libruby.so.1.8()(64bit)
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               libruby.so.1.8()(64bit)
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-mixlib-cli-1.2.2-3.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: rubygem-mixlib-cli-1.2.2-3.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-stomp-1.2.16-1.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: rubygem-extlib-0.9.13-5.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-netaddr-1.5.0-2.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-ipaddress-0.8.0-3.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-yajl-ruby-1.1.0-1.el6.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: rubygem-extlib-0.9.13-5.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: rubygem-json-1.7.7-101.el6.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: libruby.so.1.8()(64bit)
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               libruby.so.1.8()(64bit)
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-yajl-ruby-1.1.0-1.el6.x86_64 (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: libruby.so.1.8()(64bit)
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               libruby.so.1.8()(64bit)
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-ohai-6.14.0-1.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: rubygem-ohai-6.14.0-1.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-openstack-1.1.2-2.el6.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+Error: Package: rubygem-rethtool-0.0.3-2.mira1.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(abi) = 1.8
+           Removing: ruby-libs-1.8.7.352-13.el6.x86_64 (@2014.2-6.0)
+               ruby(abi) = 1.8
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               ruby(abi) = 2.1
+Error: Package: rubygem-rethtool-0.0.3-2.mira1.noarch (@anaconda-CentOS-201410241409.x86_64/6.3)
+           Requires: ruby(rubygems)
+           Removing: rubygems-1.3.7-5.el6.noarch (@2014.2-6.0)
+               ruby(rubygems) = 1.3.7
+           Obsoleted By: ruby-2.1.1-1.1.x86_64 (2014.2-6.0)
+               Not found
+ You could try using --skip-broken to work around the problem
+ You could try running: rpm -Va --nofiles --nodigest
+
+mkdir -p /etc/nailgun-agent/
++ mkdir -p /etc/nailgun-agent/
+cat > /etc/nailgun-agent/config.yaml << EOA
+---
+url: 'http://10.20.0.2:8000/api'
+EOA
++ cat
+
+# COBBLER EMBEDDED SNIPPET: 'kernel_lt_if_enabled'
+# INSTALLS kernel-lt PACKAGE IF kernel_lt VARIABLE IS SET TO 1
+
+
+# COBBLER EMBEDDED SNIPPET: 'ssh_disable_gssapi'
+# REMOVES "GSSAPICleanupCredentials yes" AND "GSSAPIAuthentication yes" LINES
+# FROM /etc/ssh/sshd_config
+sed -i -e "/^\s*GSSAPICleanupCredentials yes/d" -e "/^\s*GSSAPIAuthentication yes/d" /etc/ssh/sshd_config
++ sed -i -e '/^\s*GSSAPICleanupCredentials yes/d' -e '/^\s*GSSAPIAuthentication yes/d' /etc/ssh/sshd_config
+
+
+# COBBLER EMBEDDED SNIPPET: 'redhat_register'
+# REGISTER AT REDHAT WITH ACTIVATION KEY
+# begin Red Hat management server registration
+# not configured to register to any Red Hat management server (ok)
+# end Red Hat management server registration
+
+
+
+# REGISTER TO RED HAT SUBSCRIPTION MANAGER WITH LOGIN/PASSWORD
+# begin Red Hat Network certificate-based server registration
+
+# not configured to use Certificate-based RHN (ok)
+# end Red Hat Network certificate-based server registration
+
+
+
+# Let's not wait forewer when ssh'ing:
+sed -i --follow-symlinks -e '/UseDNS/d' /etc/ssh/sshd_config
++ sed -i --follow-symlinks -e /UseDNS/d /etc/ssh/sshd_config
+echo 'UseDNS no' >> /etc/ssh/sshd_config
++ echo 'UseDNS no'
+
+# COBBLER EMBEDDED SNIPPET: 'sshd_auth_pubkey_only'
+# DISABLE PASSWORD AUTH. ALLOW PUBKEY AUTH ONLY IN /etc/ssh/sshd_config
+# Allow ssh auth PubKey only.
+sed --follow-symlinks -i 's/^\s*PubkeyAuthentication\s+no/PubkeyAuthentication yes/' /etc/ssh/sshd_config
++ sed --follow-symlinks -i 's/^\s*PubkeyAuthentication\s+no/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+sed --follow-symlinks -i '/^\s*PasswordAuthentication/d' /etc/ssh/sshd_config
++ sed --follow-symlinks -i '/^\s*PasswordAuthentication/d' /etc/ssh/sshd_config
+echo 'PasswordAuthentication no' >> /etc/ssh/sshd_config
++ echo 'PasswordAuthentication no'
+
+
+# Copying default bash settings to the root directory
+cp -f /etc/skel/.bash* /root/
++ cp -f /etc/skel/.bash_logout /etc/skel/.bash_profile /etc/skel/.bashrc /root/
+
+# Rsyslogd should send all messages to master node
+cat >/etc/rsyslog.d/10-log2master.conf <<EOF
+# Log all messages to master node
+\$template LogToMaster, "<%PRI%>1 %\$NOW%T%TIMESTAMP:8:\$%Z %HOSTNAME% %APP-NAME% %PROCID% %MSGID% -%msg%\n"
+*.* @10.20.0.2;LogToMaster
+EOF
++ cat
+
+# Configure static IP address for admin interface
+#!/bin/bash
+DEFAULT_GW=10.20.0.2
++ DEFAULT_GW=10.20.0.2
+ADMIN_MAC=$(sed 's/\ /\n/g' /proc/cmdline | grep choose_interface | awk -F\= '{print $2}')
+sed 's/\ /\n/g' /proc/cmdline | grep choose_interface | awk -F\= '{print $2}')
+sed 's/\ /\n/g' /proc/cmdline | grep choose_interface | awk -F\= '{print $2}'
+++ awk -F= '{print $2}'
+++ grep choose_interface
+++ sed 's/\ /\n/g' /proc/cmdline
++ ADMIN_MAC=00:0c:29:27:68:41
+ADMIN_IF=$(tr ' ' '\n' < /proc/cmdline | grep "udevrules=" | sed 's/[,=]/\n/g' | grep "$ADMIN_MAC" | cut -d_ -f2 | head -1)
+tr ' ' '\n' < /proc/cmdline | grep "udevrules=" | sed 's/[,=]/\n/g' | grep "$ADMIN_MAC" | cut -d_ -f2 | head -1)
+tr ' ' '\n' < /proc/cmdline | grep "udevrules=" | sed 's/[,=]/\n/g' | grep "$ADMIN_MAC" | cut -d_ -f2 | head -1
+++ grep 00:0c:29:27:68:41
+++ sed 's/[,=]/\n/g'
+++ cut -d_ -f2
+++ grep udevrules=
+++ head -1
+++ tr ' ' '\n'
++ ADMIN_IF=eth0
+INSTALL_IF=$(ifconfig | grep "$ADMIN_MAC" | head -1 | cut -d' ' -f1)
+ifconfig | grep "$ADMIN_MAC" | head -1 | cut -d' ' -f1)
+ifconfig | grep "$ADMIN_MAC" | head -1 | cut -d' ' -f1
+++ cut '-d ' -f1
+++ head -1
+++ grep 00:0c:29:27:68:41
+++ ifconfig
++ INSTALL_IF=
+NETADDR=( $(ifconfig $INSTALL_IF | grep -oP "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}") )
++ NETADDR=($(ifconfig $INSTALL_IF | grep -oP "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"))
+ifconfig $INSTALL_IF | grep -oP "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
+ifconfig $INSTALL_IF | grep -oP "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
+ifconfig $INSTALL_IF | grep -oP "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
+++ grep -oP '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
+++ ifconfig
+echo -e "# FROM COBBLER SNIPPET\nDEVICE=$ADMIN_IF\nIPADDR=${NETADDR[0]}\nNETMASK=${NETADDR[2]}\nBOOTPROTO=none\nONBOOT=yes\nUSERCTL=no\n" > /etc/sysconfig/network-scripts/ifcfg-"$ADMIN_IF"
++ echo -e '# FROM COBBLER SNIPPET\nDEVICE=eth0\nIPADDR=10.20.0.3\nNETMASK=255.255.255.0\nBOOTPROTO=none\nONBOOT=yes\nUSERCTL=no\n'
+
+echo GATEWAY="$DEFAULT_GW" >> /etc/sysconfig/network
++ echo GATEWAY=10.20.0.2
+
+cat /proc/cmdline | tr ' ' '\n' | grep udevrules | tr '[:upper:]' '[:lower:]' | sed -e 's/udevrules=//g' -e 's/,/\n/g' | sed -e "s/^/SUBSYSTEM==\"net\",\ ACTION==\"add\",\ DRIVERS==\"?*\",\ ATTR{address}==\"/g" -e "s/_/\",\ ATTR{type}==\"1\",\ KERNEL==\"eth*\",\ NAME=\"/g" -e "s/$/\"/g" | tee /etc/udev/rules.d/70-persistent-net.rules
++ tr '[:upper:]' '[:lower:]'
++ sed -e s/udevrules=//g -e 's/,/\n/g'
++ sed -e 's/^/SUBSYSTEM=="net",\ ACTION=="add",\ DRIVERS=="?*",\ ATTR{address}=="/g' -e 's/_/",\ ATTR{type}=="1",\ KERNEL=="eth*",\ NAME="/g' -e 's/$/"/g'
++ tee /etc/udev/rules.d/70-persistent-net.rules
++ grep udevrules
++ tr ' ' '\n'
++ cat /proc/cmdline
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:27:68:41", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:27:68:4b", ATTR{type}=="1", KERNEL=="eth*", NAME="eth1"
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:0c:29:27:68:55", ATTR{type}=="1", KERNEL=="eth*", NAME="eth2"
+
+
+# Blacklist i2c_piix4 module so it does not create kernel errors
+[[ $(virt-what) = "virtualbox" ]] && echo "blacklist i2c_piix4" >> /etc/modprobe.d/blacklist-i2c_piix4.conf
+virt-what)
+virt-what
+++ virt-what
++ [[ vmware = \v\i\r\t\u\a\l\b\o\x ]]
+
+
+# Install OFED components for RDMA if needed
+
+
+
+# COBBLER EMBEDDED SNIPPET: 'kickstart_done'
+# DISABLES PXE BOOTING
+
+wget "http://10.20.0.2/cblr/svc/op/ks/system/node3" -O /root/cobbler.ks
++ wget http://10.20.0.2/cblr/svc/op/ks/system/node3 -O /root/cobbler.ks
+--2017-11-15 10:55:55--  http://10.20.0.2/cblr/svc/op/ks/system/node3
+Connecting to 10.20.0.2:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 27996 (27K) [text/plain]
+Saving to: `/root/cobbler.ks'
+
+     0K .......... .......... .......                         100%  245M=0s
+
+2017-11-15 10:55:56 (245 MB/s) - `/root/cobbler.ks' saved [27996/27996]
+
+wget "http://10.20.0.2/cblr/svc/op/trig/mode/post/system/node3" -O /dev/null
++ wget http://10.20.0.2/cblr/svc/op/trig/mode/post/system/node3 -O /dev/null
+--2017-11-15 10:55:56--  http://10.20.0.2/cblr/svc/op/trig/mode/post/system/node3
+Connecting to 10.20.0.2:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4 [text/plain]
+Saving to: `/dev/null'
+
+     0K                                                       100%  536K=0s
+
+2017-11-15 10:55:56 (536 KB/s) - `/dev/null' saved [4/4]
+
+wget "http://10.20.0.2/cblr/svc/op/nopxe/system/node3" -O /dev/null
++ wget http://10.20.0.2/cblr/svc/op/nopxe/system/node3 -O /dev/null
+--2017-11-15 10:55:56--  http://10.20.0.2/cblr/svc/op/nopxe/system/node3
+Connecting to 10.20.0.2:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4 [text/plain]
+Saving to: `/dev/null'
+
+     0K                                                       100%  614K=0s
+
+2017-11-15 10:55:59 (614 KB/s) - `/dev/null' saved [4/4]
+
+

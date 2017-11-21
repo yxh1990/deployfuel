@@ -1,0 +1,60 @@
+<% 
+      var totalrows=total;
+
+      var pageCount=parseInt(totalrows/pageSize);
+      if (totalrows%pageSize>0){pageCount=pageCount+1}
+
+      var show="";
+      if(totalrows<=0)
+        {
+          show="none";
+        }
+       var prevClassName="";
+        if (currentPageIndex==1) {prevClassName='disabled'}
+       var nextClassName="";
+        if (currentPageIndex==pageCount) {nextClassName='disabled'}
+  %>
+<div class="pagination pagination-centered pagination-large">
+  <ul id="pagelist" style="display:<%= show%>">
+    <li id="pagePrev" class="<%= prevClassName%>">
+         <a href="javascript:void(0)">Prev</a>
+    </li>
+    <%
+       var pageStartIndex=1;
+       var pageEndIndex=pageCount<10?pageCount:10;
+       var reStart=parseInt(currentPageIndex)-5;
+       var reEnd=parseInt(currentPageIndex)+4;
+       if(currentPageIndex>6)
+        {
+            pageStartIndex=reStart;
+            pageEndIndex=reStart+9;
+
+            if(pageEndIndex>pageCount)
+                {pageEndIndex=pageCount}
+            if(pageEndIndex-pageStartIndex<9)
+                {pageStartIndex=pageEndIndex-9<=0?1:(pageEndIndex-9)}
+
+        }
+       for(var t=pageStartIndex;t<=pageEndIndex;t++)
+       {
+          if(t==currentPageIndex)
+            {
+              %>
+               <li class="active" data-index="<%= t %>">
+                 <a href="javascript:void(0)"><%= t %></a>
+               </li> 
+              <%
+            } else {
+             %>
+             <li data-index="<%= t %>">
+                <a href="javascript:void(0)"><%= t %></a>
+             </li>
+            <%
+            }
+       }
+    %>
+    <li id="pageNext" class="<%= nextClassName%>">
+         <a href="javascript:void(0)">Next</a>
+   </li>
+  </ul>
+</div>

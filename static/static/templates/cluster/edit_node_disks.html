@@ -1,0 +1,66 @@
+<div class="edit-node-disks">
+  <h3>
+    <%- i18n('cluster_page.nodes_tab.configure_disks.title', {count: nodes.length, name: nodes.length && nodes.at(0).get('name')}) %>
+  </h3>
+  <% 
+    var rdisks=[]; 
+    if(typeof(this.disks) != "undefined")
+      {
+        this.disks.each(function(disk){
+            if(disk.get('name') != "sda")
+              {
+                rdisks.push(disk.get('name'));
+              }
+        }); 
+     }
+  %>
+  <span id="spanmysqldisk">mysql_influxdb_disk:</span>
+  <select id="mysqldisk"  class="parameter-input" style="width:100px">
+     <option value="请选择">--请选择--</option>
+     <% for(var t=0;t<rdisks.length;t++) { %>
+        <% if (rdisks[t] == mysqldiskvalue) {%>
+          <option value="<%= rdisks[t]%>" selected>
+             <%= rdisks[t] %>
+          </option>
+        <% } else {%>
+         <option value="<%= rdisks[t]%>">
+             <%= rdisks[t] %>
+        </option>
+        <% } %>
+     <% } %>
+  </select>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>var_dir_disk:</span>
+  <select id="vardisk"  class="parameter-input" style="width:100px">
+     <option value="请选择">--请选择--</option>
+     <% for(var t=0;t<rdisks.length;t++) { %>
+        <% if (rdisks[t] == vardiskvalue) {%>
+          <option value="<%= rdisks[t]%>" selected>
+             <%= rdisks[t] %>
+          </option>
+        <% } else {%>
+         <option value="<%= rdisks[t]%>">
+             <%= rdisks[t] %>
+        </option>
+        <% } %>
+     <% } %>
+  </select>
+  <div class="node-disks">
+    <div class="progress-bar">
+      <div class="progress progress-striped progress-success active"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- page-control box -->
+  <div class="row">
+    <div class="page-control-box">
+      <div class="back-button pull-left">
+        <button class="btn btn-return" data-i18n="cluster_page.nodes_tab.back_to_nodes_button"></button>
+      </div>
+      <div class="page-control-button-placeholder">
+        <button data-i18n="common.load_defaults_button" class="btn btn-defaults"></button>
+        <button data-i18n="common.cancel_changes_button" class="btn btn-revert-changes"></button>
+        <button data-i18n="common.apply_button" class="btn btn-success btn-apply"></button>
+      </div>
+    </div>
+  </div>

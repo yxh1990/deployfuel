@@ -1,0 +1,155 @@
+<13>Nov 15 10:46:14 logger: Copied %pre section log to system
+<30>Nov 15 10:46:57 dhclient[2444]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:46:57 dhclient[2444]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:46:57 dhclient[2444]: All rights reserved.
+<30>Nov 15 10:46:57 dhclient[2444]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:46:57 dhclient[2444]: 
+<30>Nov 15 10:47:00 dhclient[2445]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:47:00 dhclient[2445]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:47:00 dhclient[2445]: All rights reserved.
+<30>Nov 15 10:47:00 dhclient[2445]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:47:00 dhclient[2445]: 
+<30>Nov 15 10:47:00 dhclient[2445]: Listening on LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:47:00 dhclient[2445]: Sending on   LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:47:00 dhclient[2445]: Sending on   Socket/fallback
+<30>Nov 15 10:47:00 dhclient[2444]: Listening on LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:47:00 dhclient[2444]: Sending on   LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:47:00 dhclient[2444]: Sending on   Socket/fallback
+<30>Nov 15 10:47:01 dhclient[2445]: DHCPDISCOVER o<30>Nov 15 10:47:01 dhclient[2444]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 6 (xid=n eth1 to 255.255.255.255 port 67 interval 8 (xid=0x7e9f6e93)
+0x15e785f5)
+<30>Nov 15 10:47:07 dhclient[2445]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 15 (xid=0x7e9f6e93)
+<30>Nov 15 10:47:09 dhclient[2444]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 7 (xid=0x15e785f5)
+<30>Nov 15 10:47:16 dhclient[2444]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 12 (xid=0x15e785f5)
+<30>Nov 15 10:47:22 dhclient[2445]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 8 (xid=0x7e9f6e93)
+<30>Nov 15 10:47:28 dhclient[2444]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 17 (xid=0x15e785f5)
+<30>Nov 15 10:47:30 dhclient[2445]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 12 (xid=0x7e9f6e93)
+<30>Nov 15 10:47:42 dhclient[2445]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 10 (xid=0x7e9f6e93)
+<30>Nov 15 10:47:46 dhclient[2547]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:47:46 dhclient[2546]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:47:46 dhclient[2547]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:47:46 dhclient[2547]: All rights reserved.
+<30>Nov 15 10:47:46 dhclient[2547]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:47:46 dhclient[2547]: 
+<30>Nov 15 10:47:46 dhclient[2546]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:47:46 dhclient[2546]: All rights reserved.
+<30>Nov 15 10:47:46 dhclient[2546]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:47:46 dhclient[2546]: 
+<30>Nov 15 10:47:46 dhclient[2547]: Listening on LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:47:46 dhclient[2547]: Sending on   LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:47:46 dhclient[2547]: Sending on   Socket/fallback
+<30>Nov 15 10:47:46 dhclient[2546]: Listening on LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:47:46 dhclient[2546]: Sending on   LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:47:46 dhclient[2546]: Sending on   Socket/fallback
+<30>Nov 15 10:47:47 dhclient[2546]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 5 (xid=0x5c5e291)
+<30>Nov 15 10:47:51 dhclient[2547]: DHCPDISCOVER o<30>Nov 15 10:47:52 dhclient[2546]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 7 (xid=n eth1 to 255.255.255.255 port 67 interval 12 (xid0xfbb4102)
+=0x5c5e291)
+<86>Nov 15 10:47:55 groupadd[2553]: group added to /etc/group: name=utmp, GID=22
+<86>Nov 15 10:47:55 groupadd[2553]: group added to /etc/gshadow: name=utmp
+<86>Nov 15 10:47:55 groupadd[2553]: new group: name=utmp, GID=22
+<86>Nov 15 10:47:55 groupadd[2557]: group added to /etc/group: name=utempter, GID=35
+<86>Nov 15 10:47:55 groupadd[2557]: group added to /etc/gshadow: name=utempter
+<86>Nov 15 10:47:55 groupadd[2557]: new group: name=utempter, GID=35
+<86>Nov 15 10:47:56 groupadd[2564]: group added to /etc/group: name=floppy, GID=19
+<86>Nov 15 10:47:56 groupadd[2564]: group added to /etc/gshadow: name=floppy
+<86>Nov 15 10:47:56 groupadd[2564]: new group: name=floppy, GID=19
+<86>Nov 15 10:47:56 groupadd[2569]: group added to /etc/group: name=vcsa, GID=69
+<86>Nov 15 10:47:56 groupadd[2569]: group added to /etc/gshadow: name=vcsa
+<86>Nov 15 10:47:56 groupadd[2569]: new group: name=vcsa, GID=69
+<86>Nov 15 10:47:56 useradd[2574]: new user: name=vcsa, UID=69, GID=69, home=/dev, shell=/sbin/nologin
+<30>Nov 15 10:47:58 dhclient[2547]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 11 (xid=0xfbb4102)
+<30>Nov 15 10:48:04 dhclient[2546]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 16 (xid=0x5c5e291)
+<30>Nov 15 10:48:09 dhclient[2547]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 21 (xid=0xfbb4102)
+<30>Nov 15 10:48:20 dhclient[2546]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 15 (xid=0x5c5e291)
+<30>Nov 15 10:48:30 dhclient[2547]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 21 (xid=0xfbb4102)
+<30>Nov 15 10:48:35 dhclient[2623]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:48:35 dhclient[2623]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:48:35 dhclient[2623]: All rights reserved.
+<30>Nov 15 10:48:35 dhclient[2623]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:48:35 dhclient[2623]: 
+<30>Nov 15 10:48:35 dhclient[2624]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:48:35 dhclient[2624]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:48:35 dhclient[2624]: All rights reserved.
+<30>Nov 15 10:48:35 dhclient[2624]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:48:35 dhclient[2624]: 
+<30>Nov 15 10:48:35 dhclient[2624]: Listening on LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:48:35 dhclient[2624]: Sending on   LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:48:35 dhclient[2624]: Sending on   Socket/fallback
+<30>Nov 15 10:48:35 dhclient[2624]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 7 (xid=0x56080b0b)
+<30>Nov 15 10:48:35 dhclient[2623]: Listening on LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:48:35 dhclient[2623]: Sending on   LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:48:35 dhclient[2623]: Sending on   Socket/fallback
+<30>Nov 15 10:48:36 dhclient[2623]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 8 (xid=0x4c156607)
+<30>Nov 15 10:48:42 dhclient[2624]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 13 (xid=0x56080b0b)
+<30>Nov 15 10:48:44 dhclient[2623]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 7 (xid=0x4c156607)
+<30>Nov 15 10:48:51 dhclient[2623]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 11 (xid=0x4c156607)
+<30>Nov 15 10:48:55 dhclient[2624]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 15 (xid=0x56080b0b)
+<30>Nov 15 10:49:02 dhclient[2623]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 11 (xid=0x4c156607)
+<30>Nov 15 10:49:10 dhclient[2624]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 21 (xid=0x56080b0b)
+<30>Nov 15 10:49:13 dhclient[2623]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 21 (xid=0x4c156607)
+<86>Nov 15 10:49:49 groupadd[2651]: group added to /etc/group: name=tcpdump, GID=72
+<86>Nov 15 10:49:49 groupadd[2651]: group added to /etc/gshadow: name=tcpdump
+<86>Nov 15 10:49:49 groupadd[2651]: new group: name=tcpdump, GID=72
+<86>Nov 15 10:49:49 useradd[2655]: new user: name=tcpdump, UID=72, GID=72, home=/, shell=/sbin/nologin
+<86>Nov 15 10:50:24 groupadd[2709]: group added to /etc/group: name=cdrom, GID=11
+<86>Nov 15 10:50:24 groupadd[2709]: group added to /etc/gshadow: name=cdrom
+<86>Nov 15 10:50:24 groupadd[2709]: new group: name=cdrom, GID=11
+<86>Nov 15 10:50:24 groupadd[2714]: group added to /etc/group: name=tape, GID=33
+<86>Nov 15 10:50:24 groupadd[2714]: group added to /etc/gshadow: name=tape
+<86>Nov 15 10:50:24 groupadd[2714]: new group: name=tape, GID=33
+<86>Nov 15 10:50:24 groupadd[2719]: group added to /etc/group: name=dialout, GID=18
+<86>Nov 15 10:50:24 groupadd[2719]: group added to /etc/gshadow: name=dialout
+<86>Nov 15 10:50:24 groupadd[2719]: new group: name=dialout, GID=18
+<86>Nov 15 10:50:37 groupadd[2747]: group added to /etc/group: name=ntp, GID=38
+<86>Nov 15 10:50:37 groupadd[2747]: group added to /etc/gshadow: name=ntp
+<86>Nov 15 10:50:37 groupadd[2747]: new group: name=ntp, GID=38
+<86>Nov 15 10:50:37 useradd[2751]: new user: name=ntp, UID=38, GID=38, home=/etc/ntp, shell=/sbin/nologin
+<86>Nov 15 10:50:37 groupadd[2760]: group added to /etc/group: name=saslauth, GID=76
+<86>Nov 15 10:50:37 groupadd[2760]: group added to /etc/gshadow: name=saslauth
+<86>Nov 15 10:50:37 groupadd[2760]: new group: name=saslauth, GID=76
+<86>Nov 15 10:50:37 useradd[2765]: new user: name=saslauth, UID=499, GID=76, home=/var/empty/saslauth, shell=/sbin/nologin
+<86>Nov 15 10:50:38 groupadd[2773]: group added to /etc/group: name=postdrop, GID=90
+<86>Nov 15 10:50:38 groupadd[2773]: group added to /etc/gshadow: name=postdrop
+<86>Nov 15 10:50:38 groupadd[2773]: new group: name=postdrop, GID=90
+<86>Nov 15 10:50:38 groupadd[2777]: group added to /etc/group: name=postfix, GID=89
+<86>Nov 15 10:50:38 groupadd[2777]: group added to /etc/gshadow: name=postfix
+<86>Nov 15 10:50:38 groupadd[2777]: new group: name=postfix, GID=89
+<86>Nov 15 10:50:38 useradd[2782]: new user: name=postfix, UID=89, GID=89, home=/var/spool/postfix, shell=/sbin/nologin
+<86>Nov 15 10:50:38 useradd[2782]: add 'postfix' to group 'mail'
+<86>Nov 15 10:50:38 useradd[2782]: add 'postfix' to shadow group 'mail'
+<86>Nov 15 10:52:19 groupadd[3263]: group added to /etc/group: name=puppet, GID=52
+<86>Nov 15 10:52:19 groupadd[3263]: group added to /etc/gshadow: name=puppet
+<86>Nov 15 10:52:19 groupadd[3263]: new group: name=puppet, GID=52
+<86>Nov 15 10:52:19 useradd[3268]: new user: name=puppet, UID=52, GID=52, home=/var/lib/puppet, shell=/sbin/nologin
+<86>Nov 15 10:52:30 groupadd[3285]: group added to /etc/group: name=sshd, GID=74
+<86>Nov 15 10:52:30 groupadd[3285]: group added to /etc/gshadow: name=sshd
+<86>Nov 15 10:52:30 groupadd[3285]: new group: name=sshd, GID=74
+<86>Nov 15 10:52:30 useradd[3290]: new user: name=sshd, UID=74, GID=74, home=/var/empty/sshd, shell=/sbin/nologin
+<86>Nov 15 10:52:40 groupadd[3310]: group added to /etc/group: name=slocate, GID=21
+<86>Nov 15 10:52:40 groupadd[3310]: group added to /etc/gshadow: name=slocate
+<86>Nov 15 10:52:40 groupadd[3310]: new group: name=slocate, GID=21
+<30>Nov 15 10:54:22 dhclient[12242]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:54:22 dhclient[12242]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:54:22 dhclient[12242]: All rights reserved.
+<30>Nov 15 10:54:22 dhclient[12242]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:54:22 dhclient[12242]: 
+<30>Nov 15 10:54:22 dhclient[12241]: Internet Systems Consortium DHCP Client 4.1.1-P1
+<30>Nov 15 10:54:22 dhclient[12241]: Copyright 2004-2010 Internet Systems Consortium.
+<30>Nov 15 10:54:22 dhclient[12241]: All rights reserved.
+<30>Nov 15 10:54:22 dhclient[12241]: For info, please visit https://www.isc.org/software/dhcp/
+<30>Nov 15 10:54:22 dhclient[12241]: 
+<30>Nov 15 10:54:22 dhclient[12242]: Listening on LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:54:22 dhclient[12242]: Sending on   LPF/eth2/00:0c:29:27:68:55
+<30>Nov 15 10:54:22 dhclient[12242]: Sending on   Socket/fallback
+<30>Nov 15 10:54:22 dhclient[12241]: Listening on LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:54:22 dhclient[12241]: Sending on   LPF/eth1/00:0c:29:27:68:4b
+<30>Nov 15 10:54:22 dhclient[12241]: Sending on   Socket/fallback
+<30>Nov 15 10:54:23 dhclient[12242]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 6 (xid=0x3be1542c)
+<30>Nov 15 10:54:24 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 4 (xid=0x72ab0d99)
+<30>Nov 15 10:54:28 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 4 (xid=0x72ab0d99)
+<30>Nov 15 10:54:29 dhclient[12242]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 12 (xid=0x3be1542c)
+<30>Nov 15 10:54:32 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 4 (xid=0x72ab0d99)
+<30>Nov 15 10:54:36 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 5 (xid=0x72ab0d99)
+<30>Nov 15 10:54:41 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 7 (xid=0x72ab0d99)
+<30>Nov 15 10:54:41 dhclient[12242]: DHCPDISCOVER on eth2 to 255.255.255.255 port 67 interval 19 (xid=0x3be1542c)
+<30>Nov 15 10:54:48 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 9 (xid=0x72ab0d99)
+<30>Nov 15 10:54:57 dhclient[12241]: DHCPDISCOVER on eth1 to 255.255.255.255 port 67 interval 9 (xid=0x72ab0d99)
