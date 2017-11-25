@@ -1,9 +1,9 @@
-master_ip=10.20.0.2
-eth_name=eth1
-pxe_ip=10.20.0.4
+master_ip=10.20.0.0
+eth_name=eth0
+pxe_ip=10.20.0.0
 netmask=255.255.255.0
 puppet_master=fuel.domain.tld
-mco_password=6CjcVMEV
+mco_password=111
 #mco_port=61613
 rpm_url=http://${master_ip}:8080/2014.2-6.0/centos/x86_64/Packages
 
@@ -24,7 +24,7 @@ echo "the pxe network is available"
 
 
 ######nailgun repo ##############
-rm /etc/yum.repos.d/*.repo
+rm -fr /etc/yum.repos.d/*.repo
 cat > /etc/yum.repos.d/nailgun.repo <<EOF
 [2014.2-6.0]
 name = 2014.2-6.0
@@ -36,7 +36,6 @@ mkdir -p /etc/nailgun-agent/
 cat > /etc/nailgun-agent/config.yaml <<EOF
 url: "http://${master_ip}:8000/api"
 EOF
-
 
 yum clean all
 yum -y install ruby
@@ -94,28 +93,15 @@ echo '* * * * * root flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgu
 # It is for the internal nailgun using
 echo target > /etc/nailgun_systemtype
 
-#######commonutil.py#################
+
 # COBBLER EMBEDDED SNIPPET: 'authorized_keys'
 # PUTS authorized_keys file into /root/.ssh/authorized_keys
-#mkdir -p /root/.ssh
-#chown root:root /root/.ssh
-#chmod 700 /root/.ssh
-#cat > /root/.ssh/authorized_keys <<EOF
-#ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA2THOacfRJLpUVVlthvJOJjVYZNq3uCaNw0JUmyhB3jKWS8dVcemPUHPvSXKDO+9xpf0UwxlWmtdSNn+s5k9Tk0lrUOOBDB2Zw4jNQaaO9ivLyLMcaaYn2/qSs+nK+Th4Km2Jpg/glj40JQkWXPiguhSrm6ZEjSnkH6Xe9uQFGaFA9K2x7ycWto79URvFbQhkg9DXYfrAv7vyi7E53Pt89ZibZ9S2r0Qs/vhBbgUmizSK6Cdotg/cmpqMn6KctGrbybjjD+5QTRlWX6aiJkL/m/bWcX+X+IZcINUcalyhbsQuB88Asl79E9DgP94wYtuY01vSgCF1xtjSiVw3h3W5DQ== root@fuel.domain.tld
-#EOF
-#chmod 600 /root/.ssh/authorized_keys
-#chown root:root /root/.ssh/authorized_keys
+
 # Copying default bash settings to the root directory
 cp -f /etc/skel/.bash* /root/
 # COBBLER EMBEDDED SNIPPET: 'ssh_disable_gssapi'
 # REMOVES "GSSAPICleanupCredentials yes" AND "GSSAPIAuthentication yes" LINES
 # FROM /etc/ssh/sshd_config
-#sed -i -e "/^\s*GSSAPICleanupCredentials yes/d" -e "/^\s*GSSAPIAuthentication yes/d" /etc/ssh/sshd_config
-# Let's not wait forewer when ssh'ing:
-#sed -i --follow-symlinks -e '/UseDNS/d' /etc/ssh/sshd_config
-#echo 'UseDNS no' >> /etc/ssh/sshd_config
-#######commonutil.py#################
-
 
 sed -i "s/::File.read(\"\/proc\/cmdline\")/YAML.load_file(AGENT_CONFIG)['url']/" /opt/nailgun/bin/agent
 
@@ -129,5 +115,4 @@ chkconfig iptables off
 #systemctl stop firewalld.service #停止firewall
 #systemctl disable firewalld.service #禁止firewall开机启动
 
-#echo "api_ip: ${master_ip}" >> /etc/nailgun-agent/config.yaml
 echo "the script is completed execution........................"

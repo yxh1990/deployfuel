@@ -44,14 +44,12 @@ class PhysicalMachineInfoObject(NailgunObject):
             "id": {"type": "number"},
             "name": {"type": "string"},
             "ip": {"type": "string"},
-            "mp_ip": {"type": "string"},
             "mp_username": {"type": "string"},
             "mp_passwd": {"type": "string"},
             "cabinet": {"type": "string"},
             "gene_room": {"type": "string"},
-            "power_status": {"type": "number"},
-            "operation_status": {"type": "number"},
             "mac": {"type": "string"},
+            'ethname':{"type": "string"},
             "use_type": {"type": "number"},
             "additional_info":{"type": "object"}
         }

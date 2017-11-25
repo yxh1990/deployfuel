@@ -285,6 +285,7 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
           'click #tb_x86 .a_tb_title':'pageChangeSort',
           'click #tb_x86 .a_poweron':'PowerOnmachine',
           'click #tb_x86 .a_poweroff':'PowerOffmachine',
+          'click #tb_x86 .a_init':'Initagent',
           'click #btn_poweroff':'poweroffIds',
           'click #btn_poweron' :'poweronIds',
           'click #btn_upstatus':'checkmahinestatus',
@@ -294,6 +295,44 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
         {
            this.getRenderData();
            this.paginationView=new pagingView({"currentpage": this.currentPageIndex});
+        },
+        Initagent:function(e)
+        {
+          var obj=e.currentTarget;
+          var id=obj.getAttribute('dataid');
+          var m_ip=obj.getAttribute('dataip');
+          var mp_user=obj.getAttribute('datampuser');
+          var mp_pass=obj.getAttribute('datamppass');
+          var ethname = obj.getAttribute('ethname');
+
+           var loadview=new commonloadview();
+           $('#modal-container').after(loadview.render().el);
+            $.ajax({
+                type: "POST",
+                url: "/api/phymachine/initAgent",
+                data: "id="+id+"&m_ip="+m_ip+"&mp_user="+mp_user+"&mp_pass="+mp_pass+"&ethname="+ethname,
+                success:_.bind(function(msg){
+                   var obj=JSON.parse(msg);
+                   if(obj.result)
+                   {
+                     $('#modal-container').next().remove();
+                     alert('初始化成功!');
+                     this.getRenderData();
+                     this.paginationView=new pagingView({"currentpage": this.currentPageIndex});
+                   }
+                   else
+                   {
+                    $('#modal-container').next().remove();
+                     alert('初始化失败!');
+                   }
+                },this),
+                error:function()
+                {
+                  $('#modal-container').next().remove();
+                  alert('初始化失败!');
+                }
+           });
+       
         },
         PowerOnmachine:function(e)
         {

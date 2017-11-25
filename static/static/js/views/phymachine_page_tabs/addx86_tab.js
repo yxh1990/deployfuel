@@ -94,17 +94,6 @@ function(_, i18n, models,Backbone,utils,osTemplate) {
                       this.checkpropsrepeat(2,data,0,ele);
                     } 
                    }
-                  else if(input_name=="txt_mp_ip")
-                   {
-                     if(this.editid)
-                    {
-                       this.checkpropsrepeat(3,data,this.editid,ele);
-                    }
-                    else
-                    {
-                      this.checkpropsrepeat(3,data,0,ele);
-                    } 
-                   }
                   else
                    {
                     this.handlerrormsg(ele);
@@ -155,11 +144,6 @@ function(_, i18n, models,Backbone,utils,osTemplate) {
             {
               url="/api/phymachine/checkip/";
               data="ip="+value+"&id="+id;
-            }
-            else if(prop==3)
-            {
-              url="/api/phymachine/checkmip/";
-              data="mip="+value+"&id="+id;
             }
             else 
             {
@@ -221,15 +205,13 @@ function(_, i18n, models,Backbone,utils,osTemplate) {
             phymachinemodel.set({
               "name":$("#txt_name").val(),
               "ip":$("#txt_ip").val(),
-              "mp_ip":$("#txt_mp_ip").val(),
               "mp_username":$("#txt_mp_username").val(),
               "mp_passwd":$("#txt_mp_passwd").val(),
               "cabinet":$("#txt_cabinet").val(),
               "gene_room":$("#txt_gene_room").val(),
               "mac":$("#txt_mac").val(),
-              "use_type":$("#txt_use_type").val(),
-              "power_status":1,
-              "operation_status":3
+              "ethname":$("#txt_ethname").val(),
+              "use_type":$("#txt_use_type").val()
             });
             
             phymachinemodel.save(null,{

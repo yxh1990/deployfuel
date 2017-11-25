@@ -22,18 +22,27 @@ from nailgun.logger import logger
 import time
 import os
 import random
+import sys
+import subprocess
+import yaml
 
 class CommonUtil(object):
 	"""docstring for ClassName"""
-	def __init__(self,ip=None):
+	def __init__(self,ip=None,ssh_user=None,ssh_password=None):
 		if not ip:
 		   self.ip=settings.MASTER_IP
 		else:
 		   self.ip = ip
-		self.ssh_user='root'
-		self.ssh_password='r00tme'
+		if not ssh_user:
+			self.ssh_user='root'
+		else:
+			self.ssh_user=ssh_user
+		if not ssh_password:
+			self.ssh_password='r00tme'
+		else:	
+			self.ssh_password = ssh_password
 		self.key_filename = '/root/.ssh/id_rsa'
-		self.timeout=60
+		self.timeout=200
 		
 	def get_master_gateway(self):
 
@@ -89,5 +98,83 @@ class CommonUtil(object):
 		elif length == 4:
 			randomnumber = random.randint(1000,9999)
 		return randomnumber
+
+
+	def create_ssh_masterToAgent(self,**kwargs):
+		ssh_client=SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
+		self.create_authorized_keys(ssh_client)
+		self.change_sshdconfig(ssh_client)
+		self.changeshcontent(ethname=kwargs["ethname"])
+		self.copyshToAgent(ssh_client)
+		return True
+
+	def create_authorized_keys(self,ssh_client):
+		authorized_keys_con = CommonUtil.execute_cmd("cat /root/.ssh/id_rsa.pub")
+		mksshdir_cmd = "setenforce 0 && mkdir -p /root/.ssh && chmod 700 /root/.ssh"
+		ssh_client.exec_command(mksshdir_cmd)
+		cpfilekey_cmd="echo \""+authorized_keys_con+"\" > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys"
+		ssh_client.exec_command(cpfilekey_cmd)
+		
+
+	def change_sshdconfig(self,ssh_client):
+		changesshd_cmd1 = 'sed -i -e "/^\s*GSSAPICleanupCredentials yes/d" -e "/^\s*GSSAPIAuthentication yes/d" /etc/ssh/sshd_config'
+		ssh_client.exec_command(changesshd_cmd1)
+		changesshd_cmd2 = "sed -i --follow-symlinks -e '/UseDNS/d' /etc/ssh/sshd_config && echo 'UseDNS no' >> /etc/ssh/sshd_config"
+		ssh_client.exec_command(changesshd_cmd2)
+		sshrestart_cmd = "service sshd restart"
+		ssh_client.exec_command(sshrestart_cmd)
+
+	def changeshcontent(self,**kwargs):
+		initsh_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),"init_node.sh")
+		fr = open('/etc/fuel/astute.yaml', 'r')
+		data = yaml.load(fr)
+
+		master_ip = data["ADMIN_NETWORK"]["ipaddress"]
+		setmasterip_cmd = "sed -i 's/master_ip=10.20.0.0/master_ip="+master_ip+"/' "+initsh_path+""
+		CommonUtil.execute_cmd(setmasterip_cmd)
+
+		setpxethname_cmd = "sed -i 's/eth_name=eth0/eth_name="+kwargs["ethname"]+"/' "+initsh_path+""
+		CommonUtil.execute_cmd(setpxethname_cmd)
+
+		setpxeip_cmd = "sed -i 's/pxe_ip=10.20.0.0/pxe_ip="+self.ip+"/' "+initsh_path+""
+		CommonUtil.execute_cmd(setpxeip_cmd)
+
+		netmask=data["ADMIN_NETWORK"]["netmask"]
+		setnetmask_cmd = "sed -i 's/netmask=255.255.255.0/netmask="+netmask+"/' "+initsh_path+""
+		CommonUtil.execute_cmd(setnetmask_cmd)
+
+		puppetmaster = data["HOSTNAME"]+"."+data["DNS_DOMAIN"]
+		puppetmaster_cmd = "sed -i 's/puppet_master=fuel.domain.tld/puppet_master="+puppetmaster+"/' "+initsh_path+""
+		CommonUtil.execute_cmd(puppetmaster_cmd)
+
+		mco_password = data["mcollective"]["password"]
+		mco_password_cmd = "sed -i 's/mco_password=111/mco_password="+mco_password+"/' "+initsh_path+""
+		CommonUtil.execute_cmd(mco_password_cmd)
+
+
+	def copyshToAgent(self,ssh_client):
+		initsh_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),"init_node.sh")
+		cpinitsh_cmd = "scp "+initsh_path+" root@"+self.ip+":/root"
+		CommonUtil.execute_cmd(cpinitsh_cmd)
+		chmodcmd = "chmod 777 /root/init_node.sh && sed -i 's/\r$//' init_node.sh"
+		ssh_client.exec_command(chmodcmd)
+		excute_shellcmd = "/root/init_node.sh >> /var/log/init-node.log 2>&1"
+		ssh_client.exec_command(excute_shellcmd)
+
+
+	@staticmethod
+	def execute_cmd(cmd, customer_errmsg=None):
+		res = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+		res.wait()
+		readmsg = res.stdout.read().strip()
+		errormsg = res.stderr.read()
+
+		if errormsg:
+			print(errormsg)
+			print(customer_errmsg)
+			#sys.exit()
+		else:
+			return readmsg
+
 
 

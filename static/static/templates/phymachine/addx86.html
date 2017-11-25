@@ -24,18 +24,10 @@
         <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
       </label>
     </div>
-     <div class="network-attribute">
-      <label class="parameter-box clearfix">
-        <div class="parameter-name">管理口IP地址</div>
-        <div class="parameter-control">
-          <input type="text" id="txt_mp_ip" value="<%= model.mp_ip%>" data-type="ip" maxlength="15"/>
-        </div>
-        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
-      </label>
-    </div>
+    
     <div class="network-attribute">
       <label class="parameter-box clearfix">
-        <div class="parameter-name">管理口用户名</div>
+        <div class="parameter-name">ssh用户名</div>
         <div class="parameter-control">
           <input type="text" id="txt_mp_username" value="<%= model.mp_username%>" maxlength="10" data-type="str"/>
         </div>
@@ -44,7 +36,7 @@
     </div>
     <div class="network-attribute">
       <label class="parameter-box clearfix">
-        <div class="parameter-name">管理口密码</div>
+        <div class="parameter-name">ssh密码</div>
         <div class="parameter-control">
           <input type="password" id="txt_mp_passwd" value="<%= model.mp_passwd%>" maxlength="10" data-type="str"/>
         </div>
@@ -75,6 +67,15 @@
         <div class="parameter-name">MAC地址</div>
         <div class="parameter-control">
           <input type="text" id="txt_mac" value="<%= model.mac%>" data-type="mac" maxlength="30"/>
+        </div>
+        <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
+      </label>
+    </div>
+    <div class="network-attribute">
+      <label class="parameter-box clearfix">
+        <div class="parameter-name">网卡名称</div>
+        <div class="parameter-control">
+          <input type="text" id="txt_ethname" value="<%= model.ethname%>" data-type="str" maxlength="30"/>
         </div>
         <div class="error validation-error validatewidth"><span class="help-inline"></span></div>
       </label>

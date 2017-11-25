@@ -449,16 +449,14 @@ def upgrade():
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('name', sa.Unicode(length=50), nullable=False),
                     sa.Column('ip', sa.String(length=20), nullable=False),
-                    sa.Column('mp_ip', sa.String(20), nullable=True),
                     sa.Column(
                         'mp_username', sa.String(length=20),
                         nullable=False),
                     sa.Column('mp_passwd', sa.String(20), nullable=True),
                     sa.Column('cabinet', sa.String(30), nullable=True),
                     sa.Column('gene_room', sa.String(30), nullable=True),
-                    sa.Column('power_status', sa.Integer(), nullable=False),
-                    sa.Column('operation_status', sa.Integer(), nullable=False),
                     sa.Column('mac', sa.String(30), nullable=False),
+                    sa.Column('ethname', sa.String(30), nullable=False),
                     sa.Column('use_type', sa.Integer(), nullable=False),
                     sa.Column('additional_info', sa.Text(), nullable=False),
                     sa.PrimaryKeyConstraint('id')

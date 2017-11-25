@@ -24,7 +24,7 @@ echo "the pxe network is available"
 
 
 ######nailgun repo ##############
-rm /etc/yum.repos.d/*.repo
+rm -fr /etc/yum.repos.d/*.repo
 cat > /etc/yum.repos.d/nailgun.repo <<EOF
 [2014.2-6.0]
 name = 2014.2-6.0
@@ -182,7 +182,7 @@ echo 'UseDNS no' >> /etc/ssh/sshd_config
 
 sed -i "s/::File.read(\"\/proc\/cmdline\")/YAML.load_file(AGENT_CONFIG)['url']/" /opt/nailgun/bin/agent
 
-
+setenforce 0 
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
 servcie iptables stop

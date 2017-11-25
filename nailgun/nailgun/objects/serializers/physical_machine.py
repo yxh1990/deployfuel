@@ -21,14 +21,12 @@ class PhysicalMachineInfoSerializer(BasicSerializer):
        'id',
        'name',
        'ip',
-       'mp_ip',
        'mp_username',
        'mp_passwd',
        'cabinet',
        'gene_room',
-       'power_status',
-       'operation_status',
        'mac',
+       'ethname',
        'use_type',
        'status'
     )

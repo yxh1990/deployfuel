@@ -39,7 +39,7 @@ from nailgun.api.v1.validators.physical_machine import physicalmachineValidator
 from nailgun.logger import logger
 
 from nailgun.task.manager import InstallosTaskManager
-
+from nailgun.common.commonutil import CommonUtil
 
 
 #导入excel数据
@@ -67,20 +67,20 @@ class ReadCsvHandler(BaseHandler):
           
           self.listdata=[] #使用类变量要注意清空,否则会循环累加
           for i in range(nrows):
-              if(i>3):
-                   data=self.create_data(table,i)
-                   self.listdata.append(data)
+            if(i>3):
+              data=self.create_data(table,i)
+              self.listdata.append(data)
           #过滤文件的前四行
           if nrows>4:  #小于4等于空文件
              for i in range(nrows):
                  if(i>3):
-                   data=self.create_data(table,i)
-                   self.checked_physicalmachine_data(data)
-                   if self.errormsg =="":
-                      objects.PhysicalMachineInfoObject.create(data)
-                   else:
-                     return self.showImportErrmsg(self.errormsg) 
+                  data=self.create_data(table,i)
+                  self.checked_physicalmachine_data(data)
 
+                  if self.errormsg =="":
+                    objects.PhysicalMachineInfoObject.create(data)
+                  else:
+                    return self.showImportErrmsg(self.errormsg) 
              return self.call_success_back()           
           else: 
              self.errormsg="导入内容不能为空!"
@@ -98,16 +98,13 @@ class ReadCsvHandler(BaseHandler):
         data={}
         data['name']=table.row(i)[0].value
         data['ip']=table.row(i)[1].value
-        data['mp_ip']=table.row(i)[2].value
-        data['mp_username']=table.row(i)[3].value
-        data['mp_passwd']=table.row(i)[4].value
-        data['cabinet']=table.row(i)[5].value
-        data['gene_room']=table.row(i)[6].value
-        data['power_status']=table.row(i)[7].value
-        data['mac']=table.row(i)[8].value.lower()
-        data['use_type']=table.row(i)[9].value
-        #data['operation_status']=table.row(i)[8].value
-        data['operation_status']=1
+        data['mp_username']=table.row(i)[2].value
+        data['mp_passwd']=table.row(i)[3].value
+        data['cabinet']=table.row(i)[4].value
+        data['gene_room']=table.row(i)[5].value
+        data['mac']=table.row(i)[6].value.lower()
+        data['ethname']=table.row(i)[7].value
+        data['use_type']=table.row(i)[8].value
         return data
 
    def call_success_back(self):
@@ -153,25 +150,19 @@ class ReadCsvHandler(BaseHandler):
        regexip="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
        regexmac="^([0-9a-fA-F]{2}:){5}([0-9a-fA-F]{2})$"
        for physicalmachine in physicalmachineList:
-           if re.search(regexname,data['name']) or len(str(data['name']).strip())<=0:
+           if re.search(regexname,str(data['name'])) or len(str(data['name']).strip())<=0:
               self.errormsg="主机名({0})不能为空或者包含特殊字符,导入终止!".format(data['name'])
               break
            elif str(physicalmachine.get('name'))==str(data['name']):
               self.errormsg="主机名({0})重复,导入终止!".format(data['name'])
               break
-           elif re.match(regexip,data['ip'])==None or len(str(data['ip']).strip())<=0:
+           elif re.match(regexip,str(data['ip']))==None or len(str(data['ip']).strip())<=0:
               self.errormsg="ip地址({0})不能为空或者格式错误,导入终止!".format(data['ip'])
               break
            elif str(physicalmachine.get('ip'))==str(data['ip']):
               self.errormsg="IP({0})重复,导入终止!".format(data['ip'])
               break
-           elif re.match(regexip,data['mp_ip'])==None or len(str(data['mp_ip']).strip())<=0:
-              self.errormsg="管理口IP地址({0})不能为空或者格式错误,导入终止!".format(data['mp_ip'])
-              break
-           elif str(physicalmachine.get('mp_ip'))==str(data['mp_ip']):
-              self.errormsg="管理口IP({0})重复,导入终止!".format(data['mp_ip'])
-              break
-           elif re.match(regexmac,data['mac'])==None or len(str(data['mac']).strip())<=0:
+           elif re.match(regexmac,str(data['mac']))==None or len(str(data['mac']).strip())<=0:
               self.errormsg="MAC地址({0})不能为空或者格式错误,导入终止!".format(data['mac'])
               break
            elif str(physicalmachine.get('mac'))==str(data['mac']):
@@ -207,10 +198,10 @@ class PhymachineCollectionHandler(CollectionHandler):
         """:returns: Collection of JSONized REST objects.
         :http: * 200 (OK)
         """
+        
         x=web.input(currentpage='1',pagesize='10',ordername='id',ordertype='desc')
         #x就是一个字典,判断是否包含pagesize键
         #web.py接收的参数默认都是字符串,即使看起来像数字
-
         return self.collection.getPagingData(x.currentpage,x.pagesize,x.ordername,x.ordertype)
 
 
@@ -316,6 +307,14 @@ class PhymachinePoweroffHandler(BaseHandler):
     return json.dumps({'result':"sucess"})
 
 
+class PhymachineInitAgentHandler(BaseHandler):
+
+  def POST(self):
+    x=web.input(id='0',m_ip='',mp_user='',mp_pass='',ethname='')
+    util=CommonUtil(x.m_ip,x.mp_user,x.mp_pass)
+    result = util.create_ssh_masterToAgent(ethname=x.ethname)
+    return json.dumps({'result':result})
+
 class PhymachineCheckNameHandler(BaseHandler):
 
   def GET(self):
@@ -353,12 +352,12 @@ class PhymachineCheckMipHandler(BaseHandler):
     pid=int(x.id)
     if pid<=0:
        query=objects.PhysicalMachineInfoCollection.all()
-       pcount=query.filter_by(mp_ip = x.mip).count()
-       return json.dumps({'count':pcount})
+       #pcount=query.filter_by(mp_ip = x.mip).count()
+       return json.dumps({'count':0})
     else:
        query = objects.PhysicalMachineInfoCollection.filter_by_not(None, id=pid)
-       pcount= objects.PhysicalMachineInfoCollection.filter_by(query,mp_ip = x.mip).count()
-       return json.dumps({'count':pcount})
+       #pcount= objects.PhysicalMachineInfoCollection.filter_by(query,mp_ip = x.mip).count()
+       return json.dumps({'count':0})
 
 class PhymachineCheckMacHandler(BaseHandler):
 
@@ -387,28 +386,25 @@ class PhymachinesexportHandler(BaseHandler):
        ws=wb.add_sheet('sheet1')
        ws.write(3,0,u"主机名称")
        ws.write(3,1,u"IP地址")
-       ws.write(3,2,u"管理口IP地址")
-       ws.write(3,3,u"管理口用户名")
-       ws.write(3,4,u"管理口密码")
-       ws.write(3,5,u"机柜名称")
-       ws.write(3,6,u"机房名称")
-       ws.write(3,7,u"电源状态")
-       ws.write(3,8,u"MAC地址")
-       ws.write(3,9,u"用处类型")
+       ws.write(3,2,u"ssh用户名")
+       ws.write(3,3,u"ssh密码")
+       ws.write(3,4,u"机柜名称")
+       ws.write(3,5,u"机房名称")
+       ws.write(3,6,u"MAC地址")
+       ws.write(3,7,u"网卡名称")
+       ws.write(3,8,u"用处类型")
        datas=objects.PhysicalMachineInfoCollection.all()
        row=4  #默认从excel文件的第5行开始读取数据
        for data in datas:
             ws.write(row,0,data['name'])
             ws.write(row,1,data['ip'])
-            ws.write(row,2,data['mp_ip'])
-            ws.write(row,3,data['mp_username'])
-            ws.write(row,4,data['mp_passwd'])
-            ws.write(row,5,data['cabinet'])
-            ws.write(row,6,data['gene_room'])
-            ws.write(row,7,data['power_status'])
-            #ws.write(row,8,data['operation_status'])
-            ws.write(row,8,data['mac'])
-            ws.write(row,9,data['use_type'])
+            ws.write(row,2,data['mp_username'])
+            ws.write(row,3,data['mp_passwd'])
+            ws.write(row,4,data['cabinet'])
+            ws.write(row,5,data['gene_room'])
+            ws.write(row,6,data['mac'])
+            ws.write(row,7,data['ethname'])
+            ws.write(row,8,data['use_type'])
             row=row+1
 
        sio=StringIO.StringIO()

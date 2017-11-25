@@ -35,16 +35,15 @@ class PhysicalMachineInfo(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False)
     ip=Column(String(20), nullable=False)
-    mp_ip = Column(String(20), nullable=False)
     mp_username = Column(String(20), nullable=False)
     mp_passwd = Column(String(15), nullable=False)
 
     cabinet = Column(String(30), nullable=False)
     gene_room = Column(String(30), nullable=False)
-    power_status = Column(Integer, nullable=False)
-    operation_status = Column(Integer, nullable=False)
 
     mac = Column(String(30), nullable=False)
+    ethname = Column(String(30), nullable=False)
+
     use_type = Column(Integer, nullable=False)
     additional_info = Column(JSON,default={})
 

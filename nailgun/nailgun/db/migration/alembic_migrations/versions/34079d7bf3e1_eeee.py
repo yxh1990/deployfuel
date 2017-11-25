@@ -57,9 +57,6 @@ def upgrade():
     op.alter_column('physical_machine_info', 'gene_room',
                existing_type=sa.VARCHAR(length=30),
                nullable=False)
-    op.alter_column('physical_machine_info', 'mp_ip',
-               existing_type=sa.VARCHAR(length=20),
-               nullable=False)
     op.alter_column('physical_machine_info', 'mp_passwd',
                existing_type=sa.VARCHAR(length=20),
                nullable=False)
@@ -75,9 +72,6 @@ def downgrade():
                existing_type=sa.VARCHAR(length=20),
                nullable=True)
     op.alter_column('physical_machine_info', 'mp_passwd',
-               existing_type=sa.VARCHAR(length=20),
-               nullable=True)
-    op.alter_column('physical_machine_info', 'mp_ip',
                existing_type=sa.VARCHAR(length=20),
                nullable=True)
     op.alter_column('physical_machine_info', 'gene_room',
