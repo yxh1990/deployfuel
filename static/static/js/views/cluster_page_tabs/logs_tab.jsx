@@ -71,9 +71,9 @@ function($, _, i18n, React, utils, models, componentMixins, controls) {
                     'X-Auth-Token': app.keystoneClient.token
                 }
             };
-            console.log(options);
+            // console.log(options);
             _.extend(options, callbacks);
-            console.log(options);
+            // console.log(options);
             _.extend(options.data, data);
             return $.ajax(options);
         },

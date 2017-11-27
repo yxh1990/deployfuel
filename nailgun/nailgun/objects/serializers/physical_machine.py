@@ -28,5 +28,6 @@ class PhysicalMachineInfoSerializer(BasicSerializer):
        'mac',
        'ethname',
        'use_type',
+       'additional_info',
        'status'
     )

@@ -116,6 +116,8 @@ from nailgun.api.v1.handlers.physical_machine import PhymachinePoweronIdsHandler
 from nailgun.api.v1.handlers.physical_machine import PhymachineCheckStatusHandler
 
 from nailgun.api.v1.handlers.physical_machine import PhymachineInitAgentHandler
+from nailgun.api.v1.handlers.physical_machine import PhymachineInitAgentIdsHandler
+from nailgun.api.v1.handlers.physical_machine import PhymachineInitAgentStatusHandler
 
 from nailgun.api.v1.handlers.cluster_setting import ClusterSettingHandler
 from nailgun.api.v1.handlers.cluster import ClusterRoleStatusCollectionHandler
@@ -300,6 +302,12 @@ urls = (
 
     r'/phymachine/initAgent/?$',
     PhymachineInitAgentHandler,
+
+    r'/phymachine/initAgents/?$',
+    PhymachineInitAgentIdsHandler,
+
+    r'/phymachine/getInitAgentStatus',
+    PhymachineInitAgentStatusHandler,
 
     r'/node/updatemeta/?$',
     NodeUpdateMetaHandler,

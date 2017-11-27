@@ -25,6 +25,7 @@ import random
 import sys
 import subprocess
 import yaml
+import threading
 
 class CommonUtil(object):
 	"""docstring for ClassName"""
@@ -42,7 +43,7 @@ class CommonUtil(object):
 		else:	
 			self.ssh_password = ssh_password
 		self.key_filename = '/root/.ssh/id_rsa'
-		self.timeout=200
+		self.timeout=60
 		
 	def get_master_gateway(self):
 
@@ -101,11 +102,15 @@ class CommonUtil(object):
 
 
 	def create_ssh_masterToAgent(self,**kwargs):
-		ssh_client=SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
-		self.create_authorized_keys(ssh_client)
-		self.change_sshdconfig(ssh_client)
-		self.changeshcontent(ethname=kwargs["ethname"])
-		self.copyshToAgent(ssh_client)
+		try:
+			ssh_client=SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
+			self.create_authorized_keys(ssh_client)
+			self.change_sshdconfig(ssh_client)
+			self.changeshcontent(ethname=kwargs["ethname"])
+			self.copyshToAgent(ssh_client)
+		except Exception,e:
+			logger.info(e.message)
+			return False
 		return True
 
 	def create_authorized_keys(self,ssh_client):
@@ -158,8 +163,16 @@ class CommonUtil(object):
 		CommonUtil.execute_cmd(cpinitsh_cmd)
 		chmodcmd = "chmod 777 /root/init_node.sh && sed -i 's/\r$//' init_node.sh"
 		ssh_client.exec_command(chmodcmd)
+
+		t = threading.Thread(target=self.thread_excutemethd, args=(ssh_client,))
+		t.start()
+		logger.info(u"commonutil主线程执行完毕....")
+
+
+	def thread_excutemethd(self,ssh_client):
 		excute_shellcmd = "/root/init_node.sh >> /var/log/init-node.log 2>&1"
 		ssh_client.exec_command(excute_shellcmd)
+
 
 
 	@staticmethod

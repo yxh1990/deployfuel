@@ -1,3 +1,21 @@
+  <style>
+    .passed-status
+    {
+        color:green;
+        font-size: 20px;
+    }
+    .failed-status
+    {
+      color:#890000;
+      font-size:20px;
+    }
+    .th-center {
+      text-align: center!important;
+    }
+     td {
+      text-align: center!important;
+    }
+  </style>
   <div style="margin-left:4px;margin-bottom:4px">
      <button class="btn btn-danger delete-environment-btn" id='btn_del'>
        <i class="icon-trash"></i>
@@ -17,6 +35,9 @@
      <button class="btn btn-success btn-add-nodes" id='btn_add'>
        <i class="icon-plus"></i>添加
      </button>
+      <button class="btn btn-info" id='btn_initagents'>
+       <i class="icon-up-dir"></i>
+       批量初始化</button>
      <a href='/api/phymachine/export' target='_blank' class="btn btn-info">
       <i class="icon-install"></i>
       <span>导出数据</span>
@@ -24,32 +45,34 @@
   </div>
   <table class="table  table-bordered table-striped releases-table" style="width:99%;margin-left:5px" id="tb_x86">
     <tr>
-      <th class="name"><input type="checkbox" id="ckall" value="all"/></th>
-       <th class="name">
+      <th class="name th-center">
+         <input type="checkbox" id="ckall" value="all"/>
+      </th>
+       <th class="name th-center">
          <!--在fonticon.css文件中有所有箭头样式 icon-up-dir -->
           <i class='icon-down-dir'></i>
           <a href="javascript:void(0)" class="a_tb_title" sortname="name">主机名称</a>
       </th>
-      <th class="name">
+      <th class="name th-center">
          <i></i>
          <a href="javascript:void(0)" class="a_tb_title" sortname="ip">IP</a>
       </th>
      
-      <th class="name">
+      <th class="name th-center">
          <i></i>
          <a href="javascript:void(0)" class="a_tb_title" sortname="mac">MAC</a>
       </th>
-      <th class="name">
+      <th class="name th-center">
          <i></i>
          <a href="javascript:void(0)" class="a_tb_title" sortname="ethname">网卡</a>
       </th>
-      <th class="name">
+      <th class="name th-center">
          <i></i>
          <a href="javascript:void(0)" class="a_tb_title" sortname="use_type">
           类型
         </a>
       </th>
-      <th class="name">
+     <!--  <th class="name">
           <i></i>
           <a href="javascript:void(0)" class="a_tb_title" sortname="gene_room"> 
            机房
@@ -60,14 +83,15 @@
           <a href="javascript:void(0)" class="a_tb_title" sortname="cabinet">
            机柜
          </a>
-      </th>
+      </th> -->
      <!--  <th class="name">
          <i></i>
          <a href="javascript:void(0)" class="a_tb_title" sortname="power_status"> 
           电源状态
          </a>
       </th> -->
-      <th class="name">操作</th>
+      <th class="name th-center">操作</th>
+      <th class="name th-center">状态</th>
     </tr>
   <% for(var t=0;t<data.length;t++) { %>
       <% var item = data[t]; var poweron=item.power_status; 
@@ -97,8 +121,8 @@
              BC-OP
              <% } %>
         </td>
-        <td class="enable-selection"><%= item.gene_room%></td>
-        <td class="enable-selection"><%= item.cabinet%></td>
+        <!-- <td class="enable-selection"><%= item.gene_room%></td>
+        <td class="enable-selection"><%= item.cabinet%></td> -->
         <!-- <td class="enable-selection">
             <% if (poweron) {%>
               已上电
@@ -119,6 +143,9 @@
           <a href='javascript:void(0)' class="a_delete" dataid="<%= item.id%>">  
              删除
           </a>
+       </td>
+       <td id="td_<%= item.id%>">
+        暂无
        </td>
     </tr>
 <%} %>

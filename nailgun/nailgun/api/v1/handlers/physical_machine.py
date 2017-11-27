@@ -23,6 +23,7 @@ import os
 import time
 import re
 import StringIO
+import threading
 
 
 from nailgun import objects
@@ -313,7 +314,60 @@ class PhymachineInitAgentHandler(BaseHandler):
     x=web.input(id='0',m_ip='',mp_user='',mp_pass='',ethname='')
     util=CommonUtil(x.m_ip,x.mp_user,x.mp_pass)
     result = util.create_ssh_masterToAgent(ethname=x.ethname)
+    phymachine=objects.PhysicalMachineInfoObject.get_by_uid(x.id)
+    additional_info = dict(phymachine.additional_info) if phymachine.additional_info else {}
+    if result:
+      additional_info["init_status"]=True
+    else:
+      additional_info["init_status"]=False
+    PhysicalMachineInfo.update(phymachine,{'additional_info':additional_info})
     return json.dumps({'result':result})
+
+class PhymachineInitAgentIdsHandler(BaseHandler):
+
+     def POST(self):
+          x=web.input(ids='')
+          idlist = x.ids.split(",")
+          for pid in idlist:
+            p=objects.PhysicalMachineInfoObject.get_by_uid(int(pid))
+            additional_info = dict(p.additional_info) if p.additional_info else {}
+            additional_info["init_status"] = "wait"
+            PhysicalMachineInfo.update(p,{'additional_info':additional_info})
+            db().commit()  
+
+          t = threading.Thread(target=self.thread_excutemethd, args=(idlist,))
+          t.start()
+          logger.info(u"PhymachineInitAgentIdsHandler主线程执行完毕")
+          return json.dumps({'result':"success"})
+
+     def thread_excutemethd(self,idlist):
+          for pid in idlist:
+              try:
+                p=objects.PhysicalMachineInfoObject.get_by_uid(int(pid))
+                util=CommonUtil(p.ip,p.mp_username,p.mp_passwd)
+                res=util.create_ssh_masterToAgent(ethname=p.ethname)
+                additional_info = dict(p.additional_info) if p.additional_info else {}
+                additional_info["init_status"]=res
+              except Exception,e:
+                additional_info["init_status"]=False
+                logger.info(e.message)
+              PhysicalMachineInfo.update(p,{'additional_info':additional_info})  
+              db().commit() 
+          logger.info(u"节点批量初始化结束%s" %(str(idlist)))
+
+
+class PhymachineInitAgentStatusHandler(BaseHandler):
+
+       def POST(self):
+          x=web.input(ids='')
+          idlist = x.ids.split(",")
+          phymachines=db().query(PhysicalMachineInfo).filter(PhysicalMachineInfo.id.in_(idlist))
+          result_msg={}
+          for p in phymachines:
+            result_msg[str(p.id)]=dict(p.additional_info)["init_status"]
+
+          #logger.info(result_msg)
+          return json.dumps({'result':result_msg})
 
 class PhymachineCheckNameHandler(BaseHandler):
 

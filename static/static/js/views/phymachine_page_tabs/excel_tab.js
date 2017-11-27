@@ -123,6 +123,8 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
         currentPageIndex:1,
         currentPageLength:0,
         callcount:0,
+        getStatusTimer:null,
+        thisScope:null,
         onChangePage:function(){
           this.currentPageIndex=app.currentPageIndex;
           this.getRenderData();
@@ -289,7 +291,8 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
           'click #btn_poweroff':'poweroffIds',
           'click #btn_poweron' :'poweronIds',
           'click #btn_upstatus':'checkmahinestatus',
-          'click #btn_upnodestatus':'refreshpage'
+          'click #btn_upnodestatus':'refreshpage',
+          'click #btn_initagents':'initagents'
         },
         refreshpage:function()
         {
@@ -316,23 +319,139 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
                    if(obj.result)
                    {
                      $('#modal-container').next().remove();
-                     alert('初始化成功!');
-                     this.getRenderData();
+                     //this.getRenderData();
+                     //$(e.currentTarget).css('text-decoration', 'none');
+                     this.paginationView=new pagingView({"currentpage": this.currentPageIndex});
+                     this.setCallbackstatus(e.currentTarget);
+                     //$(e.currentTarget).parent().next().html("<div class='passed-status'><i class='icon-passed'></i></div>");
+                   }
+                   else
+                   {
+                     $('#modal-container').next().remove();
+                     //alert('初始化失败!');
+                     //$(e.currentTarget).css('text-decoration', 'none');
+                     $(e.currentTarget).parent().next().html("<div class='failed-status'><i class='icon-failed'></i></div>");
+                   }
+                },this),
+                error:function()
+                {
+                   $('#modal-container').next().remove();
+                   //alert('初始化失败!');
+                   //$(e.currentTarget).css('text-decoration', 'none');
+                   $(e.currentTarget).parent().next().html("<div class='failed-status'><i class='icon-failed'></i></div>");
+                }
+           });
+        },
+        initagents:function()
+        {
+           var idsarr=[];
+           this.$("input[type='checkbox']").each(function(i,ck) {
+            if(ck.checked)
+            {
+              if(ck.value!="all")  //all代表全选check的value
+              {
+                 idsarr.push(ck.value);
+                 var wait_html="<div class='passed-status'><i class='icon-clock'></i></div>";
+                 $(ck).parent().parent().children("td:last-child").html(wait_html);
+              }
+            }
+          });
+          if(idsarr.length==0){
+            alert("请选择需要初始化的节点!");
+            return;
+          } 
+
+          var loadview=new commonloadview2();
+          $('#modal-container').after(loadview.render().el);
+          //var that = this;
+          $.ajax({
+                type: "POST",
+                url: "/api/phymachine/initAgents",
+                data: "ids="+idsarr,
+                success:_.bind(function(msg){
+                   var obj=JSON.parse(msg);
+                   //console.log(obj);
+                   if(obj.result)
+                   {
+                     //this.thisScope = that;
+                     this.getinitnodestatus(idsarr);
+                     //console.log(that.getStatusTimer);
                      this.paginationView=new pagingView({"currentpage": this.currentPageIndex});
                    }
                    else
                    {
-                    $('#modal-container').next().remove();
-                     alert('初始化失败!');
+                     $('#modal-container').next().remove();
+                     alert('批量初始化节点成功!');
                    }
                 },this),
                 error:function()
                 {
                   $('#modal-container').next().remove();
-                  alert('初始化失败!');
+                  alert('批量初始化节点失败!');
                 }
            });
-       
+        },
+        getinitnodestatus:function(idsarr)
+        {
+           //console.log(this);
+           clearInterval(this.getStatusTimer);
+           this.getStatusTimer= setInterval(this.getmachineStatus,10000,idsarr,this);
+           //console.log(this.getStatusTimer);
+        },
+        getmachineStatus:function(idsarr,that)
+        {
+           $.ajax({
+                type: "POST",
+                url: "/api/phymachine/getInitAgentStatus",
+                data: "ids="+idsarr,
+                success:_.bind(function(msg){
+                   var obj=JSON.parse(msg);
+                   //console.log(obj);
+                   if(obj.result)
+                   {
+                     //console.log(obj.result);
+                     //console.log(obj.result["1"]);
+                     
+                     var getall=true;
+                     for (var t=0;t<idsarr.length;t++)
+                     {
+                        var res=obj.result[idsarr[t].toString()];
+                        if (res=="wait")
+                        {
+                          getall = false;
+                        }
+                        else if(res==false)
+                        {
+                         $("#td_"+idsarr[t]).html("<div class='failed-status'><i class='icon-failed'></i></div>");
+                        }
+                        else
+                        {
+                         $("#td_"+idsarr[t]).html("<div class='passed-status'><i class='icon-passed'></i></div>");
+                        }
+                     }
+                     if(getall)
+                     { 
+                       $('#modal-container').next().remove();
+                       //console.log(this.thisScope);
+                       that.setclearTimer();
+                     }
+                   } 
+                },this),
+                error:function()
+                {
+                  $('#modal-container').next().remove();
+                  alert('批量初始化节点失败!');
+                }
+           });
+        },
+        setclearTimer:function()
+        {
+          clearInterval(this.getStatusTimer);
+          //console.log("停止此次定时任务.....");
+        },
+        setCallbackstatus:function(initbtn)
+        {
+           $(initbtn).parent().next().html("<div class='passed-status'><i class='icon-passed'></i></div>");
         },
         PowerOnmachine:function(e)
         {
@@ -690,6 +809,18 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
      render:function()
     {
       this.$el.html("<img style='margin-top:18%;margin-left:45%' src='/static/img/cloud-loader.gif'/>");
+      return this;
+    }
+ });
+
+ var commonloadview2 = Backbone.View.extend({
+     id:'modalshow',
+     className:'modal-backdrop fade in',
+     attributes:{
+        style:"opacity: 0.1;"
+    },
+     render:function()
+    {
       return this;
     }
  });
