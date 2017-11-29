@@ -301,14 +301,15 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
         },
         Initagent:function(e)
         {
-          var obj=e.currentTarget;
-          var id=obj.getAttribute('dataid');
-          var m_ip=obj.getAttribute('dataip');
-          var mp_user=obj.getAttribute('datampuser');
-          var mp_pass=obj.getAttribute('datamppass');
-          var ethname = obj.getAttribute('ethname');
-
-           var loadview=new commonloadview();
+           var obj=e.currentTarget;
+           var id=obj.getAttribute('dataid');
+           var m_ip=obj.getAttribute('dataip');
+           var mp_user=obj.getAttribute('datampuser');
+           var mp_pass=obj.getAttribute('datamppass');
+           var ethname = obj.getAttribute('ethname');
+           
+           $(e.currentTarget).parent().next().html("<div class='passed-status'><i class='icon-clock'></i></div>");
+           var loadview=new commonloadview2();
            $('#modal-container').after(loadview.render().el);
             $.ajax({
                 type: "POST",
@@ -318,18 +319,14 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
                    var obj=JSON.parse(msg);
                    if(obj.result)
                    {
-                     $('#modal-container').next().remove();
-                     //this.getRenderData();
-                     //$(e.currentTarget).css('text-decoration', 'none');
+                     var idsarr=[id];
+                     this.getinitnodestatus(idsarr);
                      this.paginationView=new pagingView({"currentpage": this.currentPageIndex});
-                     this.setCallbackstatus(e.currentTarget);
-                     //$(e.currentTarget).parent().next().html("<div class='passed-status'><i class='icon-passed'></i></div>");
                    }
                    else
                    {
                      $('#modal-container').next().remove();
-                     //alert('初始化失败!');
-                     //$(e.currentTarget).css('text-decoration', 'none');
+                     //alert('初始化异常!');
                      $(e.currentTarget).parent().next().html("<div class='failed-status'><i class='icon-failed'></i></div>");
                    }
                 },this),
@@ -360,43 +357,52 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
             alert("请选择需要初始化的节点!");
             return;
           } 
-
           var loadview=new commonloadview2();
           $('#modal-container').after(loadview.render().el);
-          //var that = this;
           $.ajax({
                 type: "POST",
                 url: "/api/phymachine/initAgents",
                 data: "ids="+idsarr,
                 success:_.bind(function(msg){
                    var obj=JSON.parse(msg);
-                   //console.log(obj);
                    if(obj.result)
                    {
-                     //this.thisScope = that;
                      this.getinitnodestatus(idsarr);
-                     //console.log(that.getStatusTimer);
                      this.paginationView=new pagingView({"currentpage": this.currentPageIndex});
                    }
                    else
                    {
                      $('#modal-container').next().remove();
-                     alert('批量初始化节点成功!');
+                     alert('批量初始化节点异常!');
                    }
                 },this),
                 error:function()
                 {
                   $('#modal-container').next().remove();
-                  alert('批量初始化节点失败!');
+                  for (var t=0;t<idsarr.length;t++)
+                   {
+                     $("#td_"+idsarr[t]).html("<div class='failed-status'><i class='icon-failed'></i></div>");
+                   }
                 }
            });
         },
         getinitnodestatus:function(idsarr)
         {
-           //console.log(this);
            clearInterval(this.getStatusTimer);
            this.getStatusTimer= setInterval(this.getmachineStatus,10000,idsarr,this);
-           //console.log(this.getStatusTimer);
+        },
+        threadsleep:function(time)
+        {
+             var now = new Date();
+             var exitTime = now.getTime() + time; 
+             while (true) 
+             {
+                now = new Date();
+                if(now.getTime() > exitTime)
+                {
+                  return; 
+                } 
+             }
         },
         getmachineStatus:function(idsarr,that)
         {
@@ -407,11 +413,9 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
                 success:_.bind(function(msg){
                    var obj=JSON.parse(msg);
                    //console.log(obj);
+                   that.threadsleep(2);
                    if(obj.result)
-                   {
-                     //console.log(obj.result);
-                     //console.log(obj.result["1"]);
-                     
+                   { 
                      var getall=true;
                      for (var t=0;t<idsarr.length;t++)
                      {
@@ -432,7 +436,6 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
                      if(getall)
                      { 
                        $('#modal-container').next().remove();
-                       //console.log(this.thisScope);
                        that.setclearTimer();
                      }
                    } 
@@ -447,7 +450,9 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
         setclearTimer:function()
         {
           clearInterval(this.getStatusTimer);
-          //console.log("停止此次定时任务.....");
+           this.$("input[type='checkbox']").each(function(i,ck) {
+              ck.checked=false;
+           });
         },
         setCallbackstatus:function(initbtn)
         {
@@ -817,7 +822,7 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
      id:'modalshow',
      className:'modal-backdrop fade in',
      attributes:{
-        style:"opacity: 0.1;"
+        style:"opacity: 0.4;"
     },
      render:function()
     {

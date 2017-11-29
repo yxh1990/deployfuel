@@ -24,6 +24,7 @@ import time
 import re
 import StringIO
 import threading
+import threadpool
 
 
 from nailgun import objects
@@ -248,8 +249,6 @@ class PhymachineHandler(SingleHandler):
 
 
  
-  
-
 
 #安装操作系统,向rabbitmq发送消息
 class PhymachineInstallosHandler(BaseHandler):
@@ -316,12 +315,42 @@ class PhymachineInitAgentHandler(BaseHandler):
     result = util.create_ssh_masterToAgent(ethname=x.ethname)
     phymachine=objects.PhysicalMachineInfoObject.get_by_uid(x.id)
     additional_info = dict(phymachine.additional_info) if phymachine.additional_info else {}
+    res={}
     if result:
-      additional_info["init_status"]=True
+      res["result"]="success"
+      additional_info["init_status"]="wait"
+      PhysicalMachineInfo.update(phymachine,{'additional_info':additional_info})
+      db().commit()
+      #必须在启动子线程之前把数据库session更新到database
+      #否则会和子线程中对数据的修改造成冲突
+      t = threading.Thread(target=self.threadupdatestatus, args=(x.id,util,))
+      t.setDaemon(True)
+      t.start()
     else:
       additional_info["init_status"]=False
-    PhysicalMachineInfo.update(phymachine,{'additional_info':additional_info})
-    return json.dumps({'result':result})
+      PhysicalMachineInfo.update(phymachine,{'additional_info':additional_info})
+      db().commit()
+
+    return json.dumps(res)
+
+  def threadupdatestatus(self,pid,util):
+    phymachine=objects.PhysicalMachineInfoObject.get_by_uid(pid)
+    additional_info = dict(phymachine.additional_info) if phymachine.additional_info else {}
+    additional_info["init_status"]=False
+    for i in range(30):
+      try:
+          util.getshellresulst()
+          logger.info(phymachine.ip+u":读取到initnode_res文件,子线程设置init_status为true")
+          additional_info["init_status"]=True
+          break
+      except Exception,e:
+          logger.info(phymachine.ip+u"还没有创建initnode_res文件,"+e.message)
+          time.sleep(30)
+
+    PhysicalMachineInfo.update(phymachine,{'additional_info':additional_info})  
+    db().commit() 
+    logger.info(phymachine.ip+u":初始化完毕")
+
 
 class PhymachineInitAgentIdsHandler(BaseHandler):
 
@@ -340,20 +369,39 @@ class PhymachineInitAgentIdsHandler(BaseHandler):
           logger.info(u"PhymachineInitAgentIdsHandler主线程执行完毕")
           return json.dumps({'result':"success"})
 
+     def handlerMachine(self,pid):
+          try:
+            p=objects.PhysicalMachineInfoObject.get_by_uid(int(pid))
+            util=CommonUtil(p.ip,p.mp_username,p.mp_passwd)
+            res=util.create_ssh_masterToAgent(ethname=p.ethname)
+            additional_info = dict(p.additional_info) if p.additional_info else {}
+            #additional_info["init_status"]=res
+            #循环到当前agent上去读取/root/initnode_res
+            #读取到True则表示init_node.sh在节点上成功执行
+            if res:
+              for i in range(30):
+                try:
+                  util.getshellresulst()
+                  additional_info["init_status"]=True
+                  break
+                except Exception,e:
+                  logger.info(p.ip+u"还没有创建initnode_res文件")
+                  time.sleep(30)
+            else:
+              additional_info["init_status"]=False
+          except Exception,e:
+              additional_info["init_status"]=False
+              logger.info(e)
+          PhysicalMachineInfo.update(p,{'additional_info':additional_info})  
+          db().commit() 
+
+
      def thread_excutemethd(self,idlist):
-          for pid in idlist:
-              try:
-                p=objects.PhysicalMachineInfoObject.get_by_uid(int(pid))
-                util=CommonUtil(p.ip,p.mp_username,p.mp_passwd)
-                res=util.create_ssh_masterToAgent(ethname=p.ethname)
-                additional_info = dict(p.additional_info) if p.additional_info else {}
-                additional_info["init_status"]=res
-              except Exception,e:
-                additional_info["init_status"]=False
-                logger.info(e.message)
-              PhysicalMachineInfo.update(p,{'additional_info':additional_info})  
-              db().commit() 
-          logger.info(u"节点批量初始化结束%s" %(str(idlist)))
+        pool = threadpool.ThreadPool(5) 
+        requests = threadpool.makeRequests(self.handlerMachine,idlist)
+        [pool.putRequest(req) for req in requests]
+        pool.wait()       
+        logger.info(u"节点批量初始化结束%s" %(str(idlist)))
 
 
 class PhymachineInitAgentStatusHandler(BaseHandler):

@@ -43,7 +43,8 @@ class CommonUtil(object):
 		else:	
 			self.ssh_password = ssh_password
 		self.key_filename = '/root/.ssh/id_rsa'
-		self.timeout=60
+		self.timeout=40
+		#self.sshclient = SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
 		
 	def get_master_gateway(self):
 
@@ -102,6 +103,7 @@ class CommonUtil(object):
 
 
 	def create_ssh_masterToAgent(self,**kwargs):
+		#如果UI返回的是504超时的话,需要改小timeout的值,才能捕获到后台异常
 		try:
 			ssh_client=SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
 			self.create_authorized_keys(ssh_client)
@@ -109,18 +111,22 @@ class CommonUtil(object):
 			self.changeshcontent(ethname=kwargs["ethname"])
 			self.copyshToAgent(ssh_client)
 		except Exception,e:
-			logger.info(e.message)
+			logger.info(self.ip+":"+e.message)
 			return False
 		return True
 
 	def create_authorized_keys(self,ssh_client):
+		dele_tagfile_cmd = "rm -fr /root/initnode_res"
+		ssh_client.exec_command(dele_tagfile_cmd)
+
 		authorized_keys_con = CommonUtil.execute_cmd("cat /root/.ssh/id_rsa.pub")
 		mksshdir_cmd = "setenforce 0 && mkdir -p /root/.ssh && chmod 700 /root/.ssh"
 		ssh_client.exec_command(mksshdir_cmd)
+
 		cpfilekey_cmd="echo \""+authorized_keys_con+"\" > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys"
 		ssh_client.exec_command(cpfilekey_cmd)
-		
 
+		
 	def change_sshdconfig(self,ssh_client):
 		changesshd_cmd1 = 'sed -i -e "/^\s*GSSAPICleanupCredentials yes/d" -e "/^\s*GSSAPIAuthentication yes/d" /etc/ssh/sshd_config'
 		ssh_client.exec_command(changesshd_cmd1)
@@ -165,14 +171,25 @@ class CommonUtil(object):
 		ssh_client.exec_command(chmodcmd)
 
 		t = threading.Thread(target=self.thread_excutemethd, args=(ssh_client,))
+		t.setDaemon(True)
 		t.start()
 		logger.info(u"commonutil主线程执行完毕....")
 
 
-	def thread_excutemethd(self,ssh_client):
-		excute_shellcmd = "/root/init_node.sh >> /var/log/init-node.log 2>&1"
-		ssh_client.exec_command(excute_shellcmd)
+	def thread_excutemethd(self,shclient):
+		#参数shclient暂时没有用到
+		#ssh_client=SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
+		#在某些时候脚本日志显示只执行了一部分就终止了
+		
+		excute_shellcmd = "ssh {0} '/root/init_node.sh >> /var/log/init-node.log 2>&1'".format(self.ip)
+		#excute_shellcmd = "ssh {0} 'ls'".format(self.ip)
+		CommonUtil.execute_cmd(excute_shellcmd)
 
+	def getshellresulst(self):
+		sshclient = SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
+		excute_shellcmd = "cat /root/initnode_res"
+		msg=sshclient.exec_command(excute_shellcmd)
+		return msg
 
 
 	@staticmethod

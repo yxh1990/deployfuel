@@ -145,7 +145,16 @@
           </a>
        </td>
        <td id="td_<%= item.id%>">
-        暂无
+        <% 
+           var pstatu=item.additional_info["init_status"];
+        %>
+          <% if (pstatu=="wait") {%>
+              <div class='passed-status'><i class='icon-clock'></i></div>
+             <% } else if(pstatu==false) {%>
+              <div class='failed-status'><i class='icon-failed'></i></div>
+             <% } else if(pstatu==true) {%>
+              <div class='passed-status'><i class='icon-passed'></i></div>
+          <% } %>
        </td>
     </tr>
 <%} %>

@@ -47,7 +47,7 @@ yum -y install authconfig bfa-firmware bind-utils cronie crontabs curl daemonize
 yum -y install mlocate nailgun-agent nailgun-mcagents nailgun-net-check nmap-ncat ntp openssh openssh-clients openssh-server
 yum -y install perl puppet ql2100-firmware ql2200-firmware ql23xx-firmware ql2400-firmware ql2500-firmware
 yum -y install rhn-setup rsync ruby-augeas ruby-devel rubygem-netaddr rubygem-openstack system-config-firewall-base
-yum -y install tcpdump telnet vim virt-what wget
+#yum -y install tcpdump telnet vim virt-what wget
 
 ########### mcollective_conf ###########
 mkdir -p /etc/mcollective
@@ -88,10 +88,6 @@ sed -i /etc/rc.d/init.d/mcollective -e 's/\(# chkconfig:\s\+[-0-6]\+\) [0-9]\+ \
 /etc/rc.d/init.d/mcollective start
 # Let's not to use separate snippet for just one line of code. Complexity eats my time.
 chmod +x /etc/rc.d/rc.local
-echo 'flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgun/bin/agent >> /var/log/nailgun-agent.log 2>&1"' >> /etc/rc.local
-echo '* * * * * root flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgun/bin/agent 2>&1 | tee -a /var/log/nailgun-agent.log  | /usr/bin/logger -t nailgun-agent"' > /etc/cron.d/nailgun-agent
-# It is for the internal nailgun using
-echo target > /etc/nailgun_systemtype
 
 
 # COBBLER EMBEDDED SNIPPET: 'authorized_keys'
@@ -103,8 +99,6 @@ cp -f /etc/skel/.bash* /root/
 # REMOVES "GSSAPICleanupCredentials yes" AND "GSSAPIAuthentication yes" LINES
 # FROM /etc/ssh/sshd_config
 
-sed -i "s/::File.read(\"\/proc\/cmdline\")/YAML.load_file(AGENT_CONFIG)['url']/" /opt/nailgun/bin/agent
-
 
 setenforce 0 
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
@@ -112,7 +106,17 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 service iptables stop
 chkconfig iptables off
 
+
 #systemctl stop firewalld.service #停止firewall
 #systemctl disable firewalld.service #禁止firewall开机启动
 
-echo "the script is completed execution........................"
+echo True > /root/initnode_res
+
+echo 'flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgun/bin/agent >> /var/log/nailgun-agent.log 2>&1"' >> /etc/rc.local
+echo '* * * * * root flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgun/bin/agent 2>&1 | tee -a /var/log/nailgun-agent.log  | /usr/bin/logger -t nailgun-agent"' > /etc/cron.d/nailgun-agent
+sed -i "s/::File.read(\"\/proc\/cmdline\")/YAML.load_file(AGENT_CONFIG)['url']/" /opt/nailgun/bin/agent
+
+# It is for the internal nailgun using
+echo target > /etc/nailgun_systemtype
+
+echo "the script is success end...."
