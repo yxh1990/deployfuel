@@ -170,13 +170,8 @@ class CommonUtil(object):
 		chmodcmd = "chmod 777 /root/init_node.sh && sed -i 's/\r$//' init_node.sh"
 		ssh_client.exec_command(chmodcmd)
 
-		t = threading.Thread(target=self.thread_excutemethd, args=(ssh_client,))
-		t.setDaemon(True)
-		t.start()
-		logger.info(u"commonutil主线程执行完毕....")
 
-
-	def thread_excutemethd(self,shclient):
+	def excute_initnodeshell(self,shclient=None):
 		#参数shclient暂时没有用到
 		#ssh_client=SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
 		#在某些时候脚本日志显示只执行了一部分就终止了
@@ -186,9 +181,9 @@ class CommonUtil(object):
 		CommonUtil.execute_cmd(excute_shellcmd)
 
 	def getshellresulst(self):
-		sshclient = SSHClient(self.ip,self.ssh_user,self.ssh_password,self.timeout)
-		excute_shellcmd = "cat /root/initnode_res"
-		msg=sshclient.exec_command(excute_shellcmd)
+		excute_shellcmd = "ssh {0} 'cat /root/initnode_res'".format(self.ip)
+		msg=CommonUtil.execute_cmd(excute_shellcmd)
+		logger.info(u"initnode_res的内容{0}".format(msg))
 		return msg
 
 
@@ -196,15 +191,17 @@ class CommonUtil(object):
 	def execute_cmd(cmd, customer_errmsg=None):
 		res = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 		res.wait()
+
 		readmsg = res.stdout.read().strip()
 		errormsg = res.stderr.read()
 
-		if errormsg:
-			print(errormsg)
-			print(customer_errmsg)
-			#sys.exit()
-		else:
-			return readmsg
+		#shell执行成功或者失败可能同时返回stdout和stderr
+	    #所以不能以是否返回errormsg来判断是否执行成功
+        #shell 执行成功返回0,返回其它数值全部为失败
 
+		if res.returncode == 0:
+			return readmsg
+		else:
+			raise Exception
 
 

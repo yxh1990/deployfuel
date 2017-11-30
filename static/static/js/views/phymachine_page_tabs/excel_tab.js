@@ -308,6 +308,8 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
            var mp_pass=obj.getAttribute('datamppass');
            var ethname = obj.getAttribute('ethname');
            
+          console.log(new Date().toLocaleTimeString());
+
            $(e.currentTarget).parent().next().html("<div class='passed-status'><i class='icon-clock'></i></div>");
            var loadview=new commonloadview2();
            $('#modal-container').after(loadview.render().el);
@@ -316,6 +318,8 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
                 url: "/api/phymachine/initAgent",
                 data: "id="+id+"&m_ip="+m_ip+"&mp_user="+mp_user+"&mp_pass="+mp_pass+"&ethname="+ethname,
                 success:_.bind(function(msg){
+                   console.log(msg);
+                   console.log(new Date().toLocaleTimeString());
                    var obj=JSON.parse(msg);
                    if(obj.result)
                    {
@@ -341,6 +345,7 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
         },
         initagents:function()
         {
+          console.log(new Date().toLocaleTimeString());
            var idsarr=[];
            this.$("input[type='checkbox']").each(function(i,ck) {
             if(ck.checked)
@@ -435,6 +440,7 @@ function(_, i18n, models,utils,Backbone,excelTemplate,trTemplate,pagingView) {
                      }
                      if(getall)
                      { 
+                      console.log(new Date().toLocaleTimeString());
                        $('#modal-container').next().remove();
                        that.setclearTimer();
                      }

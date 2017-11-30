@@ -324,7 +324,6 @@ class PhymachineInitAgentHandler(BaseHandler):
       #必须在启动子线程之前把数据库session更新到database
       #否则会和子线程中对数据的修改造成冲突
       t = threading.Thread(target=self.threadupdatestatus, args=(x.id,util,))
-      t.setDaemon(True)
       t.start()
     else:
       additional_info["init_status"]=False
@@ -334,18 +333,18 @@ class PhymachineInitAgentHandler(BaseHandler):
     return json.dumps(res)
 
   def threadupdatestatus(self,pid,util):
+    #excute_initnodeshell 是个阻塞函数,一直会等到init_node.sh在
+    #每个节点上执行完毕才会执行后面的代码
+    util.excute_initnodeshell() 
     phymachine=objects.PhysicalMachineInfoObject.get_by_uid(pid)
     additional_info = dict(phymachine.additional_info) if phymachine.additional_info else {}
     additional_info["init_status"]=False
-    for i in range(30):
-      try:
-          util.getshellresulst()
-          logger.info(phymachine.ip+u":读取到initnode_res文件,子线程设置init_status为true")
-          additional_info["init_status"]=True
-          break
-      except Exception,e:
-          logger.info(phymachine.ip+u"还没有创建initnode_res文件,"+e.message)
-          time.sleep(30)
+    try:
+        util.getshellresulst()
+        logger.info(phymachine.ip+u":读到initnode_res文件,子线程设置init_status为true")
+        additional_info["init_status"]=True
+    except Exception,e:
+        logger.info(phymachine.ip+u"读取initnode_res文件异常")
 
     PhysicalMachineInfo.update(phymachine,{'additional_info':additional_info})  
     db().commit() 
@@ -379,14 +378,14 @@ class PhymachineInitAgentIdsHandler(BaseHandler):
             #循环到当前agent上去读取/root/initnode_res
             #读取到True则表示init_node.sh在节点上成功执行
             if res:
-              for i in range(30):
                 try:
+                  util.excute_initnodeshell()
+                  time.sleep(1)
                   util.getshellresulst()
                   additional_info["init_status"]=True
-                  break
                 except Exception,e:
-                  logger.info(p.ip+u"还没有创建initnode_res文件")
-                  time.sleep(30)
+                  logger.info(p.ip+u"读取initnode_res文件异常")
+                  additional_info["init_status"]=False
             else:
               additional_info["init_status"]=False
           except Exception,e:
