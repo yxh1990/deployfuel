@@ -1,0 +1,162 @@
+<style type="text/css">
+ .spanos {
+  font-size: 10px;
+  color: black;
+  line-height: 20px;
+  text-shadow: none;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-left: 8px;
+  position: relative;
+  margin-top: 12px;
+ }
+</style>
+<div class="node-management-panel" style="margin-right:10px">
+   <div class="parameter-box clearfix" style="margin-left:15px">
+          <div class="label-wrapper"> 
+            <span>系统</span>
+          </div>
+         <select id="osSelect"  class="parameter-input" 
+          style="width:280px">
+            <% for(var t=0;t<releases.length;t++) { %>
+             <% var item = releases[t]; var releaseid=item.id; 
+                                        var releasename=item.name %>
+             <option value="<%= releaseid%>"><%= releasename %></option>
+            <% } %>
+         </select>
+    </div>
+</div>
+<div class="node-list" style="width:98%;margin-left:10px">
+  <div class="row-fluid node-list-header" style="display:none">
+      <div class="span10"></div>
+        <div class="parameter-box checkbox-or-radio span2 select-all">
+          <label class="parameter-name">
+              <div class="custom-tumbler">
+                 <span>&nbsp;</span>
+              </div>
+              <div class="label-wrapper">
+                 <span>选择全部</span>
+              </div>
+          </label>
+        </div>
+      </div>
+      <div class="row-fluid">
+         <div>
+           <% for(var t=0;t<data.length;t++) { %>
+              <% var item = data[t]; var nodestatus=item.status;%>
+               <% 
+                  var itemerrormsg=item.error_msg!=null?item.error_msg.replace(/\'/g, "&#39;"):'';
+                      itemerrormsg=itemerrormsg!=null?itemerrormsg.replace(/\"/g, "&quot;"):'';
+                  var diskstotal=0; 
+                  for(var i=0;i<item.meta.disks.length;i++){
+                          diskstotal=diskstotal+Number(item.meta.disks[i].size);
+                  } 
+               %>
+            <div class="node-group">
+             <div class="row-fluid node-group-header">
+               <div class="span10">
+                 <h4>
+                  <span>HDD: <%= showDiskSize(diskstotal)%> &nbsp;
+                     RAM: <%= showMemorySize(item.meta.memory.total)%>
+                  </span>
+                  <span></span>
+                 </h4>
+                </div>
+             </div>
+             <div>
+               <div class="node">
+                 <label class="node-box pending_addition">
+                  <div class="parameter-box checkbox-or-radio">
+                    <div class="custom-tumbler">
+                      <% if(nodestatus!= "provisioning") {%>
+                         <input type="checkbox" node-index="<%= t %>" 
+                                    class="parameter-input">
+                      <% } else {%>
+                         <input type="checkbox" node-index="<%= t %>" 
+                                    class="parameter-input" disabled="disabled">
+                      <% } %>
+                        <span>&nbsp;</span>
+                     </div>
+                  </div>
+                  <div class="node-content">
+                    <div class="node-logo manufacturer-<%= item.manufacturer.toLowerCase() %>"></div>
+                     <div class="node-name-roles">
+                       <div class="name enable-selection" style="padding-top:10px">
+                         <p><%= item.name %>(<%= item.ip %>)</p>
+                       </div>
+                       <div class="role-list">
+                          <ul class="pending_roles">
+                             <li></li>
+                          </ul>
+                       </div>
+                     </div>
+                     <% if(nodestatus!= "provisioning") {%>
+                     <div class="node-button">
+                       <button class="btn btn-link" title="重置">
+                         <i class="icon-back-in-time"></i>
+                       </button>
+                     </div>
+                     <% } %>
+                     <div class="node-status msg-ok">
+                        <div class="node-status-container">
+                           <%  if (nodestatus=="discover") {%>
+                              <i class="icon-ok-circle-empty"></i>
+                              <span>未安装</span>
+                           <% }if(nodestatus=="provisioning") {%>
+                             <div class="progress">
+                               <div class="bar" style="width:<%=item.progress %>%;">
+                               </div>
+                             </div>
+                           <% }if(nodestatus=="provisioned") {%>
+                              <span>安装完成</span>
+                           <% }if(nodestatus=="error") {%>
+                              <i class="icon-attention text-warning" 
+                                 data-toggle="tooltip" 
+                                 title="<%= itemerrormsg %>"
+                              onmouseover="$(this).tooltip('toggle')" 
+                              data-placement="right">
+                              <span>错误</span>
+                              </i>
+                           <% }if(nodestatus=="ready") {%>
+                              <span>已就绪</span>
+                           <% }if(nodestatus=="deploying") {%>
+                              <span>deploying</span>
+                           <% } %>
+                        </div>
+                         <% if(nodestatus== "provisioning") {%>
+                            <span class="spanos">
+                              正在安装<%= item.os_platform %>
+                            </span>
+                         <% } %>
+                     </div>
+                      <div class="node-details" item_index="<%= t %>"></div>
+                      <div class="node-hardware">
+                        <span>
+                          <span>CPU</span>
+                          <span>: </span>
+                          <span> (</span>
+                          <span><%= item.meta.cpu.total %></span>
+                          <span>)</span>
+                        </span>
+                        <span>
+                          <span>HDD</span>
+                          <span>: </span>
+                          <span> 
+                            <%= showDiskSize(diskstotal)%>
+                          </span>
+                        </span>
+                        <span>
+                          <span>RAM</span>
+                          <span>: </span>
+                          <span><%= showMemorySize(item.meta.memory.total) %> </span>
+                        </span>
+                     </div>
+                   </div>
+               </label>
+           </div>
+       </div>
+   </div>
+  <%} %>
+ </div>
+</div>
+</div>

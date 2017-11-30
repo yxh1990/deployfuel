@@ -1,0 +1,463 @@
+<style type="text/css">
+  .longwidthtext{
+  	width:370px;
+  }
+</style>
+  <h3>CloudMaster设置</h3>
+  <div>
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">clsmaster 角色</legend>
+      <div class="settings-group table-wrapper">
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>installDir</span>
+        </div>
+        <input type="text" id="txt_dir_name" value="<%= data.clsmaster?data.clsmaster.installDir:'/home/app'%>" label="txt_dir_name" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description">备注1</div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name input-append">
+          <div class="label-wrapper">
+           <span>db_hostIp</span>
+          </div>
+           <input type="text" id="txt_db_hostIp" value="<%= data.clsmaster?data.clsmaster.db_hostIp:'192.168.247.204'%>" data-type="ip" label="txt_db_hostIp" class="parameter-input longwidthtext">
+        </label>
+          <div class="parameter-description">备注2</div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>db_user</span>
+         </div>
+        <input type="text" id="txt_db_root" value="<%= data.clsmaster?data.clsmaster.db_user:'root'%>" label="txt_db_root" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description"></div>
+        </div>
+         <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+              <span>db_port</span>
+             </div>
+            <input type="text" id="txt_db_port" value="<%= data.clsmaster?data.clsmaster.db_port:'5000'%>" data-type="num" label="txt_db_port" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+         </div>
+         <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+              <span>db_passwd</span>
+             </div>
+            <input type="text" id="txt_db_passwd" value="<%= data.clsmaster?data.clsmaster.db_passwd:'123456'%>" label="txt_db_passwd" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+         <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+              <span>PublicCloudWS</span>
+             </div>
+            <input type="text" id="txt_PublicCloudWS" value="<%= data.clsmaster?data.clsmaster.PublicCloudWS:'http://192.168.247.201:8082/njrs/PublicCloudWS'%>" label="txt_PublicCloudWS" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+              <span>SouthBaseWS</span>
+             </div>
+            <input type="text" id="txt_SouthBaseWS" value="<%= data.clsmaster?data.clsmaster.SouthBaseWS:'http://192.168.247.201:8083/x86master/services/soapService'%>" label="txt_SouthBaseWS" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div>
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+              <span>log_dir</span>
+             </div>
+            <input type="text" id="txt_log_dir" value="<%= data.clsmaster?data.clsmaster.log_dir:'/data14/logs'%>" label="txt_log_dir" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div> 
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>mq_tcp_url</span>
+             </div>
+           <input type="text" id="txt_mq_tcp_url" value="<%= data.clsmaster?data.clsmaster.mq_tcp_url:'tcp://192.168.247.209:61616'%>" label="txt_mq_tcp_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>webservice_url</span>
+             </div>
+           <input type="text" id="txt_webservice_url" value="<%= data.clsmaster?data.clsmaster.webservice_url:'http://192.168.247.209:8083'%>" label="txt_webservice_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>onecmdb_url</span>
+             </div>
+           <input type="text" id="txt_onecmdb_url" value="<%= data.clsmaster?data.clsmaster.onecmdb_url:'http://192.168.247.209:8186'%>" label="txt_onecmdb_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>Search_SoftInstall_Url</span>
+             </div>
+           <input type="text" id="txt_Search_SoftInstall_Url" value="<%= data.clsmaster?data.clsmaster.Search_SoftInstall_Url:'http://192.168.247.201\:8083/x86master/config/softInstall?'%>" label="txt_Search_SoftInstall_Url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>kickstart_ip</span>
+             </div>
+           <input type="text" id="txt_kickstart_ip" value="<%= data.clsmaster?data.clsmaster.kickstart_ip:'127.0.0.1'%>" label="txt_kickstart_ip" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>kickstart_user</span>
+             </div>
+           <input type="text" id="txt_kickstart_user" value="<%= data.clsmaster?data.clsmaster.kickstart_user:'root'%>" label="txt_kickstart_user" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>kickstart_passwd</span>
+             </div>
+           <input type="text" id="txt_kickstart_passwd" value="<%= data.clsmaster?data.clsmaster.kickstart_passwd:'qwe123'%>" label="txt_kickstart_passwd" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>kickstart_port</span>
+             </div>
+           <input type="text" id="txt_kickstart_port" value="<%= data.clsmaster?data.clsmaster.kickstart_port:'22'%>" data-type="num" label="txt_kickstart_port" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>kickstart_dir</span>
+             </div>
+           <input type="text" id="txt_kickstart_dir" value="<%= data.clsmaster?data.clsmaster.kickstart_dir:'/tftpboot/pxelinux'%>" label="txt_kickstart_dir" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>dhcpd_ksfile_path</span>
+             </div>
+           <input type="text" id="txt_dhcpd_ksfile_path" value="<%= data.clsmaster?data.clsmaster.dhcpd_ksfile_path:'/var/www/html/tftpboot/pxelinux/ks/'%>" label="txt_dhcpd_ksfile_path" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>ksfile_url</span>
+             </div>
+           <input type="text" id="txt_ksfile_url" value="<%= data.clsmaster?data.clsmaster.ksfile_url:'http\://$IP/tftpboot/pxelinux/ks/'%>" label="txt_ksfile_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>dhcpd_bootfile_path</span>
+             </div>
+           <input type="text" id="txt_dhcpd_bootfile_path" value="<%= data.clsmaster?data.clsmaster.dhcpd_bootfile_path:'/tftpboot/pxelinux/pxelinux.cfg/'%>" label="txt_dhcpd_bootfile_path" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>os_callback_url</span>
+             </div>
+           <input type="text" id="txt_os_callback_url" value="<%= data.clsmaster?data.clsmaster.os_callback_url:'http://192.168.247.201:8083/x86master/config/endOsSetup?'%>" label="txt_os_callback_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>collect_server_ip</span>
+             </div>
+           <input type="text" id="txt_collect_server_ip" value="<%= data.clsmaster?data.clsmaster.collect_server_ip:'root'%>" label="txt_collect_server_ip" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>collect_server_id</span>
+             </div>
+           <input type="text" id="txt_collect_server_id" value="<%= data.clsmaster?data.clsmaster.collect_server_id:'qwe123'%>" label="txt_collect_server_id" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      </div>
+     </div>
+     <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">clsslave 角色</legend>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>installDir</span>
+             </div>
+           <input type="text" id="txt_clsslave_installDir" value="<%= data.clsslave?data.clsslave.installDir:'/home/app'%>" label="txt_clsslave_installDir" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+              <span>log_dir</span>
+             </div>
+            <input type="text" id="txt_clsslave_log_dir" value="<%= data.clsslave?data.clsslave.log_dir:'/data14/logs'%>" label="txt_clsslave_log_dir" class="parameter-input longwidthtext">
+          </label>
+          <div class="parameter-description"></div>
+        </div> 
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_hostIp</span>
+             </div>
+           <input type="text" id="txt_clsslave_db_hostIp" value="<%= data.clsslave?data.clsslave.db_hostIp:'192.168.247.204'%>" label="txt_clsslave_db_hostIp" data-type="ip" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_user</span>
+             </div>
+           <input type="text" id="txt_clsslave_db_root" value="<%= data.clsslave?data.clsslave.db_user:'root'%>" label="txt_clsslave_db_root" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_port</span>
+             </div>
+           <input type="text" id="txt_clsslave_db_port" value="<%= data.clsslave?data.clsslave.db_port:'22'%>" data-type="num" label="txt_clsslave_db_port" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_passwd</span>
+             </div>
+           <input type="text" id="txt_clsslave_db_passwd" value="<%= data.clsslave?data.clsslave.db_passwd:'123456'%>" label="txt_clsslave_db_passwd" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>octopus_url</span>
+             </div>
+           <input type="text" id="txt_octopus_url" value="<%= data.clsslave?data.clsslave.octopus_url:'http://100.100.125.87:8086/octopus/httpreceiver'%>" label="txt_octopus_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>ruleXml_path</span>
+             </div>
+           <input type="text" id="txt_ruleXml_path" value="<%= data.clsslave?data.clsslave.ruleXml_path:'/home/cmgatherrule'%>" label="txt_ruleXml_path" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>onecmdb_url</span>
+             </div>
+           <input type="text" id="txt_clsslave_onecmdb_url" value="<%= data.clsslave?data.clsslave.onecmdb_url:'http://192.168.247.209:8186'%>" label="txt_clsslave_onecmdb_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>mq_tcp_url</span>
+             </div>
+           <input type="text" id="txt_clsslave_mq_tcp_url" value="<%= data.clsslave?data.clsslave.mq_tcp_url:'tcp://192.168.247.209:61616'%>" label="txt_clsslave_mq_tcp_url" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+    </div>
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">mysqlcls</legend>
+      <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>installDir</span>
+             </div>
+           <input type="text" id="txt_mysql_installDir" value="<%= data.mysqlcls?data.mysqlcls.installDir:'/home/app'%>" label="txt_mysql_installDir" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+      <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_user</span>
+             </div>
+           <input type="text" id="txt_mysql_db_user" value="<%= data.mysqlcls?data.mysqlcls.db_user:'cluster'%>" label="txt_mysql_db_user" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+       <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_password</span>
+             </div>
+           <input type="text" id="txt_mysql_db_password" value="<%= data.mysqlcls?data.mysqlcls.db_password:'123456'%>" label="txt_mysql_db_password" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+       <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>db_port</span>
+             </div>
+           <input type="text" id="txt_mysql_db_port" value="<%= data.mysqlcls?data.mysqlcls.db_port:'3306'%>" label="txt_mysql_db_port" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+    </div>
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">nagios</legend>
+      <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>installDir</span>
+             </div>
+           <input type="text" id="txt_nagios_installDir" value="<%= data.nagios?data.nagios.installDir:'/home/app'%>" label="txt_nagios_installDir" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>cmagentUrl</span>
+             </div>
+           <input type="text" id="txt_cmagentUrl" value="<%= data.nagios?data.nagios.cmagentUrl:'http://192.168.247.201:8081/cmagent'%>" label="txt_cmagentUrl" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+    </div>
+     <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">ganglia</legend>
+      <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>installDir</span>
+             </div>
+           <input type="text" id="txt_ganglia_installDir" value="<%= data.ganglia?data.ganglia.installDir:'/home/app'%>" label="txt_ganglia_installDir" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>ganglia_hostIp</span>
+             </div>
+           <input type="text" id="txt_ganglia_hostIp" value="<%= data.ganglia?data.ganglia.ganglia_hostIp:'192.168.36.225'%>" data-type="ip" label="txt_ganglia_hostIp" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+      </div>
+     </div>
+    </div>
+     <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">dhcpserver</legend>
+      <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>installDir</span>
+             </div>
+           <input type="text" id="txt_dhcpserver_installDir" value="<%= data.dhcpserver?data.dhcpserver.installDir:'/home/app'%>" label="txt_dhcpserver_installDir" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+     </div>
+     <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>subnet</span>
+             </div>
+           <input type="text" id="txt_dhcpserver_subnet" value="<%= data.dhcpserver?data.dhcpserver.subnet:'192.168.32.0'%>" data-type="ip" label="txt_dhcpserver_subnet" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+     </div>
+     <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>netmask</span>
+             </div>
+           <input type="text" id="txt_dhcpserver_netmask" value="<%= data.dhcpserver?data.dhcpserver.netmask:'255.255.255.0'%>" label="txt_dhcpserver_netmask" data-type="ip" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+     </div>
+     <div class="settings-group table-wrapper">
+       <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+             <div class="label-wrapper">
+               <span>routers</span>
+             </div>
+           <input type="text" id="txt_dhcpserver_routers" value="<%= data.dhcpserver?data.dhcpserver.routers:'192.168.32.250'%>" label="txt_dhcpserver_routers" data-type="ip" class="parameter-input longwidthtext">
+         </label>
+         <div class="parameter-description"></div>
+       </div>
+     </div>
+    </div>
+ <div class="row">
+     <div class="page-control-box">
+       <div class="page-control-button-placeholder">
+          <button class="btn btn-load-defaults" id="btnloadDefault">恢复默认</button>
+          <button id="btn_save" class="btn btn-success btn-apply-changes">保存设置</button>
+       </div>
+    </div>
+   </div>
+</div>

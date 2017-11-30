@@ -1,0 +1,574 @@
+<style type="text/css">
+  .longwidthtext{
+  	width:370px;
+  }
+  .radiocss{
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    min-width: 200px;
+    font-weight: bold;
+    cursor: default;
+    text-align: left;
+  }
+  .label-wrapper{
+    width:162px;
+  }
+</style>
+  <h3>EBS设置</h3>
+  <div>
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">prepare</legend>
+      <div class="settings-group table-wrapper">
+      <div class="parameter-box clearfix tablerow-wrapper">
+       <label class="parameter-name">
+        <div class="label-wrapper">
+         <span>deploy2user</span>
+        </div>
+        <input type="text" id="txt_deploy2user" value="<%= data.prepare?data.prepare.deploy2user:'ebsadmin'%>" label="txt_deploy2user" class="parameter-input longwidthtext">
+       </label>
+       <div class="parameter-description">用户名</div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name input-append">
+          <div class="label-wrapper">
+           <span>deploy2group</span>
+          </div>
+           <input type="text" id="txt_deploy2group" value="<%= data.prepare?data.prepare.deploy2group:'ebs'%>"  label="txt_deploy2group" class="parameter-input longwidthtext">
+        </label>
+          <div class="parameter-description">组名</div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+        <label class="parameter-name">
+         <div class="label-wrapper">
+          <span>deploy2userpw</span>
+         </div>
+        <input type="text" id="txt_deploy2userpw" value="<%= data.prepare?data.prepare.deploy2userpw:'ebsadmin'%>" label="txt_deploy2userpw" class="parameter-input longwidthtext">
+        </label>
+        <div class="parameter-description">密码</div>
+        </div>
+      </div>
+    </div>
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">gangliasrv</legend>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+          <input type="text" id="txt_gserverip" value="<%= data.gangliasrv?data.gangliasrv.serverip:''%>" label="txt_gserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">ganglia 服务端IP地址</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">nagiossrv</legend>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+          <input type="text" id="txt_nserverip" value="<%= data.nagiossrv?data.nagiossrv.serverip:''%>" label="txt_nserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">nagios  服务端IP地址</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">watcher</legend>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+          <input type="text" id="txt_wserverip" value="<%= data.watcher?data.watcher.serverip:''%>" label="txt_wserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">监控系统IP地址</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">management</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+          <input type="text" id="txt_mserverip" value="<%= data.management?data.management.serverip:''%>" label="txt_mserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">管理系统IP地址</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbip</span>
+           </div>
+          <input type="text" id="txt_mdbip" value="<%= data.management?data.management.dbip:''%>" label="txt_mdbip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">管理系统数据库IP地址</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbuser</span>
+           </div>
+          <input type="text" id="txt_mdbuser" value="<%= data.management?data.management.dbuser:''%>" label="txt_mdbuser" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">管理系统数据库用户名</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbpwd</span>
+           </div>
+          <input type="text" id="txt_mdbpwd" value="<%= data.management?data.management.dbpwd:''%>" label="txt_mdbpwd" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">管理系统数据库密码</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>trapip</span>
+           </div>
+          <input type="text" id="txt_trapip" value="<%= data.management?data.management.trapip:''%>" label="txt_trapip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">上报资源池ip地址</div>
+        </div>
+      </div>
+       <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>trapport</span>
+           </div>
+          <input type="text" id="txt_trapport" value="<%= data.management?data.management.trapport:''%>" label="txt_trapport" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">上报资源池的端口号</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">ebs-cinder</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+          <input type="text" id="txt_cserverip" value="<%= data['ebs-cinder']?data['ebs-cinder']['serverip']:''%>" label="txt_cserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">cinder系统IP地址</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbip</span>
+           </div>
+          <input type="text" id="txt_cdbip" value="<%= data['ebs-cinder']?data['ebs-cinder']['dbip']:''%>" label="txt_cdbip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">cinder系统数据库IP地址</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbuser</span>
+           </div>
+          <input type="text" id="txt_cdbuser" value="<%= data['ebs-cinder']?data['ebs-cinder']['dbuser']:''%>" label="txt_cdbuser" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">cinder系统数据库用户名</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbpwd</span>
+           </div>
+          <input type="text" id="txt_cdbpwd" value="<%= data['ebs-cinder']?data['ebs-cinder']['dbpwd']:''%>" label="txt_cdbpwd" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">cinder系统数据库密码</div>
+        </div>
+      </div>
+       <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>port</span>
+           </div>
+          <input type="text" id="txt_cport" value="<%= data['ebs-cinder']?data['ebs-cinder']['port']:''%>" label="txt_cport" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">cinder 系统端口号</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">rsyslogsrv</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+          <input type="text" id="txt_rserverip" value="<%= data.rsyslogsrv?data.rsyslogsrv.serverip:''%>" label="txt_rserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">日志系统服务端IP地址</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbip</span>
+           </div>
+          <input type="text" id="txt_rdbip" value="<%= data.rsyslogsrv?data.rsyslogsrv.dbip:''%>" label="txt_rdbip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">日志系统服务端IP地址</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbuser</span>
+           </div>
+          <input type="text" id="txt_rdbuser" value="<%= data.rsyslogsrv?data.rsyslogsrv.dbuser:''%>" label="txt_rdbuser" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">日志系统数据库用户名</div>
+        </div>
+      </div>
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbpwd</span>
+           </div>
+          <input type="text" id="txt_rdbpwd" value="<%= data.rsyslogsrv?data.rsyslogsrv.dbpwd:''%>" label="txt_rdbpwd" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">日志系统数据库密码</div>
+        </div>
+      </div>
+    </div>
+
+     <div class="fieldset-group wrapper">
+      <legend class="openstack-settings">agent-sernode</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>ssd_exclude</span>
+           </div>
+           <div class="control-group" style="float:left;padding-top:10px">
+              <label class="parameter-box clearfix">
+                 <div class="parameter-control">
+                   <div class="custom-tumbler" style="padding-left:20px">
+                    <% if(!data['agent-sernode']) {%>
+                      <input type="checkbox" id="ck_ssd_exclude">
+                    <% } else if(data['agent-sernode']['ssd_exclude']==true){%>
+                      <input type="checkbox" id="ck_ssd_exclude" checked="checked">
+                     <% } else {%>
+                      <input type="checkbox" id="ck_ssd_exclude">
+                    <% } %>
+                     <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+                    </div>
+                 </div>
+                 <div class="radiocss">是否包含ssd</div>
+              </label>
+            </div>
+         </label>
+        <div class="parameter-description"></div>
+        </div>
+      </div>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper" style="height:33px">
+              <span>raid</span>
+           </div>
+            <div class="control-group" style="float:left;padding-top:10px">
+              <label class="parameter-box clearfix">
+                 <div class="parameter-control">
+                   <div class="custom-tumbler" style="padding-left:20px;">
+                     <% if(!data['agent-sernode']) {%>
+                      <input type="checkbox" id="ck_raid">
+                    <% } else if(data['agent-sernode']['raid']==true){%>
+                      <input type="checkbox" id="ck_raid" checked>
+                     <% } else {%>
+                      <input type="checkbox" id="ck_raid">
+                    <% } %>
+                      <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+                   </div>
+                 </div>
+                 <div class="radiocss">是否使用raid</div>
+              </label>
+            </div>
+         </label>
+        <div class="parameter-description"></div>
+        </div>
+      </div>
+      <div class="parameter-box clearfix tablerow-wrapper">
+         <label class="parameter-name">
+           <div class="label-wrapper">
+            <span>raid_type</span>
+         </div>
+        <div class="control-group" style="float:left">
+        <label class="parameter-box clearfix">
+            <div class="parameter-control">
+               <div class="custom-tumbler" style="padding-left:20px">
+               <% if(!data['agent-sernode']) {%>
+                   <input type="radio" name="se_raid_type" value="Soft">
+                  <% } else if(data['agent-sernode']['raid_type']=='Soft'){%>
+                  <input type="radio" name="se_raid_type" value="Soft" checked>
+                  <% } else {%>
+                    <input type="radio" name="se_raid_type" value="Soft">
+                  <% } %>
+                  <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+               </div>
+           </div>
+           <div class="radiocss">Soft</div>
+        </label>
+         <label class="parameter-box clearfix ">
+          <div class="parameter-control">
+            <div class="custom-tumbler" style="padding-left:20px">
+             <% if(!data['agent-sernode']) {%>
+                    <input type="radio" name="se_raid_type" value="Mega">
+                  <% } else if(data['agent-sernode']['raid_type']=='Mega'){%> 
+                  <input type="radio" name="se_raid_type" value="Mega" checked>
+                  <% } else {%>
+                    <input type="radio" name="se_raid_type" value="Mega">
+              <% } %>
+              <!-- [if !IE |(gte IE 9)]> --><span>&nbsp;</span><!-- <![endif] -->
+            </div>
+          </div>
+          <div class="radiocss">Mega</div>
+        </label>
+        </div>
+       </label>
+         <div class="parameter-description"></div>
+       </div>
+    </div>
+
+  <div class="fieldset-group wrapper">
+    <legend class="openstack-settings">bacula-dir</legend>
+
+      <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>serverip</span>
+           </div>
+         <input type="text" id="txt_bserverip" value="<%= data['bacula-dir']?data['bacula-dir'].serverip:''%>" label="txt_bserverip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">备份系统服务端IP地址</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbip</span>
+           </div>
+            <input type="text" id="txt_bdbip" value="<%= data['bacula-dir']?data['bacula-dir'].dbip:''%>" label="txt_bdbip" class="parameter-input longwidthtext" data-type="ip">
+         </label>
+        <div class="parameter-description">备份系统数据库IP地址</div>
+      </div>
+   </div>
+   <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbuser</span>
+           </div>
+          <input type="text" id="txt_bdbuser" value="<%= data['bacula-dir']?data['bacula-dir'].dbuser:''%>" label="txt_bdbuser" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">备份系统数据库用户名</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dbpwd</span>
+           </div>
+           <input type="text" id="txt_bdbpwd" value="<%= data['bacula-dir']?data['bacula-dir'].dbpwd:''%>" label="txt_dbpwd" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">备份系统数据库密码</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>dir_name</span>
+           </div>
+        <input type="text" id="txt_bdir_name" value="<%= data['bacula-dir']?data['bacula-dir']['dir_name']:''%>" label="txt_bdir_name" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">管理者名称</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>fd_name</span>
+           </div>
+          <input type="text" id="txt_fd_name" value="<%= data['bacula-dir']?data['bacula-dir']['fd_name']:''%>" label="txt_fd_name" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">被管理者名称</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>sd_name</span>
+           </div>
+          <input type="text" id="txt_sd_name" value="<%= data['bacula-dir']?data['bacula-dir']['sd_name']:''%>" label="txt_sd_name" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">存储者名称</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>group_name</span>
+           </div>
+        <input type="text" id="txt_group_name" value="<%= data['bacula-dir']?data['bacula-dir']['group_name']:''%>" label="txt_group_name" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">cinder生成的cluster的uuid</div>
+      </div>
+    </div>
+   <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_accesskey</span>
+           </div>
+   <input type="text" id="txt_onest_accesskey" value="<%= data['bacula-dir']?data['bacula-dir']['onest_accesskey']:''%>" label="txt_onest_accesskey" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">访问onest服务器的accesskey</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_secreykey</span>
+           </div>
+  <input type="text" id="txt_onest_secreykey" value="<%= data['bacula-dir']?data['bacula-dir']['onest_secreykey']:''%>" label="txt_onest_secreykey" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">访问onest服务器的secreykey</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_srv_ip</span>
+           </div>
+     <input type="text" id="txt_onest_srv_ip" value="<%= data['bacula-dir']?data['bacula-dir']['onest_srv_ip']:''%>" data-type="ip" label="txt_onest_srv_ip" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">onest服务器的ip</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_bucketname</span>
+           </div>
+  <input type="text" id="txt_onest_bucketname" value="<%= data['bacula-dir']?data['bacula-dir']['onest_bucketname']:''%>" label="txt_onest_bucketname" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">访问onest服务器名称</div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_accesskey_sys</span>
+           </div>
+                    <input type="text" id="txt_onest_accesskey_sys" value="<%= data['bacula-dir']?data['bacula-dir']['onest_accesskey_sys']:''%>" label="txt_onest_accesskey_sys" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">访问onest服务器的accesskey_sys
+        </div>
+      </div>
+    </div>
+    <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_secreykey_sys</span>
+           </div>
+                   <input type="text" id="txt_onest_secreykey_sys" value="<%= data['bacula-dir']?data['bacula-dir']
+                     ['onest_secreykey_sys']:''%>" label="txt_onest_secreykey_sys" class="parameter-input longwidthtext">
+         </label>
+        <div class="parameter-description">访问onest服务器的secreykey_sys
+        </div>
+      </div>
+   </div>
+   <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_srv_ip_sys</span>
+           </div>
+               <input type="text" id="txt_onest_srv_ip_sys" value="<%= data['bacula-dir']?data['bacula-dir']['onest_srv_ip_sys']:''%>" label="txt_onest_secreykey_sys" class="parameter-input longwidthtext"
+          data-type="ip">
+         </label>
+        <div class="parameter-description">onest服务器的ip
+        </div>
+      </div>
+   </div>
+   <div class="settings-group table-wrapper">
+        <div class="parameter-box clearfix tablerow-wrapper">
+          <label class="parameter-name">
+           <div class="label-wrapper">
+              <span>onest_bucketname_sys</span>
+           </div>
+          <input type="text" id="txt_onest_bucketname_sys" value="<%= data['bacula-dir']?data['bacula-dir']['onest_bucketname_sys']:''%>" label="txt_onest_bucketname_sys" class="parameter-input longwidthtext"
+          >
+         </label>
+        <div class="parameter-description">访问onest服务器名称
+        </div>
+      </div>
+   </div>
+  </div>
+
+ <div class="row">
+     <div class="page-control-box">
+       <div class="page-control-button-placeholder">
+          <button class="btn btn-load-defaults" id="btnloadDefault">恢复默认</button>
+          <button id="btn_save" class="btn btn-success btn-apply-changes">保存设置</button>
+       </div>
+    </div>
+   </div>
+</div>
