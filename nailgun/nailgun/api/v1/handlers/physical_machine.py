@@ -341,6 +341,7 @@ class PhymachineInitAgentHandler(BaseHandler):
     additional_info["init_status"]=False
     try:
         util.getshellresulst()
+        util.copynailgunagent()
         logger.info(phymachine.ip+u":读到initnode_res文件,子线程设置init_status为true")
         additional_info["init_status"]=True
     except Exception,e:
@@ -382,6 +383,7 @@ class PhymachineInitAgentIdsHandler(BaseHandler):
                   util.excute_initnodeshell()
                   time.sleep(1)
                   util.getshellresulst()
+                  util.copynailgunagent()
                   additional_info["init_status"]=True
                 except Exception,e:
                   logger.info(p.ip+u"读取initnode_res文件异常")

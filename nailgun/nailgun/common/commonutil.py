@@ -120,7 +120,7 @@ class CommonUtil(object):
 		ssh_client.exec_command(dele_tagfile_cmd)
 
 		authorized_keys_con = CommonUtil.execute_cmd("cat /root/.ssh/id_rsa.pub")
-		mksshdir_cmd = "setenforce 0 && mkdir -p /root/.ssh && chmod 700 /root/.ssh"
+		mksshdir_cmd = "mkdir -p /root/.ssh && chmod 700 /root/.ssh"
 		ssh_client.exec_command(mksshdir_cmd)
 
 		cpfilekey_cmd="echo \""+authorized_keys_con+"\" > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys"
@@ -186,6 +186,12 @@ class CommonUtil(object):
 		logger.info(u"initnode_res的内容{0}".format(msg))
 		return msg
 
+	def copynailgunagent(self):
+		agent_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),"nailgun-agent")
+		agent_path_cmd = "scp -r "+agent_path+" root@"+self.ip+":/usr/bin"
+		logger.info(agent_path_cmd)
+		msg=CommonUtil.execute_cmd(agent_path_cmd)
+		logger.info(msg)
 
 	@staticmethod
 	def execute_cmd(cmd, customer_errmsg=None):

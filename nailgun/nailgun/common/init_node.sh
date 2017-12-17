@@ -5,22 +5,7 @@ netmask=255.255.255.0
 puppet_master=fuel.domain.tld
 mco_password=111
 #mco_port=61613
-rpm_url=http://${master_ip}:8080/2014.2-6.0/centos/x86_64/Packages
 
-rm -f /etc/sysconfig/network-scripts/ifcfg-${eth_name}
-cat > /etc/sysconfig/network-scripts/ifcfg-${eth_name} <<EOF
-DEVICE=${eth_name}
-BOOTPROTO=none
-ONBOOT=yes
-USERCTL=no
-IPADDR=${pxe_ip}
-NETMASK=${netmask}
-EOF
-
-echo "restarting the pxe networking......"
-#systemctl restart network
-ifconfig ${eth_name} down && ifconfig ${eth_name} up
-echo "the pxe network is available"
 
 
 ######nailgun repo ##############
@@ -28,7 +13,7 @@ rm -fr /etc/yum.repos.d/*.repo
 cat > /etc/yum.repos.d/nailgun.repo <<EOF
 [2014.2-6.0]
 name = 2014.2-6.0
-baseurl = http://${master_ip}:8080/2014.2-6.0/centos/x86_64
+baseurl = http://${master_ip}:8080/2014.2-6.0/centos/bclinux7.2
 gpgcheck=0
 EOF
 
@@ -38,16 +23,9 @@ url: "http://${master_ip}:8000/api"
 EOF
 
 yum clean all
-yum -y install ruby
-rpm -e --nodeps ruby
-yum install --exclude=ruby-2.1.1* -y ruby rubygems
-yum update -y --exclude --exclude=ruby*
-
-yum -y install authconfig bfa-firmware bind-utils cronie crontabs curl daemonize gcc gdisk make mcollective
-yum -y install mlocate nailgun-agent nailgun-mcagents nailgun-net-check nmap-ncat ntp openssh openssh-clients openssh-server
-yum -y install perl puppet ql2100-firmware ql2200-firmware ql23xx-firmware ql2400-firmware ql2500-firmware
-yum -y install rhn-setup rsync ruby-augeas ruby-devel rubygem-netaddr rubygem-openstack system-config-firewall-base
-#yum -y install tcpdump telnet vim virt-what wget
+yum -y install authconfig bind-utils cronie crontabs curl gcc gdisk make mlocate nmap-ncat ntp openssh openssh-clients openssh-server perl rsync
+yum -y install system-config-firewall-base tcpdump telnet virt-what vim parted expect puppet
+yum -y install bfa-firmware daemonize libselinux-ruby ruby ruby-augeas ruby-devel rubygem-netaddr ruby21-rubygem-openstack rubygem-cstruct rubygem-mixlib-log rubygem-mixlib-config rubygem-mixlib-cli rubygem-yajl-ruby nailgun-mcagents nailgun-net-check
 
 ########### mcollective_conf ###########
 mkdir -p /etc/mcollective
@@ -103,18 +81,20 @@ cp -f /etc/skel/.bash* /root/
 setenforce 0 
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
-service iptables stop
-chkconfig iptables off
+#service iptables stop
+#chkconfig iptables off
 
 
-#systemctl stop firewalld.service #停止firewall
-#systemctl disable firewalld.service #禁止firewall开机启动
+systemctl stop firewalld.service #停止firewall
+systemctl disable firewalld.service #禁止firewall开机启动
 
 echo True > /root/initnode_res
 
-echo 'flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgun/bin/agent >> /var/log/nailgun-agent.log 2>&1"' >> /etc/rc.local
-echo '* * * * * root flock -w 60 -o /var/lock/nailgun-agent.lock -c "/opt/nailgun/bin/agent 2>&1 | tee -a /var/log/nailgun-agent.log  | /usr/bin/logger -t nailgun-agent"' > /etc/cron.d/nailgun-agent
-sed -i "s/::File.read(\"\/proc\/cmdline\")/YAML.load_file(AGENT_CONFIG)['url']/" /opt/nailgun/bin/agent
+
+
+echo 'flock -w 60 -o /var/lock/nailgun-agent.lock -c "/usr/bin/nailgun-agent >> /var/log/nailgun-agent.log 2>&1"' >> /etc/rc.local
+echo '* * * * * root flock -w 60 -o /var/lock/nailgun-agent.lock -c "/usr/bin/nailgun-agent 2>&1 | tee -a /var/log/nailgun-agent.log  | /usr/bin/logger -t nailgun-agent"' > /etc/cron.d/nailgun-agent
+sed -i "s/::File.read(\"\/proc\/cmdline\")/YAML.load_file(AGENT_CONFIG)['url']/" /usr/bin/nailgun-agent
 
 # It is for the internal nailgun using
 echo target > /etc/nailgun_systemtype
