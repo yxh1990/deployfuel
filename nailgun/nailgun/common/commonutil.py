@@ -119,6 +119,9 @@ class CommonUtil(object):
 		dele_tagfile_cmd = "rm -fr /root/initnode_res"
 		ssh_client.exec_command(dele_tagfile_cmd)
 
+		delete_network_cmd = "rm -fr /root/.network && rm -fr /root/.network2"
+		ssh_client.exec_command(delete_network_cmd)
+
 		authorized_keys_con = CommonUtil.execute_cmd("cat /root/.ssh/id_rsa.pub")
 		mksshdir_cmd = "mkdir -p /root/.ssh && chmod 700 /root/.ssh"
 		ssh_client.exec_command(mksshdir_cmd)

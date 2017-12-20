@@ -12,6 +12,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
+   网卡设置的实际页面
  **/
 define(
 [
@@ -739,7 +740,9 @@ function($, _, Backbone, React, i18n, utils, models, dispatcher, dialogs, contro
 
                                 var classes = {
                                         'logical-network-group': true,
-                                        disabled: locked || network.get('meta').unmovable
+                                        //disabled: locked || network.get('meta').unmovable
+                                        disabled: locked
+
                                     },
                                     vlanRange = network.getVlanRange(networkingParameters);
 
