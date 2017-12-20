@@ -189,9 +189,11 @@ class CommonUtil(object):
 	def copynailgunagent(self):
 		agent_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),"nailgun-agent")
 		agent_path_cmd = "scp -r "+agent_path+" root@"+self.ip+":/usr/bin"
-		logger.info(agent_path_cmd)
+		#logger.info(agent_path_cmd)
 		msg=CommonUtil.execute_cmd(agent_path_cmd)
-		logger.info(msg)
+		chmodcmd = "ssh {0} 'chmod 777 /usr/bin/nailgun-agent'".format(self.ip)
+		CommonUtil.execute_cmd(chmodcmd)
+		#logger.info(msg)
 
 	@staticmethod
 	def execute_cmd(cmd, customer_errmsg=None):

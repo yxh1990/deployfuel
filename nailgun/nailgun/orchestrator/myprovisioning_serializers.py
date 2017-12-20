@@ -70,7 +70,7 @@ class MyProvisioningSerializer(object):
             'slave_name': objects.Node.make_slave_name(node),
             'hostname': node.fqdn,
             'power_pass': cls.get_ssh_key_path(node),
-            'profile': "centos-x86_64",
+            'profile': cluster_attrs['cobbler']['profile'],
             'power_type': 'ssh',
             'power_user': 'root',
             'name_servers': '\"%s\"' % settings.DNS_SERVERS,
@@ -81,6 +81,8 @@ class MyProvisioningSerializer(object):
                 'netcfg/choose_interface': node.admin_interface.mac,
                 'udevrules': cls.interfaces_mapping_for_udev(node)},
             'ks_meta': {
+                'mysql_disk':node.user_set.get('mysql_disk'),
+                'var_dir_disk':node.user_set.get('var_dir_disk'),
                 #'disk_a_name':cls.get_disk_a_name(node.attributes.volumes),
                 #'disk_other_name':cls.get_disk_other_name(node.attributes.volumes),
                 'pm_data': {
