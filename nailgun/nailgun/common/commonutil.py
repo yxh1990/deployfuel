@@ -144,25 +144,25 @@ class CommonUtil(object):
 		data = yaml.load(fr)
 
 		master_ip = data["ADMIN_NETWORK"]["ipaddress"]
-		setmasterip_cmd = "sed -i 's/master_ip=10.20.0.0/master_ip="+master_ip+"/' "+initsh_path+""
+		setmasterip_cmd = "sed -i 's/^master_ip=.*/master_ip="+master_ip+"/' "+initsh_path+""
 		CommonUtil.execute_cmd(setmasterip_cmd)
 
-		setpxethname_cmd = "sed -i 's/eth_name=eth0/eth_name="+kwargs["ethname"]+"/' "+initsh_path+""
-		CommonUtil.execute_cmd(setpxethname_cmd)
+		#setpxethname_cmd = "sed -i 's/eth_name=eth0/eth_name="+kwargs["ethname"]+"/' "+initsh_path+""
+		#CommonUtil.execute_cmd(setpxethname_cmd)
 
-		setpxeip_cmd = "sed -i 's/pxe_ip=10.20.0.0/pxe_ip="+self.ip+"/' "+initsh_path+""
-		CommonUtil.execute_cmd(setpxeip_cmd)
+		#setpxeip_cmd = "sed -i 's/pxe_ip=10.20.0.0/pxe_ip="+self.ip+"/' "+initsh_path+""
+		#CommonUtil.execute_cmd(setpxeip_cmd)
 
-		netmask=data["ADMIN_NETWORK"]["netmask"]
-		setnetmask_cmd = "sed -i 's/netmask=255.255.255.0/netmask="+netmask+"/' "+initsh_path+""
-		CommonUtil.execute_cmd(setnetmask_cmd)
+		#netmask=data["ADMIN_NETWORK"]["netmask"]
+		#setnetmask_cmd = "sed -i 's/netmask=255.255.255.0/netmask="+netmask+"/' "+initsh_path+""
+		#CommonUtil.execute_cmd(setnetmask_cmd)
 
 		puppetmaster = data["HOSTNAME"]+"."+data["DNS_DOMAIN"]
-		puppetmaster_cmd = "sed -i 's/puppet_master=fuel.domain.tld/puppet_master="+puppetmaster+"/' "+initsh_path+""
+		puppetmaster_cmd = "sed -i 's/^puppet_master=.*/puppet_master="+puppetmaster+"/' "+initsh_path+""
 		CommonUtil.execute_cmd(puppetmaster_cmd)
 
 		mco_password = data["mcollective"]["password"]
-		mco_password_cmd = "sed -i 's/mco_password=111/mco_password="+mco_password+"/' "+initsh_path+""
+		mco_password_cmd = "sed -i 's/^mco_password=.*/mco_password="+mco_password+"/' "+initsh_path+""
 		CommonUtil.execute_cmd(mco_password_cmd)
 
 

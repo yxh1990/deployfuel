@@ -1,7 +1,4 @@
 master_ip=10.20.0.0
-eth_name=eth0
-pxe_ip=10.20.0.0
-netmask=255.255.255.0
 puppet_master=fuel.domain.tld
 mco_password=111
 #mco_port=61613
